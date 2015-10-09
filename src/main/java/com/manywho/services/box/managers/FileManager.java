@@ -26,7 +26,7 @@ public class FileManager {
         if (bodyPart != null) {
             BoxFile.Info fileInformation = fileUploadService.uploadFileToBox(authenticatedWho.getToken(), fileDataRequest, bodyPart);
             if (fileInformation != null) {
-                return new ObjectDataResponse(fileService.buildManyWhoFileObject(fileInformation));
+                return new ObjectDataResponse(fileService.buildManyWhoFileObject(fileInformation, fileInformation.getResource()));
             }
         }
 
@@ -43,7 +43,7 @@ public class FileManager {
 
         for (BoxItem.Info itemInfo : folder) {
             if (itemInfo instanceof BoxFile.Info) {
-                files.add(fileService.buildManyWhoFileObject((BoxFile.Info) itemInfo));
+                files.add(fileService.buildManyWhoFileObject((BoxFile.Info) itemInfo, (BoxFile) itemInfo.getResource()));
             }
         }
 
