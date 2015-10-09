@@ -31,6 +31,6 @@ public class BoxProvider extends AbstractOauth2Provider {
 
     @Override
     public String getAuthorizationUrl(OAuthConfig config) {
-        return String.format("https://app.box.com/api/oauth2/authorize?response_type=code&client_id=%s", config.getApiKey());
+        return String.format("https://app.box.com/api/oauth2/authorize?response_type=code&approval_prompt=auto&client_id=%s", config.getApiKey());
     }
 }
