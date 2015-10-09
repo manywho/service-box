@@ -26,7 +26,6 @@ public class FileController extends AbstractController {
     @POST
     @AuthorizationRequired
     public ObjectDataResponse loadFiles(FileDataRequest fileDataRequest) throws Exception {
-        // TODO: Implement me
         return fileManager.loadFiles(getAuthenticatedWho(), fileDataRequest);
     }
 
