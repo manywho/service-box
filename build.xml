@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<project name="manywho-service-box" basedir="." default="generate-properties">
+    <target name="generate-properties" description="Generate the properties file from the given system properties">
+        <propertyfile file="src/main/resources/service.properties">
+            <entry key="secure.privateKeyLocation" value="${secure.privateKeyLocation}"/>
+            <entry key="secure.privateKeyPassword" value="${secure.privateKeyPassword}"/>
+        </propertyfile>
+    </target>
+</project>
