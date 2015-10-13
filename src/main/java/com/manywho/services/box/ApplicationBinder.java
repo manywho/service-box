@@ -1,6 +1,7 @@
 package com.manywho.services.box;
 
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
+import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.facades.BoxFacade;
 import com.manywho.services.box.managers.AuthManager;
 import com.manywho.services.box.managers.DataManager;
@@ -31,6 +32,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(FileService.class).to(FileService.class);
         bind(FileUploadService.class).to(FileUploadService.class);
         bind(ObjectMapperService.class).to(ObjectMapperService.class);
+        bind(SecurityConfiguration.class).to(SecurityConfiguration.class);
         bind(TaskManager.class).to(TaskManager.class);
         bind(TaskService.class).to(TaskService.class);
     }

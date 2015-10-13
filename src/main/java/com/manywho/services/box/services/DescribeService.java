@@ -4,12 +4,12 @@ import com.box.sdk.BoxAPIConnection;
 import com.box.sdk.BoxDeveloperEditionAPIConnection;
 import com.box.sdk.BoxMetadataTemplate;
 import com.box.sdk.EncryptionAlgorithm;
-import com.google.common.io.Resources;
 import com.manywho.sdk.entities.draw.elements.type.TypeElement;
 import com.manywho.sdk.entities.draw.elements.type.TypeElementCollection;
 import com.manywho.sdk.entities.run.EngineValueCollection;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.services.PropertyCollectionParser;
+import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.entities.Configuration;
 import com.manywho.services.box.oauth2.BoxProvider;
 import com.manywho.services.box.types.File;
@@ -23,6 +23,9 @@ import java.util.List;
 public class DescribeService {
     @Inject
     private PropertyCollectionParser propertyParser;
+
+    @Inject
+    private SecurityConfiguration securityConfiguration;
 
     public TypeElementCollection buildTypeElementsFromMetadataTemplates(String accessToken) {
         // If no access token is provided, then don't try and create Types from Metadata templates
@@ -55,7 +58,7 @@ public class DescribeService {
     }
 
     public String fetchEnterpriseAccessToken(EngineValueCollection configurationValues) throws Exception {
-        String privateKey = new String(Files.readAllBytes(Paths.get(Resources.getResource("service-box.pem").toURI())));
+        String privateKey = new String(Files.readAllBytes(Paths.get(securityConfiguration.getPrivateKeyLocation())));
 
         Configuration configuration = propertyParser.parse(configurationValues, Configuration.class);
 
@@ -64,7 +67,7 @@ public class DescribeService {
                 BoxProvider.CLIENT_ID,
                 BoxProvider.CLIENT_SECRET,
                 privateKey,
-                "dce7ax9uMxGksGspckH4bPrjGySr86HTitwi",
+                securityConfiguration.getPrivateKeyPassword(),
                 EncryptionAlgorithm.RSA_SHA_256
         ).getAccessToken();
     }
