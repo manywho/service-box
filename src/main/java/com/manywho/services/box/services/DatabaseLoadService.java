@@ -3,14 +3,10 @@ package com.manywho.services.box.services;
 import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
 import com.box.sdk.BoxItem;
-import com.box.sdk.Metadata;
 import com.manywho.sdk.entities.run.elements.type.ListFilterWhere;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
-import com.manywho.sdk.entities.run.elements.type.ObjectDataTypeProperty;
-import com.manywho.sdk.entities.run.elements.type.Property;
-import com.manywho.sdk.entities.run.elements.type.PropertyCollection;
 import com.manywho.sdk.utils.StreamUtils;
 import com.manywho.services.box.facades.BoxFacade;
 
@@ -27,7 +23,7 @@ public class DatabaseLoadService {
     public Object loadFile(String token, String id) throws Exception {
         BoxFile file = boxFacade.getFile(token, id);
         if (file != null) {
-            return objectMapperService.convertBoxFile(file.getInfo());
+            return objectMapperService.convertBoxFile(file.getInfo(BoxFile.ALL_FIELDS), true);
         }
 
         throw new Exception("Unable to load file with ID " + id + " from Box");
@@ -67,9 +63,9 @@ public class DatabaseLoadService {
             throw new Exception("A folder could not be found with the ID " + "0");
         }
 
-        return StreamUtils.asStream(folder.iterator())
+        return StreamUtils.asStream(folder.getChildren(BoxFile.ALL_FIELDS).iterator())
                 .filter(i -> i instanceof BoxFile.Info)
-                .map(f -> objectMapperService.convertBoxFile((BoxFile.Info) f))
+                .map(f -> objectMapperService.convertBoxFile((BoxFile.Info) f, false))
                 .collect(Collectors.toCollection(ObjectCollection::new));
     }
 }

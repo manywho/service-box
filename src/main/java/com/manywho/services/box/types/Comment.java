@@ -5,8 +5,8 @@ import com.manywho.sdk.entities.draw.elements.type.TypeElementPropertyCollection
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.services.describe.types.AbstractType;
 
-public class Folder extends AbstractType {
-    public final static String NAME = "Folder";
+public class Comment extends AbstractType {
+    public final static String NAME = "Comment";
 
     @Override
     public String getDeveloperName() {
@@ -17,10 +17,7 @@ public class Folder extends AbstractType {
     public TypeElementPropertyCollection getProperties() {
         return new TypeElementPropertyCollection() {{
             add(new TypeElementProperty("ID", ContentType.String));
-            add(new TypeElementProperty("Name", ContentType.String));
-            add(new TypeElementProperty("Description", ContentType.String));
-            add(new TypeElementProperty("Created At", ContentType.DateTime));
-            add(new TypeElementProperty("Modified At", ContentType.DateTime));
+            add(new TypeElementProperty("Message", ContentType.String));
         }};
     }
 }
