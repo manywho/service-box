@@ -1,5 +1,6 @@
 package com.manywho.services.box.controllers;
 
+import com.manywho.sdk.entities.describe.DescribeServiceRequest;
 import com.manywho.sdk.entities.describe.DescribeServiceResponse;
 import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
 import com.manywho.sdk.services.annotations.AuthorizationRequired;
@@ -22,8 +23,8 @@ public class DescribeController extends AbstractController {
     @Path("/metadata")
     @POST
     @AuthorizationRequired
-    public DescribeServiceResponse describe(ServiceRequest serviceRequest) throws Exception {
-        return describeManager.describe();
+    public DescribeServiceResponse describe(DescribeServiceRequest describeServiceRequest) throws Exception {
+        return describeManager.describe(describeServiceRequest);
     }
 }
 
