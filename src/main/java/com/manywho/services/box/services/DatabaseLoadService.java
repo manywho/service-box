@@ -57,10 +57,10 @@ public class DatabaseLoadService {
         return objectMapperService.convertFileMetadata(file, objectDataType);
     }
 
-    public ObjectCollection loadFiles(String token) throws Exception {
-        BoxFolder folder = boxFacade.getFolder(token, "0");
+    public ObjectCollection loadFiles(String token, String folderId) throws Exception {
+        BoxFolder folder = boxFacade.getFolder(token, folderId);
         if (folder == null) {
-            throw new Exception("A folder could not be found with the ID " + "0");
+            throw new Exception("A folder could not be found with the ID " + folderId);
         }
 
         return StreamUtils.asStream(folder.getChildren(BoxFile.ALL_FIELDS).iterator())
