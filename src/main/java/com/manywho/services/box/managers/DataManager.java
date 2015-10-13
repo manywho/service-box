@@ -24,7 +24,19 @@ public class DataManager {
             return new ObjectCollection(databaseLoadService.loadFile(user.getToken(), objectDataRequest.getListFilter().getId()));
         }
 
-        return databaseLoadService.loadFiles(user.getToken());
+        // Try and get the folder to search in, if one was passed in as a filter otherwise use "0" (the root folder)
+        String folder = "0";
+        if (objectDataRequest.getListFilter() != null && objectDataRequest.getListFilter().getWhere() != null) {
+            Optional<ListFilterWhere> folderFilter = objectDataRequest.getListFilter().getWhere().stream()
+                    .filter(w -> w.getColumnName().equals("Parent Folder"))
+                    .findFirst();
+
+            if (folderFilter.isPresent()) {
+                folder = folderFilter.get().getObjectData().get(0).getExternalId();
+            }
+        }
+
+        return databaseLoadService.loadFiles(user.getToken(), folder);
     }
 
     public ObjectCollection loadMetadataType(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
