@@ -1,16 +1,29 @@
 package com.manywho.services.box.services;
 
 import com.box.sdk.BoxAPIConnection;
+import com.box.sdk.BoxDeveloperEditionAPIConnection;
 import com.box.sdk.BoxMetadataTemplate;
+import com.box.sdk.EncryptionAlgorithm;
+import com.google.common.io.Resources;
 import com.manywho.sdk.entities.draw.elements.type.TypeElement;
 import com.manywho.sdk.entities.draw.elements.type.TypeElementCollection;
+import com.manywho.sdk.entities.run.EngineValueCollection;
 import com.manywho.sdk.enums.ContentType;
+import com.manywho.sdk.services.PropertyCollectionParser;
+import com.manywho.services.box.entities.Configuration;
+import com.manywho.services.box.oauth2.BoxProvider;
 import com.manywho.services.box.types.File;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.inject.Inject;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class DescribeService {
+    @Inject
+    private PropertyCollectionParser propertyParser;
+
     public TypeElementCollection buildTypeElementsFromMetadataTemplates(String accessToken) {
         // If no access token is provided, then don't try and create Types from Metadata templates
         if (StringUtils.isEmpty(accessToken)) {
@@ -39,6 +52,21 @@ public class DescribeService {
         }
 
         return typeElements;
+    }
+
+    public String fetchEnterpriseAccessToken(EngineValueCollection configurationValues) throws Exception {
+        String privateKey = new String(Files.readAllBytes(Paths.get(Resources.getResource("service-box.pem").toURI())));
+
+        Configuration configuration = propertyParser.parse(configurationValues, Configuration.class);
+
+        return BoxDeveloperEditionAPIConnection.getAppEnterpriseConnection(
+                configuration.getEnterpriseId(),
+                BoxProvider.CLIENT_ID,
+                BoxProvider.CLIENT_SECRET,
+                privateKey,
+                "dce7ax9uMxGksGspckH4bPrjGySr86HTitwi",
+                EncryptionAlgorithm.RSA_SHA_256
+        ).getAccessToken();
     }
 
     private static ContentType convertToContentType(String type) {

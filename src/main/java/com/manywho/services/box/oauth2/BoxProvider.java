@@ -4,6 +4,9 @@ import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
 import org.scribe.model.OAuthConfig;
 
 public class BoxProvider extends AbstractOauth2Provider {
+    public static final String CLIENT_ID = "f3oax2yu9r9xsuichpy9d7n2y7zui8bb";
+    public static final String CLIENT_SECRET = "FvY1D1jGer29Tg73DF4jHqAdQE1Dap8q";
+
     @Override
     public String getName() {
         return "Box";
@@ -11,12 +14,12 @@ public class BoxProvider extends AbstractOauth2Provider {
 
     @Override
     public String getClientId() {
-        return "f3oax2yu9r9xsuichpy9d7n2y7zui8bb";
+        return CLIENT_ID;
     }
 
     @Override
     public String getClientSecret() {
-        return "FvY1D1jGer29Tg73DF4jHqAdQE1Dap8q";
+        return CLIENT_SECRET;
     }
 
     @Override
