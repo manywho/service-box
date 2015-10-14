@@ -4,6 +4,8 @@ import com.box.sdk.BoxAPIException;
 import com.manywho.sdk.services.providers.ExceptionMapperProvider;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
@@ -12,6 +14,8 @@ import javax.ws.rs.ext.Provider;
 
 @Provider
 public class BoxExceptionHandler implements ExceptionMapper<BoxAPIException> {
+    private static final Logger LOGGER = LogManager.getLogger("com.manywho.services.box");
+
     @Inject
     private ExceptionMapperProvider exceptionMapperProvider;
 
@@ -34,6 +38,8 @@ public class BoxExceptionHandler implements ExceptionMapper<BoxAPIException> {
         if (StringUtils.isNotEmpty(exception.getResponse())) {
             message += " with the response " + StringEscapeUtils.unescapeJson(exception.getResponse());
         }
+
+        LOGGER.error("An error occurred while communicating with Box: " + message, exception);
 
         return exceptionMapperProvider.toResponse(new Exception(message));
     }
