@@ -3,7 +3,9 @@ package com.manywho.services.box.services;
 import com.box.sdk.BoxComment;
 import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
+import com.box.sdk.BoxGroup;
 import com.box.sdk.BoxTask;
+import com.box.sdk.BoxUser;
 import com.box.sdk.Metadata;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
@@ -104,6 +106,34 @@ public class ObjectMapperService {
         Object object = new Object();
         object.setDeveloperName(objectDataType.getDeveloperName());
         object.setExternalId(metadata.getID());
+        object.setProperties(properties);
+
+        return object;
+    }
+
+    public Object convertGroupObjectToManyWhoGroup(BoxGroup.Info group) {
+        PropertyCollection properties = new PropertyCollection();
+        properties.add(new Property("AuthenticationId", group.getID()));
+        properties.add(new Property("FriendlyName", group.getName()));
+        properties.add(new Property("DeveloperSummary", group.getName()));
+
+        Object object = new Object();
+        object.setDeveloperName("GroupAuthorizationGroup");
+        object.setExternalId(group.getID());
+        object.setProperties(properties);
+
+        return object;
+    }
+
+    public Object convertUserObjectToManyWhoUser(BoxUser.Info user) {
+        PropertyCollection properties = new PropertyCollection();
+        properties.add(new Property("AuthenticationId", user.getID()));
+        properties.add(new Property("FriendlyName", user.getName()));
+        properties.add(new Property("DeveloperSummary", user.getName()));
+
+        Object object = new Object();
+        object.setDeveloperName("GroupAuthorizationUser");
+        object.setExternalId(user.getID());
         object.setProperties(properties);
 
         return object;

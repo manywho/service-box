@@ -7,6 +7,9 @@ public class BoxProvider extends AbstractOauth2Provider {
     public static final String CLIENT_ID = "f3oax2yu9r9xsuichpy9d7n2y7zui8bb";
     public static final String CLIENT_SECRET = "FvY1D1jGer29Tg73DF4jHqAdQE1Dap8q";
 
+    public static final String DEVELOPER_EDITION_CLIENT_ID = "y86x8rnhjb4x4n659vqo9h15jg1bu0o2";
+    public static final String DEVELOPER_EDITION_CLIENT_SECRET = "o4O1jEJKdSNqpkdOYLzewtJtU1BZpgv0";
+
     @Override
     public String getName() {
         return "Box";

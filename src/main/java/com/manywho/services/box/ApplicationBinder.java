@@ -23,6 +23,7 @@ public class ApplicationBinder extends AbstractBinder {
 
         bind(AuthManager.class).to(AuthManager.class);
         bind(AuthenticationService.class).to(AuthenticationService.class);
+        bind(AuthorizationService.class).to(AuthorizationService.class);
         bind(DataManager.class).to(DataManager.class);
         bind(DatabaseLoadService.class).to(DatabaseLoadService.class);
         bind(DatabaseSaveService.class).to(DatabaseSaveService.class);
