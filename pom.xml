@@ -21,9 +21,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.manywho</groupId>
-            <artifactId>sdk</artifactId>
-            <version>1.12.0</version>
+            <groupId>com.github.manywho</groupId>
+            <artifactId>ManyWho_Flow_SDK_Java</artifactId>
+            <version>226932c</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
