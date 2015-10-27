@@ -28,10 +28,10 @@ public class BoxExceptionHandler implements ExceptionMapper<BoxAPIException> {
                 message = "Unauthorized. Check if your permissions are correct on Box.";
                 break;
             case 404:
-                message = "The file or folder could not be found.";
+                message = "The item could not be found.";
                 break;
             case 409:
-                message = "A file or folder already exists with that name.";
+                message = "An item already exists with that name.";
                 break;
         }
 
