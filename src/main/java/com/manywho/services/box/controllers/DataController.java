@@ -6,6 +6,7 @@ import com.manywho.sdk.services.annotations.AuthorizationRequired;
 import com.manywho.sdk.services.controllers.AbstractDataController;
 import com.manywho.services.box.managers.DataManager;
 import com.manywho.services.box.types.File;
+import com.manywho.services.box.types.Folder;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -30,6 +31,8 @@ public class DataController extends AbstractDataController {
         switch (objectDataRequest.getObjectDataType().getDeveloperName()) {
             case File.NAME:
                 return new ObjectDataResponse(dataManager.loadFileType(getAuthenticatedWho(), objectDataRequest));
+            case Folder.NAME:
+                return new ObjectDataResponse(dataManager.loadFolderType(getAuthenticatedWho(), objectDataRequest));
             default:
                 // Assume the type represents Metadata
                 return new ObjectDataResponse(dataManager.loadMetadataType(getAuthenticatedWho(), objectDataRequest));

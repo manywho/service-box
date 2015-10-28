@@ -29,7 +29,16 @@ public class DatabaseLoadService {
         throw new Exception("Unable to load file with ID " + id + " from Box");
     }
 
-    public ObjectCollection loadMetadata(String token, ObjectDataType objectDataType) {
+    public Object loadFolder(String token, String id) throws Exception {
+        BoxFolder folder = boxFacade.getFolder(token, id);
+        if (folder != null) {
+            return objectMapperService.convertBoxFolder(folder.getInfo());
+        }
+
+        throw new Exception("Unable to load folder with ID " + id + " from Box");
+    }
+
+    public ObjectCollection loadMetadata(String token, ObjectDataType objectDataType, MetadataSearch metadataSearch) {
         ObjectCollection boxObjects = new ObjectCollection();
 
         Iterable<BoxItem.Info> files = boxFacade.searchByMetadata(token, objectDataType.getDeveloperName());
