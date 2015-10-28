@@ -23,7 +23,7 @@ public class DatabaseLoadService {
     public Object loadFile(String token, String id) throws Exception {
         BoxFile file = boxFacade.getFile(token, id);
         if (file != null) {
-            return objectMapperService.convertBoxFile(file.getInfo(BoxFile.ALL_FIELDS), true);
+            return objectMapperService.convertBoxFile(file.getInfo(BoxFile.ALL_FIELDS));
         }
 
         throw new Exception("Unable to load file with ID " + id + " from Box");
@@ -74,7 +74,7 @@ public class DatabaseLoadService {
 
         return StreamUtils.asStream(folder.getChildren(BoxFile.ALL_FIELDS).iterator())
                 .filter(i -> i instanceof BoxFile.Info)
-                .map(f -> objectMapperService.convertBoxFile((BoxFile.Info) f, false))
+                .map(f -> objectMapperService.convertBoxFileBasic((BoxFile.Info) f))
                 .collect(Collectors.toCollection(ObjectCollection::new));
     }
 }

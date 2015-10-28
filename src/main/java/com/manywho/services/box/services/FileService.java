@@ -36,4 +36,12 @@ public class FileService {
 
         return object;
     }
+
+    public void copyFile(String token, String fileId, String folderId, String newName) {
+        boxFacade.copyFile(token, fileId, folderId, newName);
+    }
+
+    public void moveFile(String token, String fileId, String folderId, String newName) {
+        boxFacade.moveFile(token, fileId, folderId, newName);
+    }
 }

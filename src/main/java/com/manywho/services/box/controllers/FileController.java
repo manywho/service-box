@@ -1,5 +1,7 @@
 package com.manywho.services.box.controllers;
 
+import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
+import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
 import com.manywho.sdk.entities.run.elements.type.FileDataRequest;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataResponse;
 import com.manywho.sdk.services.annotations.AuthorizationRequired;
@@ -21,6 +23,20 @@ public class FileController extends AbstractController {
 
     @Inject
     private FileManager fileManager;
+
+    @Path("/copy")
+    @POST
+    @AuthorizationRequired
+    public ServiceResponse copyFile(ServiceRequest serviceRequest) throws Exception {
+        return fileManager.copyFile(getAuthenticatedWho(), serviceRequest);
+    }
+
+    @Path("/move")
+    @POST
+    @AuthorizationRequired
+    public ServiceResponse moveFile(ServiceRequest serviceRequest) throws Exception {
+        return fileManager.moveFile(getAuthenticatedWho(), serviceRequest);
+    }
 
     @Path("/")
     @POST
