@@ -99,4 +99,8 @@ public class BoxFacade {
 
         new BoxFile(apiConnection, fileId).move(new BoxFolder(apiConnection, folderId), newName);
     }
+
+    public BoxFolder.Info createFolder(String accessToken, String parentFolderId, String name) {
+        return new BoxFolder(createApiConnection(accessToken), parentFolderId).createFolder(name);
+    }
 }
