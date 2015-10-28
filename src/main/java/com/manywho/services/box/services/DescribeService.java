@@ -14,6 +14,7 @@ import com.manywho.services.box.entities.Configuration;
 import com.manywho.services.box.facades.BoxFacade;
 import com.manywho.services.box.oauth2.BoxProvider;
 import com.manywho.services.box.types.File;
+import com.manywho.services.box.types.Folder;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
