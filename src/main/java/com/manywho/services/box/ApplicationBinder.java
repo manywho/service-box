@@ -7,6 +7,7 @@ import com.manywho.services.box.managers.AuthManager;
 import com.manywho.services.box.managers.DataManager;
 import com.manywho.services.box.managers.DescribeManager;
 import com.manywho.services.box.managers.FileManager;
+import com.manywho.services.box.managers.FolderManager;
 import com.manywho.services.box.managers.TaskManager;
 import com.manywho.services.box.oauth2.BoxProvider;
 import com.manywho.services.box.services.*;
@@ -31,6 +32,8 @@ public class ApplicationBinder extends AbstractBinder {
         bind(DescribeService.class).to(DescribeService.class);
         bind(FileManager.class).to(FileManager.class);
         bind(FileService.class).to(FileService.class);
+        bind(FolderManager.class).to(FolderManager.class);
+        bind(FolderService.class).to(FolderService.class);
         bind(FileUploadService.class).to(FileUploadService.class);
         bind(ObjectMapperService.class).to(ObjectMapperService.class);
         bind(SecurityConfiguration.class).to(SecurityConfiguration.class);
