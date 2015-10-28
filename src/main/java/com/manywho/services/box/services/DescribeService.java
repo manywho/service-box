@@ -45,13 +45,13 @@ public class DescribeService {
                     .setDeveloperName("Metadata: " + template.getDisplayName())
                     .setTableName(template.getTemplateKey());
 
-            // Generate all the properties and bindings for any non-enum fields
+            // Generate all the properties and bindings for the fields
             template.getFields().stream()
-                    .filter(field -> !field.getType().equals("enum"))
                     .forEach(field -> typeBuilder.addProperty(field.getDisplayName(), convertToContentType(field.getType()), field.getKey()));
 
-            // Add the virtual "file" field, for use in database loads
+            // Add the virtual "file" and "folder" fields, for use in database loads
             typeBuilder.addProperty("File", ContentType.Object, File.NAME, "___file");
+            typeBuilder.addProperty("Folder", ContentType.Object, Folder.NAME, "___folder");
 
             typeElements.add(typeBuilder.build());
         }
