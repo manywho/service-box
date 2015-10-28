@@ -1,0 +1,2 @@
+service:
+  image: docker.manywho.net/manywho/service-box:$IMAGE_TAG
