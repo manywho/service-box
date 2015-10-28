@@ -80,4 +80,16 @@ public class BoxFacade {
     private BoxAPIConnection createApiConnection(String clientId, String clientSecret, String authorizationCode) {
         return new BoxAPIConnection(clientId, clientSecret, authorizationCode);
     }
+
+    public void copyFile(String accessToken, String fileId, String folderId, String newName) {
+        BoxAPIConnection apiConnection = createApiConnection(accessToken);
+
+        new BoxFile(apiConnection, fileId).copy(new BoxFolder(apiConnection, folderId), newName);
+    }
+
+    public void moveFile(String accessToken, String fileId, String folderId, String newName) {
+        BoxAPIConnection apiConnection = createApiConnection(accessToken);
+
+        new BoxFile(apiConnection, fileId).move(new BoxFolder(apiConnection, folderId), newName);
+    }
 }
