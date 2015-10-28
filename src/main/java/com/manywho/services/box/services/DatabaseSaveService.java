@@ -53,6 +53,7 @@ public class DatabaseSaveService {
     private Metadata convertPropertiesToMetadata(Object metadataObject, Metadata metadata) {
         metadataObject.getProperties().stream()
                 .filter(property -> !property.getDeveloperName().equals("___file"))
+                .filter(property -> !property.getDeveloperName().equals("___folder"))
                 .forEach(property -> metadata.replace(
                         "/" + property.getDeveloperName(),
                         convertContentValueToMetadataValue(property.getContentType(), property.getContentValue())

@@ -12,6 +12,7 @@ import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
 import com.manywho.sdk.entities.run.elements.type.Property;
 import com.manywho.sdk.entities.run.elements.type.PropertyCollection;
+import com.manywho.sdk.utils.StreamUtils;
 import com.manywho.services.box.types.Comment;
 import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
@@ -40,13 +41,29 @@ public class ObjectMapperService {
         return object;
     }
 
-    public Object convertBoxFile(BoxFile.Info info, boolean loadFull) {
+    public Object convertBoxFileBasic(BoxFile.Info info) {
+        PropertyCollection properties = new PropertyCollection();
+        properties.add(new Property("ID", info.getID()));
+        properties.add(new Property("Name", info.getName()));
+        properties.add(new Property("Description", info.getDescription()));
+        properties.add(new Property("Created At", info.getCreatedAt()));
+        properties.add(new Property("Modified At", info.getModifiedAt()));
+
+        Object object = new Object();
+        object.setDeveloperName(File.NAME);
+        object.setExternalId(info.getID());
+        object.setProperties(properties);
+
+        return object;
+    }
+
+    public Object convertBoxFile(BoxFile.Info info) {
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("ID", info.getID()));
         properties.add(new Property("Name", info.getName()));
         properties.add(new Property("Description", info.getDescription()));
         properties.add(new Property("Parent Folder", convertBoxFolder(info.getParent())));
-        properties.add(new Property("Comments", loadFull ? convertBoxComments(info.getResource().getComments()) : null));
+        properties.add(new Property("Comments", convertBoxComments(info.getResource().getComments())));
         properties.add(new Property("Created At", info.getCreatedAt()));
         properties.add(new Property("Modified At", info.getModifiedAt()));
 
@@ -107,7 +124,7 @@ public class ObjectMapperService {
                 .collect(Collectors.toCollection(PropertyCollection::new));
 
         // Add the virtual ___file field
-        properties.add(new Property("___file", new ObjectCollection(convertBoxFile(file.getInfo(BoxFile.ALL_FIELDS), false))));
+        properties.add(new Property("___file", new ObjectCollection(convertBoxFileBasic(file.getInfo(BoxFile.ALL_FIELDS)))));
 
         Object object = new Object();
         object.setDeveloperName(objectDataType.getDeveloperName());

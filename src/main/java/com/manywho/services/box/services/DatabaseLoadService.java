@@ -8,6 +8,7 @@ import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
 import com.manywho.sdk.utils.StreamUtils;
+import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.facades.BoxFacade;
 
 import javax.inject.Inject;
@@ -41,7 +42,7 @@ public class DatabaseLoadService {
     public ObjectCollection loadMetadata(String token, ObjectDataType objectDataType, MetadataSearch metadataSearch) {
         ObjectCollection boxObjects = new ObjectCollection();
 
-        Iterable<BoxItem.Info> files = boxFacade.searchByMetadata(token, objectDataType.getDeveloperName());
+        Iterable<BoxItem.Info> files = boxFacade.searchByMetadata(token, objectDataType.getDeveloperName(), metadataSearch);
         if (files.iterator().hasNext()) {
             BoxFile.Info info = (BoxFile.Info) files.iterator().next();
 
@@ -55,15 +56,15 @@ public class DatabaseLoadService {
         return boxObjects;
     }
 
-    public Object loadSingleMetadata(String token, ObjectDataType objectDataType, ListFilterWhere fileWhere) throws Exception {
+    public ObjectCollection loadSingleMetadata(String token, ObjectDataType objectDataType, String id) throws Exception {
         // Load the file given in the filter from Box
-        BoxFile file = boxFacade.getFile(token, fileWhere.getObjectData().get(0).getExternalId());
+        BoxFile file = boxFacade.getFile(token, id);
         if (file == null) {
-            throw new Exception("A file could not be found for with the ID " + fileWhere.getObjectData().get(0).getExternalId());
+            throw new Exception("A file could not be found for with the ID " + id);
         }
 
         // Create a ManyWho object based on the given metadata ObjectDataType and the loaded file
-        return objectMapperService.convertFileMetadata(file, objectDataType);
+        return new ObjectCollection(objectMapperService.convertFileMetadata(file, objectDataType));
     }
 
     public ObjectCollection loadFiles(String token, String folderId) throws Exception {

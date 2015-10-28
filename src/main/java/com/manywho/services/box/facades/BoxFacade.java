@@ -11,6 +11,7 @@ import com.box.sdk.BoxTask;
 import com.box.sdk.BoxUser;
 import com.box.sdk.EncryptionAlgorithm;
 import com.manywho.services.box.configuration.SecurityConfiguration;
+import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.oauth2.BoxProvider;
 
 import javax.inject.Inject;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 public class BoxFacade {
     @Inject
@@ -60,10 +62,15 @@ public class BoxFacade {
         return BoxUser.getAllEnterpriseUsers(createApiConnection(accessToken));
     }
 
-    public Iterable<BoxItem.Info> searchByMetadata(String accessToken, String metadataType) {
+    public Iterable<BoxItem.Info> searchByMetadata(String accessToken, String metadataType, MetadataSearch metadataSearch) {
         AdvancedSearchParams.MetadataFilter metadataFilter = new AdvancedSearchParams.MetadataFilter();
         metadataFilter.setScope("enterprise");
         metadataFilter.setTemplateKey(metadataType);
+
+        // Add filters for each of the fields in the metadataSearch object
+        for (Map.Entry<String, String> field : metadataSearch.getFields().entrySet()) {
+            metadataFilter.addFilter(field.getKey(), field.getValue());
+        }
 
         return BoxFolder.getRootFolder(createApiConnection(accessToken))
                 .search(null, new AdvancedSearchParams().addMetadataFilter(metadataFilter));
