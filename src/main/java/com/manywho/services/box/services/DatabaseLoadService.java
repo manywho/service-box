@@ -44,20 +44,13 @@ public class DatabaseLoadService {
     }
 
     public ObjectCollection loadMetadata(String token, ObjectDataType objectDataType, MetadataSearch metadataSearch) {
-        ObjectCollection boxObjects = new ObjectCollection();
-
         Iterable<BoxItem.Info> files = boxFacade.searchByMetadata(token, objectDataType.getDeveloperName(), metadataSearch);
-        if (files.iterator().hasNext()) {
-            BoxFile.Info info = (BoxFile.Info) files.iterator().next();
 
-            BoxFile file = boxFacade.getFile(token, info.getID());
-            if (file != null) {
-                // Create an object based on the given metadata type (use the objectDataType passed in)
-                boxObjects.add(objectMapperService.convertFileMetadata(file, objectDataType));
-            }
-        }
-
-        return boxObjects;
+        // Create an object based on the given metadata type for all the result, using the objectDataType passed in
+        return StreamUtils.asStream(files.iterator())
+                .filter(i -> i instanceof BoxFile.Info)
+                .map(f -> objectMapperService.convertFileMetadata(((BoxFile.Info) f).getResource(), objectDataType))
+                .collect(Collectors.toCollection(ObjectCollection::new));
     }
 
     public ObjectCollection loadSingleMetadata(String token, ObjectDataType objectDataType, String id) throws Exception {
@@ -77,6 +70,7 @@ public class DatabaseLoadService {
             throw new Exception("A folder could not be found with the ID " + folderId);
         }
 
+        // Loop over all the files in the loaded folder, and convert them to ManyWho objects
         return StreamUtils.asStream(folder.getChildren(BoxFile.ALL_FIELDS).iterator())
                 .filter(i -> i instanceof BoxFile.Info)
                 .map(f -> objectMapperService.convertBoxFileBasic((BoxFile.Info) f))
