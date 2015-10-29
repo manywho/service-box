@@ -3,15 +3,17 @@ package com.manywho.services.box.services;
 import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
 import com.box.sdk.BoxItem;
-import com.manywho.sdk.entities.run.elements.type.ListFilterWhere;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
 import com.manywho.sdk.utils.StreamUtils;
 import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.facades.BoxFacade;
+import org.apache.commons.lang3.ArrayUtils;
 
 import javax.inject.Inject;
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 public class DatabaseLoadService {
@@ -24,7 +26,9 @@ public class DatabaseLoadService {
     public Object loadFile(String token, String id) throws Exception {
         BoxFile file = boxFacade.getFile(token, id);
         if (file != null) {
-            return objectMapperService.convertBoxFile(file.getInfo(BoxFile.ALL_FIELDS));
+            BoxFile.Info info = file.getInfo(BoxFile.ALL_FIELDS);
+
+            return objectMapperService.convertBoxFile(info, loadFileContent(info));
         }
 
         throw new Exception("Unable to load file with ID " + id + " from Box");
@@ -77,5 +81,19 @@ public class DatabaseLoadService {
                 .filter(i -> i instanceof BoxFile.Info)
                 .map(f -> objectMapperService.convertBoxFileBasic((BoxFile.Info) f))
                 .collect(Collectors.toCollection(ObjectCollection::new));
+    }
+
+    private String loadFileContent(BoxFile.Info info) {
+        String[] textExtensions = new String[] { "txt", "py", "js", "xml", "css", "md", "pl", "php", "c", "m", "json" };
+
+        // Only load the content of the file if it's smaller than 100kb and a text file
+        if (ArrayUtils.contains(textExtensions, info.getExtension()) && info.getSize() <= 100000) {
+            ByteArrayOutputStream contentStream = new ByteArrayOutputStream();
+            info.getResource().download(contentStream);
+
+            return new String(contentStream.toByteArray(), StandardCharsets.UTF_8);
+        }
+
+        return null;
     }
 }
