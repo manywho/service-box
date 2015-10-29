@@ -57,11 +57,12 @@ public class ObjectMapperService {
         return object;
     }
 
-    public Object convertBoxFile(BoxFile.Info info) {
+    public Object convertBoxFile(BoxFile.Info info, String content) {
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("ID", info.getID()));
         properties.add(new Property("Name", info.getName()));
         properties.add(new Property("Description", info.getDescription()));
+        properties.add(new Property("Content", content));
         properties.add(new Property("Parent Folder", convertBoxFolder(info.getParent())));
         properties.add(new Property("Comments", convertBoxComments(info.getResource().getComments())));
         properties.add(new Property("Created At", info.getCreatedAt()));
