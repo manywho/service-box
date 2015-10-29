@@ -68,9 +68,9 @@ public class DataManager {
 
                 if (folderWhereOptional.isPresent()) {
                     metadataSearch.setFolderId(folderWhereOptional.get().getObjectData().get(0).getExternalId());
+                } else {
+                    throw new Exception("Searching for metadata by filtering with a folder only works with EQUAL criteria");
                 }
-
-                throw new Exception("Searching for metadata by filtering with a folder only works with EQUAL criteria");
             }
 
             // Check to see if we're filtering by file - if so, load only a single object
@@ -82,9 +82,9 @@ public class DataManager {
 
                 if (fileWhereOptional.isPresent()) {
                     metadataSearch.setFileId(fileWhereOptional.get().getObjectData().get(0).getExternalId());
+                } else {
+                    throw new Exception("Searching for metadata by filtering with a file only works with EQUAL criteria");
                 }
-
-                throw new Exception("Searching for metadata by filtering with a folder only works with EQUAL criteria");
             }
         }
 
