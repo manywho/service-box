@@ -3,6 +3,7 @@ package com.manywho.services.box.services;
 import com.box.sdk.BoxFile;
 import com.box.sdk.Metadata;
 import com.eclipsesource.json.JsonValue;
+import com.manywho.sdk.entities.run.elements.type.MObject;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
@@ -22,7 +23,7 @@ public class DatabaseSaveService {
     @Inject
     private ObjectMapperService objectMapperService;
 
-    public Object saveFileMetadata(String token, ObjectDataType objectDataType, Object metadataObject) throws Exception {
+    public Object saveFileMetadata(String token, ObjectDataType objectDataType, MObject metadataObject) throws Exception {
         // Get the virtual ___file property from the given Metadata object
         ObjectCollection fileObjects = metadataObject.getProperties().getObjectData("___file");
         if (CollectionUtils.isEmpty(fileObjects)) {
@@ -50,7 +51,7 @@ public class DatabaseSaveService {
         return objectMapperService.convertFileMetadata(file, objectDataType);
     }
 
-    private Metadata convertPropertiesToMetadata(Object metadataObject, Metadata metadata) {
+    private Metadata convertPropertiesToMetadata(MObject metadataObject, Metadata metadata) {
         metadataObject.getProperties().stream()
                 .filter(property -> !property.getDeveloperName().equals("___file"))
                 .filter(property -> !property.getDeveloperName().equals("___folder"))
