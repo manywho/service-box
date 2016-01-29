@@ -57,20 +57,20 @@ public class ObjectMapperService {
         return object;
     }
 
-    public Object convertBoxFile(BoxFile.Info info, String content) {
+    public Object convertBoxFile(BoxFile.Info fileInfo, String content) {
         PropertyCollection properties = new PropertyCollection();
-        properties.add(new Property("ID", info.getID()));
-        properties.add(new Property("Name", info.getName()));
-        properties.add(new Property("Description", info.getDescription()));
+        properties.add(new Property("ID", fileInfo.getID()));
+        properties.add(new Property("Name", fileInfo.getName()));
+        properties.add(new Property("Description", fileInfo.getDescription()));
         properties.add(new Property("Content", content));
-        properties.add(new Property("Parent Folder", convertBoxFolder(info.getParent())));
-        properties.add(new Property("Comments", convertBoxComments(info.getResource().getComments())));
-        properties.add(new Property("Created At", info.getCreatedAt()));
-        properties.add(new Property("Modified At", info.getModifiedAt()));
+        properties.add(new Property("Parent Folder", convertBoxFolder(fileInfo.getParent())));
+        properties.add(new Property("Comments", convertBoxComments(fileInfo.getResource().getComments())));
+        properties.add(new Property("Created At", fileInfo.getCreatedAt()));
+        properties.add(new Property("Modified At", fileInfo.getModifiedAt()));
 
         Object object = new Object();
         object.setDeveloperName(File.NAME);
-        object.setExternalId(info.getID());
+        object.setExternalId(fileInfo.getID());
         object.setProperties(properties);
 
         return object;
