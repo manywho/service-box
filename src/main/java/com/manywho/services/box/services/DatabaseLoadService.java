@@ -17,6 +17,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 public class DatabaseLoadService {
+    private static final int MAX_FILE_SIZE_FOR_LOADING_CONTENT = 100000;
+
     @Inject
     private BoxFacade boxFacade;
 
@@ -77,13 +79,13 @@ public class DatabaseLoadService {
                 .collect(Collectors.toCollection(ObjectCollection::new));
     }
 
-    private String loadFileContent(BoxFile.Info info) {
+    private String loadFileContent(BoxFile.Info fileInfo) {
         String[] textExtensions = new String[] { "txt", "py", "js", "xml", "css", "md", "pl", "php", "c", "m", "json" };
 
         // Only load the content of the file if it's smaller than 100kb and a text file
-        if (ArrayUtils.contains(textExtensions, info.getExtension()) && info.getSize() <= 100000) {
+        if (ArrayUtils.contains(textExtensions, fileInfo.getExtension()) && fileInfo.getSize() <= MAX_FILE_SIZE_FOR_LOADING_CONTENT) {
             ByteArrayOutputStream contentStream = new ByteArrayOutputStream();
-            info.getResource().download(contentStream);
+            fileInfo.getResource().download(contentStream);
 
             return new String(contentStream.toByteArray(), StandardCharsets.UTF_8);
         }
