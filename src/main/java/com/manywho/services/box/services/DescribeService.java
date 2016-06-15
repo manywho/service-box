@@ -1,25 +1,19 @@
 package com.manywho.services.box.services;
 
 import com.box.sdk.BoxAPIConnection;
-import com.box.sdk.BoxDeveloperEditionAPIConnection;
 import com.box.sdk.BoxMetadataTemplate;
-import com.box.sdk.EncryptionAlgorithm;
 import com.manywho.sdk.entities.draw.elements.type.TypeElement;
 import com.manywho.sdk.entities.draw.elements.type.TypeElementCollection;
 import com.manywho.sdk.entities.run.EngineValueCollection;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.services.PropertyCollectionParser;
-import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.entities.Configuration;
 import com.manywho.services.box.facades.BoxFacade;
-import com.manywho.services.box.oauth2.BoxProvider;
 import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class DescribeService {

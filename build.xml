@@ -2,6 +2,10 @@
 <project name="manywho-service-box" basedir="." default="generate-properties">
     <target name="generate-properties" description="Generate the properties file from the given system properties">
         <propertyfile file="src/main/resources/service.properties">
+            <entry key="oauth2.contentApi.clientId" value="${oauth2.contentApi.clientId}"/>
+            <entry key="oauth2.contentApi.clientSecret" value="${oauth2.contentApi.clientSecret}"/>
+            <entry key="oauth2.developerEdition.clientId" value="${oauth2.developerEdition.clientId}"/>
+            <entry key="oauth2.developerEdition.clientSecret" value="${oauth2.developerEdition.clientSecret}"/>
             <entry key="secure.privateKeyLocation" value="${secure.privateKeyLocation}"/>
             <entry key="secure.privateKeyPassword" value="${secure.privateKeyPassword}"/>
         </propertyfile>

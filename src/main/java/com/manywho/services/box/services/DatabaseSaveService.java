@@ -2,16 +2,13 @@ package com.manywho.services.box.services;
 
 import com.box.sdk.BoxFile;
 import com.box.sdk.Metadata;
-import com.eclipsesource.json.JsonValue;
 import com.manywho.sdk.entities.run.elements.type.MObject;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
-import com.manywho.sdk.entities.run.elements.type.Property;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.services.box.facades.BoxFacade;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -36,9 +33,9 @@ public class DatabaseSaveService {
         BoxFile file = boxFacade.getFile(token, fileObjects.get(0).getExternalId());
 
         List<Metadata> fileMetadata = file.getAllMetadata();
-        if (fileMetadata.stream().anyMatch(m -> m.getTemplate().equals(metadataType))) {
+        if (fileMetadata.stream().anyMatch(m -> m.getTemplateName().equals(metadataType))) {
             // Get the correct metadata to update
-            Metadata metadata = fileMetadata.stream().filter(m -> m.getTemplate().equals(metadataType))
+            Metadata metadata = fileMetadata.stream().filter(m -> m.getTemplateName().equals(metadataType))
                     .findFirst().get();
 
             // Perform the update to the Metadata on Box
@@ -63,14 +60,14 @@ public class DatabaseSaveService {
         return metadata;
     }
 
-    private JsonValue convertContentValueToMetadataValue(ContentType contentType, String contentValue) {
+    private String convertContentValueToMetadataValue(ContentType contentType, String contentValue) {
         switch (contentType) {
             case DateTime:
-                return JsonValue.valueOf(contentValue);
+                return String.valueOf(contentValue);
             case Number:
-                return JsonValue.valueOf(Float.parseFloat(contentValue));
+                return String.valueOf(Float.parseFloat(contentValue));
             default:
-                return JsonValue.valueOf(contentValue);
+                return String.valueOf(contentValue);
         }
     }
 }
