@@ -1,0 +1,7 @@
+{
+  "name": "ManyWho Box Service",
+  "description": "A plugin that enables integration of Box into ManyWho Flows",
+  "repository": "https://github.com/manywho/service-box",
+  "logo": "https://s3.amazonaws.com/manywho-service-assets/icons/service-box.png",
+  "keywords": ["manywho", "box", "plugin", "workflow"]
+}
