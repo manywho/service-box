@@ -1,5 +1,5 @@
-ManyWho Demo Service
-====================
+ManyWho Box Service
+===================
 
 > This service is currently in development, and not yet recommended for use in production environments
 
