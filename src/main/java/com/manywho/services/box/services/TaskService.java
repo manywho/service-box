@@ -17,7 +17,7 @@ public class TaskService {
         BoxFile file = boxFacade.getFile(token, fileId);
         if (file != null) {
             // Add a new task to the file with the given details
-            return file.addTask("review", message, dueAt.toDate());
+            return file.addTask(BoxTask.Action.REVIEW, message, dueAt.toDate());
         }
 
         throw new Exception("The requested file could not be loaded from Box");

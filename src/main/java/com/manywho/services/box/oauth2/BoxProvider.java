@@ -1,14 +1,18 @@
 package com.manywho.services.box.oauth2;
 
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
+import com.manywho.services.box.configuration.SecurityConfiguration;
 import org.scribe.model.OAuthConfig;
 
-public class BoxProvider extends AbstractOauth2Provider {
-    public static final String CLIENT_ID = "f3oax2yu9r9xsuichpy9d7n2y7zui8bb";
-    public static final String CLIENT_SECRET = "FvY1D1jGer29Tg73DF4jHqAdQE1Dap8q";
+import javax.inject.Inject;
 
-    public static final String DEVELOPER_EDITION_CLIENT_ID = "y86x8rnhjb4x4n659vqo9h15jg1bu0o2";
-    public static final String DEVELOPER_EDITION_CLIENT_SECRET = "o4O1jEJKdSNqpkdOYLzewtJtU1BZpgv0";
+public class BoxProvider extends AbstractOauth2Provider {
+    private final SecurityConfiguration configuration;
+
+    @Inject
+    public BoxProvider(SecurityConfiguration configuration) {
+        this.configuration = configuration;
+    }
 
     @Override
     public String getName() {
@@ -17,12 +21,12 @@ public class BoxProvider extends AbstractOauth2Provider {
 
     @Override
     public String getClientId() {
-        return CLIENT_ID;
+        return configuration.getOauth2ContentApiClientId();
     }
 
     @Override
     public String getClientSecret() {
-        return CLIENT_SECRET;
+        return configuration.getOauth2ContentApiClientSecret();
     }
 
     @Override
