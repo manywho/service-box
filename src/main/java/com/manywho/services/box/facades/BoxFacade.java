@@ -1,30 +1,19 @@
 package com.manywho.services.box.facades;
 
-import com.box.sdk.BoxAPIConnection;
-import com.box.sdk.BoxDeveloperEditionAPIConnection;
-import com.box.sdk.BoxFile;
-import com.box.sdk.BoxFolder;
-import com.box.sdk.BoxGroup;
-import com.box.sdk.BoxItem;
-import com.box.sdk.BoxMetadataFilter;
-import com.box.sdk.BoxSearch;
-import com.box.sdk.BoxSearchParameters;
-import com.box.sdk.BoxSharedLink;
-import com.box.sdk.BoxTask;
-import com.box.sdk.BoxUser;
-import com.box.sdk.EncryptionAlgorithm;
-import com.box.sdk.IAccessTokenCache;
-import com.box.sdk.InMemoryLRUAccessTokenCache;
-import com.box.sdk.JWTEncryptionPreferences;
+import com.box.sdk.*;
+import com.box.sdk.BoxWebHook.Trigger;
 import com.google.common.collect.Lists;
 import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.entities.MetadataSearch;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Set;
 
 public class BoxFacade {
     private final SecurityConfiguration securityConfiguration;
@@ -120,6 +109,38 @@ public class BoxFacade {
 
     public BoxFolder.Info createFolder(String accessToken, String parentFolderId, String name) {
         return new BoxFolder(createApiConnection(accessToken), parentFolderId).createFolder(name);
+    }
+
+    public BoxWebHook.Info createWebhook(String accessToken, String targetId, String targetType, String callbackUri, Set<Trigger> triggersToSend) throws MalformedURLException {
+        BoxResource target;
+
+        switch (targetType) {
+            case "FOLDER":
+                target = new BoxFolder(createApiConnection(accessToken), targetId);
+                break;
+            case "FILE":
+                target = new BoxFile(createApiConnection(accessToken), targetId);
+                break;
+            default:
+                throw new RuntimeException("The target "+ targetType + " does not support triggers");
+        }
+
+        URL address = new URL(callbackUri);
+        return BoxWebHook.create(target, address, triggersToSend);
+    }
+
+    public BoxWebHook.Info getWebhook(String accessToken, String webhookId) throws MalformedURLException {
+        return new BoxWebHook(createApiConnection(accessToken), webhookId).getInfo();
+    }
+
+    public void deleteWebhook(String accessToken, String id) {
+        BoxWebHook boxWebHook = new BoxWebHook(createApiConnection(accessToken), id);
+        boxWebHook.delete();
+    }
+
+    public void updateWebhook(String accessToken, String webhookId, BoxWebHook.Info info) {
+        BoxWebHook boxWebHook = new BoxWebHook(createApiConnection(accessToken), webhookId);
+        boxWebHook.updateInfo(info);
     }
 
     public BoxSharedLink createSharedLink(String accessToken, String id) {

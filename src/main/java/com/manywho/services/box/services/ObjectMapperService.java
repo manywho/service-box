@@ -1,22 +1,13 @@
 package com.manywho.services.box.services;
 
-import com.box.sdk.BoxComment;
-import com.box.sdk.BoxFile;
-import com.box.sdk.BoxFolder;
-import com.box.sdk.BoxGroup;
-import com.box.sdk.BoxTask;
-import com.box.sdk.BoxUser;
-import com.box.sdk.Metadata;
+import com.box.sdk.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
 import com.manywho.sdk.entities.run.elements.type.Property;
 import com.manywho.sdk.entities.run.elements.type.PropertyCollection;
 import com.manywho.sdk.utils.StreamUtils;
-import com.manywho.services.box.types.Comment;
-import com.manywho.services.box.types.File;
-import com.manywho.services.box.types.Folder;
-import com.manywho.services.box.types.Task;
+import com.manywho.services.box.types.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
