@@ -1,8 +1,6 @@
 package com.manywho.services.box.services;
 
-import com.box.sdk.BoxAPIConnection;
 import com.box.sdk.BoxFile;
-import com.box.sdk.BoxFolder;
 import com.manywho.sdk.entities.run.elements.type.FileDataRequest;
 import com.manywho.services.box.facades.BoxFacade;
 import org.apache.commons.lang3.StringUtils;

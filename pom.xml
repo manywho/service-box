@@ -23,12 +23,12 @@
         <dependency>
             <groupId>com.manywho</groupId>
             <artifactId>sdk</artifactId>
-            <version>1.18.0</version>
+            <version>1.23.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.manywho</groupId>
             <artifactId>box-java-sdk</artifactId>
-            <version>999a2e5e2a</version>
+            <version>182756d47dd099ad45ff5e49063cecbf3500cc0e</version>
         </dependency>
         <dependency>
             <groupId>org.graylog2.log4j2</groupId>
