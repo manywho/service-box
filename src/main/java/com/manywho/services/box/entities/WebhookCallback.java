@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
 
-public class WebhookReturn {
+public class WebhookCallback {
 
     @JsonProperty("source")
     private HashMap<String, Object> source;

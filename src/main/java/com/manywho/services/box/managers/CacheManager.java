@@ -3,6 +3,7 @@ package com.manywho.services.box.managers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
+import com.manywho.services.box.entities.TaskWebhook;
 import org.apache.commons.lang3.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -18,7 +19,8 @@ public class CacheManager {
     private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:*";
     private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH = "service:box:listener-request:webhook:%s:*";
     private final static String REDIS_BOX_AUTHENTICATEDWHO = "service:box:autenticatedwho:webhook:%s:state:%s";
-    private final static String REDIS_BOX_WEBHOOK = "service:box:webhook:targettype:%s:targetid:%s";
+    private final static String REDIS_BOX_WEBHOOK_BY_TARGET = "service:box:webhook:targettype:%s:targetid:%s";
+    private final static String REDIS_BOX_WEBHOOK = "service:box:webhook:%s";
 
     @Inject
     private JedisPool jedisPool;
@@ -26,17 +28,17 @@ public class CacheManager {
     @Inject
     private ObjectMapper objectMapper;
 
-    public void saveWebhook(String targetType, String targetId, String webhookId) throws Exception {
-        String key = String.format(REDIS_BOX_WEBHOOK, targetType, targetId);
+    public void saveWebhookByTarget(String targetType, String targetId, String webhookId) throws Exception {
+        String key = String.format(REDIS_BOX_WEBHOOK_BY_TARGET, targetType, targetId);
 
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.set(key, objectMapper.writeValueAsString(webhookId));
         }
     }
 
-    public String getWebhook(String targetType, String targetId) throws Exception {
+    public String getWebhookByTarget(String targetType, String targetId) throws Exception {
         try (Jedis jedis = jedisPool.getResource()) {
-            String webhookId = jedis.get(String.format(REDIS_BOX_WEBHOOK, targetType, targetId));
+            String webhookId = jedis.get(String.format(REDIS_BOX_WEBHOOK_BY_TARGET, targetType, targetId));
 
             if (StringUtils.isNotEmpty(webhookId)) {
                 return objectMapper.readValue(webhookId, String.class);
@@ -46,8 +48,37 @@ public class CacheManager {
         return null;
     }
 
-    public void deleteWebhook(String targetType, String targetId) {
-        String key = String.format(REDIS_BOX_WEBHOOK, targetType, targetId);
+    public void deleteWebhookByTarget(String targetType, String targetId) {
+        String key = String.format(REDIS_BOX_WEBHOOK_BY_TARGET, targetType, targetId);
+
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.del(key);
+        }
+    }
+
+
+    public void saveWebhookTask(String webhookId, TaskWebhook webhook) throws Exception {
+        String key = String.format(REDIS_BOX_WEBHOOK, webhookId);
+
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(key, objectMapper.writeValueAsString(webhook));
+        }
+    }
+
+    public TaskWebhook getWebhookTask(String webhookId) throws Exception {
+        try (Jedis jedis = jedisPool.getResource()) {
+            String webhook = jedis.get(String.format(REDIS_BOX_WEBHOOK, webhookId));
+
+            if (StringUtils.isNotEmpty(webhookId)) {
+                return objectMapper.readValue(webhook, TaskWebhook.class);
+            }
+        }
+
+        return null;
+    }
+
+    public void deleteWebhookTask(String webhookId) {
+        String key = String.format(REDIS_BOX_WEBHOOK, webhookId);
 
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.del(key);
@@ -135,4 +166,6 @@ public class CacheManager {
             jedis.del(key);
         }
     }
+
+
 }

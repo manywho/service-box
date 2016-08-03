@@ -26,4 +26,8 @@ public class TaskService {
     public void addAssignmentToTask(String token, String id, String assigneeEmail) {
         boxFacade.getTask(token, id).addAssignment(assigneeEmail);
     }
+
+    public BoxTask.Info getTask(String token, String idTask) {
+        return boxFacade.getTask(token, idTask).getInfo();
+    }
 }

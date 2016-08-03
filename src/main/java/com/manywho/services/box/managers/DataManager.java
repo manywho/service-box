@@ -49,6 +49,15 @@ public class DataManager {
         throw new Exception("Loading a list of folders is not yet supported");
     }
 
+    public ObjectCollection loadTaskType(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
+        // Check if the load is for a single object with an identifier
+        if (objectDataRequest.getListFilter() != null && StringUtils.isNotEmpty(objectDataRequest.getListFilter().getId())) {
+            return new ObjectCollection(databaseLoadService.loadTask(user.getToken(), objectDataRequest.getListFilter().getId()));
+        }
+
+        throw new Exception("Loading a list of task is not yet supported");
+    }
+
     public ObjectCollection loadMetadataType(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
         MetadataSearch metadataSearch = new MetadataSearch();
 

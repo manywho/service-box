@@ -3,6 +3,7 @@ package com.manywho.services.box.services;
 import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
 import com.box.sdk.BoxItem;
+import com.box.sdk.BoxTask;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
@@ -10,7 +11,6 @@ import com.manywho.sdk.utils.StreamUtils;
 import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.facades.BoxFacade;
 import org.apache.commons.lang3.ArrayUtils;
-
 import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
@@ -43,6 +43,15 @@ public class DatabaseLoadService {
         }
 
         throw new Exception("Unable to load folder with ID " + id + " from Box");
+    }
+
+    public Object loadTask(String token, String id) throws Exception {
+        BoxTask task = boxFacade.getTask(token, id);
+        if (task != null) {
+            return objectMapperService.convertBoxTask(task.getInfo());
+        }
+
+        throw new Exception("Unable to load task with ID " + id + " from Box");
     }
 
     public ObjectCollection loadMetadata(String token, ObjectDataType objectDataType, MetadataSearch metadataSearch) {

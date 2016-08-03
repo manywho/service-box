@@ -37,7 +37,8 @@ public class EventManager {
 
         if( !cacheManager.areAnyListenerServiceRequestForThisWebhook(webhookId) ) {
             webhookManager.deleteWebhook(userToken, webhookId);
-            cacheManager.deleteWebhook(targetType, targetId);
+            cacheManager.deleteWebhookByTarget(targetType, targetId);
+            cacheManager.deleteWebhookTask(webhookId);
         }
     }
 }

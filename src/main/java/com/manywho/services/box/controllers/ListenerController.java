@@ -7,6 +7,8 @@ import com.manywho.services.box.managers.CacheManager;
 import com.manywho.services.box.managers.ListenerManager;
 import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
+import com.manywho.services.box.types.Task;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
@@ -36,6 +38,9 @@ public class ListenerController extends AbstractListenerController{
                 break;
             case Folder.NAME:
                 listenerManager.createListener(getAuthenticatedWho(), listenerServiceRequest, triggerType, "FOLDER");
+                break;
+            case Task.NAME:
+                listenerManager.createListener(getAuthenticatedWho(), listenerServiceRequest, triggerType, "TASK");
                 break;
             default:
                 throw new Exception("Target for listener not supported");

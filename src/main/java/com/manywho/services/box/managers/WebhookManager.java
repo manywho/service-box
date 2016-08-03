@@ -26,7 +26,7 @@ public class WebhookManager {
         BoxWebHook.Info webhookInfo = webhookService.createWebhook(userToken, targetId, targetType,
                 "https://" + uriInfo.getAbsolutePath().getHost() + "/api/box/3/webhook/callback", triggersToSend);
 
-        cacheManager.saveWebhook(targetType, targetId, webhookInfo.getID());
+        cacheManager.saveWebhookByTarget(targetType, targetId, webhookInfo.getID());
 
         return webhookInfo;
     }
