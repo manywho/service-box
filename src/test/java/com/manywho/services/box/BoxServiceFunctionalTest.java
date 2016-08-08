@@ -66,7 +66,7 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
         when(mockSecurityConfiguration.getOauth2ContentApiClientSecret()).thenReturn("yyy");
         when(mockSecurityConfiguration.getOauth2DeveloperEditionClientId()).thenReturn("zzz");
         when(mockSecurityConfiguration.getOauth2DeveloperEditionClientSecret()).thenReturn("www");
-        when(mockSecurityConfiguration.getPrivateKeyLocation()).thenReturn(Resources.getResource("credentials/example.pem").getPath().substring(1));
+        when(mockSecurityConfiguration.getPrivateKeyLocation()).thenReturn(Resources.getResource("credentials/example.pem.test").getPath().substring(1));
         when(mockSecurityConfiguration.getPrivateKeyPassword()).thenReturn("ppp");
     }
 
