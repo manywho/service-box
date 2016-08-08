@@ -1,0 +1,27 @@
+{
+  "limit": 100,
+  "entries": [{
+    "templateKey": "tmApproval",
+    "scope": "enterprise_521607",
+    "displayName": "TM Approval",
+    "hidden": false,
+    "fields": [{
+      "type": "string",
+      "key": "fileName",
+      "displayName": "File Name",
+      "hidden": false
+    }, {
+      "type": "string",
+      "key": "status",
+      "displayName": "Status",
+      "hidden": false
+    }, {
+      "type": "string",
+      "key": "businessUnit",
+      "displayName": "Business Unit",
+      "hidden": false
+    }]
+  }],
+  "next_marker": null,
+  "prev_marker": null
+}
