@@ -1,6 +1,5 @@
 package com.manywho.services.box.services;
 
-import com.box.sdk.BoxAPIConnection;
 import com.box.sdk.BoxMetadataTemplate;
 import com.manywho.sdk.entities.draw.elements.type.TypeElement;
 import com.manywho.sdk.entities.draw.elements.type.TypeElementCollection;
@@ -30,10 +29,8 @@ public class DescribeService {
         }
 
         TypeElementCollection typeElements = new TypeElementCollection();
+        List<BoxMetadataTemplate.Info> templates = boxFacade.getEnterpriseTemplates(accessToken);
 
-        BoxAPIConnection apiConnection = new BoxAPIConnection(accessToken);
-
-        List<BoxMetadataTemplate.Info> templates = BoxMetadataTemplate.getEnterpriseTemplates(apiConnection);
         for (BoxMetadataTemplate.Info template : templates) {
             TypeElement.SimpleTypeBuilder typeBuilder = new TypeElement.SimpleTypeBuilder()
                     .setDeveloperName("Metadata: " + template.getDisplayName())

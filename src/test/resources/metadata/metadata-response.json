@@ -1,0 +1,524 @@
+{
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "US",
+    "variant": null
+  },
+  "uri": null,
+  "configurationValues": [{
+    "developerName": "Enterprise ID",
+    "contentValue": null,
+    "contentType": "ContentString",
+    "typeElementDeveloperName": null,
+    "ordinal": 0,
+    "required": false
+  }],
+  "providesAutoBinding": false,
+  "providesDatabase": true,
+  "providesFiles": true,
+  "providesIdentity": true,
+  "providesListening": false,
+  "providesLogic": true,
+  "providesNotifications": false,
+  "providesSmartSave": false,
+  "providesSocial": false,
+  "providesSharing": false,
+  "providesViews": false,
+  "providesVoting": false,
+  "actions": [{
+    "developerName": "File: Copy",
+    "developerSummary": "Copy a file into another folder, with an optional new name",
+    "serviceOutputs": [],
+    "serviceInputs": [{
+      "developerName": "Source File",
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "typeElementDeveloperName": "File",
+      "ordinal": 0,
+      "required": true
+    }, {
+      "developerName": "Destination Folder",
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "typeElementDeveloperName": "Folder",
+      "ordinal": 0,
+      "required": true
+    }, {
+      "developerName": "Name",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }],
+    "uriPart": "file/copy",
+    "serviceActionOutcomes": null,
+    "viewMessageAction": false
+  }, {
+    "developerName": "File: Move",
+    "developerSummary": "Move a file into another folder, with an optional new name",
+    "serviceOutputs": [],
+    "serviceInputs": [{
+      "developerName": "Source File",
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "typeElementDeveloperName": "File",
+      "ordinal": 0,
+      "required": true
+    }, {
+      "developerName": "Destination Folder",
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "typeElementDeveloperName": "Folder",
+      "ordinal": 0,
+      "required": true
+    }, {
+      "developerName": "Name",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }],
+    "uriPart": "file/move",
+    "serviceActionOutcomes": null,
+    "viewMessageAction": false
+  }, {
+    "developerName": "Folder: Create",
+    "developerSummary": "Create a new folder",
+    "serviceOutputs": [{
+      "developerName": "Folder",
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "typeElementDeveloperName": "Folder",
+      "ordinal": 0,
+      "required": true
+    }],
+    "serviceInputs": [{
+      "developerName": "Parent Folder",
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "typeElementDeveloperName": "Folder",
+      "ordinal": 0,
+      "required": true
+    }, {
+      "developerName": "Name",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }],
+    "uriPart": "folder/create",
+    "serviceActionOutcomes": null,
+    "viewMessageAction": false
+  }, {
+    "developerName": "Task: Add Assignment",
+    "developerSummary": "Add an assignment to a task",
+    "serviceOutputs": [],
+    "serviceInputs": [{
+      "developerName": "Task",
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "typeElementDeveloperName": "Task",
+      "ordinal": 0,
+      "required": true
+    }, {
+      "developerName": "Assignee Email",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    }],
+    "uriPart": "task/addassignment",
+    "serviceActionOutcomes": null,
+    "viewMessageAction": false
+  }, {
+    "developerName": "Task: Create",
+    "developerSummary": "Create a task for a file",
+    "serviceOutputs": [{
+      "developerName": "Task",
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "typeElementDeveloperName": "Task",
+      "ordinal": 0,
+      "required": true
+    }],
+    "serviceInputs": [{
+      "developerName": "File",
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "typeElementDeveloperName": "File",
+      "ordinal": 0,
+      "required": true
+    }, {
+      "developerName": "Message",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }, {
+      "developerName": "Due At",
+      "contentValue": null,
+      "contentType": "ContentDateTime",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }],
+    "uriPart": "task/create",
+    "serviceActionOutcomes": null,
+    "viewMessageAction": false
+  }],
+  "install": {
+    "typeElements": [{
+      "elementType": "TYPE",
+      "developerName": "Comment",
+      "developerSummary": "The Comment object structure",
+      "id": null,
+      "serviceElementId": null,
+      "properties": [{
+        "id": null,
+        "developerName": "ID",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Message",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }],
+      "bindings": null,
+      "updateByName": false
+    }, {
+      "elementType": "TYPE",
+      "developerName": "File",
+      "developerSummary": "The File object structure",
+      "id": null,
+      "serviceElementId": null,
+      "properties": [{
+        "id": null,
+        "developerName": "ID",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Name",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Description",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Content",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Parent Folder",
+        "contentFormat": null,
+        "contentType": "ContentObject",
+        "typeElementId": null,
+        "typeElementDeveloperName": "Folder"
+      }, {
+        "id": null,
+        "developerName": "Comments",
+        "contentFormat": null,
+        "contentType": "ContentList",
+        "typeElementId": null,
+        "typeElementDeveloperName": "Comment"
+      }, {
+        "id": null,
+        "developerName": "Created At",
+        "contentFormat": null,
+        "contentType": "ContentDateTime",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Modified At",
+        "contentFormat": null,
+        "contentType": "ContentDateTime",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }],
+      "bindings": [{
+        "id": null,
+        "developerName": "File",
+        "developerSummary": "Details about a file",
+        "databaseTableName": "File",
+        "serviceElementId": null,
+        "propertyBindings": [{
+          "databaseFieldName": "ID",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "ID",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Name",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Name",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Description",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Description",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Content",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Content",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Parent Folder",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Parent Folder",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Comments",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Comments",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Created At",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Created At",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Modified At",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Modified At",
+          "databaseContentType": null
+        }]
+      }],
+      "updateByName": false
+    }, {
+      "elementType": "TYPE",
+      "developerName": "Folder",
+      "developerSummary": "The Folder object structure",
+      "id": null,
+      "serviceElementId": null,
+      "properties": [{
+        "id": null,
+        "developerName": "ID",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Name",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Description",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Files",
+        "contentFormat": null,
+        "contentType": "ContentList",
+        "typeElementId": null,
+        "typeElementDeveloperName": "File"
+      }, {
+        "id": null,
+        "developerName": "Created At",
+        "contentFormat": null,
+        "contentType": "ContentDateTime",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Modified At",
+        "contentFormat": null,
+        "contentType": "ContentDateTime",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }],
+      "bindings": [{
+        "id": null,
+        "developerName": "Folder",
+        "developerSummary": "Details about a folder",
+        "databaseTableName": "Folder",
+        "serviceElementId": null,
+        "propertyBindings": [{
+          "databaseFieldName": "ID",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "ID",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Name",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Name",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Description",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Description",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Files",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Files",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Created At",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Created At",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Modified At",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Modified At",
+          "databaseContentType": null
+        }]
+      }],
+      "updateByName": false
+    }, {
+      "elementType": "TYPE",
+      "developerName": "Task",
+      "developerSummary": "The Task object structure",
+      "id": null,
+      "serviceElementId": null,
+      "properties": [{
+        "id": null,
+        "developerName": "ID",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Due At",
+        "contentFormat": null,
+        "contentType": "ContentDateTime",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Message",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Is Completed?",
+        "contentFormat": null,
+        "contentType": "ContentBoolean",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Created At",
+        "contentFormat": null,
+        "contentType": "ContentDateTime",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }],
+      "bindings": null,
+      "updateByName": false
+    }, {
+      "elementType": "TYPE",
+      "developerName": "Metadata: TM Approval",
+      "developerSummary": null,
+      "id": null,
+      "serviceElementId": null,
+      "properties": [{
+        "id": null,
+        "developerName": "File Name",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Status",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Business Unit",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "File",
+        "contentFormat": null,
+        "contentType": "ContentObject",
+        "typeElementId": null,
+        "typeElementDeveloperName": "File"
+      }, {
+        "id": null,
+        "developerName": "Folder",
+        "contentFormat": null,
+        "contentType": "ContentObject",
+        "typeElementId": null,
+        "typeElementDeveloperName": "Folder"
+      }],
+      "bindings": [{
+        "id": null,
+        "developerName": "Metadata: TM Approval",
+        "developerSummary": "The binding for Metadata: TM Approval",
+        "databaseTableName": "tmApproval",
+        "serviceElementId": null,
+        "propertyBindings": [{
+          "databaseFieldName": "fileName",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "File Name",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "status",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Status",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "businessUnit",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Business Unit",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "___file",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "File",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "___folder",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Folder",
+          "databaseContentType": null
+        }]
+      }],
+      "updateByName": false
+    }]
+  }
+}

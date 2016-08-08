@@ -1,0 +1,17 @@
+{
+  "culture": null,
+  "uri": "https://manywho-ex2.ngrok.io/api/box/3",
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "521607",
+      "contentType": null,
+      "objectData": null
+    }
+  ]
+}
