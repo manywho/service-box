@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class CreateFolderControllerTest extends BoxServiceFunctionalTest{
+public class FolderControllerTest extends BoxServiceFunctionalTest{
 
     @Test
     public void testCreateFolder() throws Exception {
