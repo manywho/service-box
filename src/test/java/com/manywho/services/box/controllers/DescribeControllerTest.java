@@ -8,6 +8,8 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import static junit.framework.TestCase.assertEquals;
+
 public class DescribeControllerTest extends BoxServiceFunctionalTest{
 
     @Test
@@ -27,5 +29,7 @@ public class DescribeControllerTest extends BoxServiceFunctionalTest{
                 getJsonFormatFileContent("metadata/metadata-response.json"),
                 getJsonFormatResponse(responseMsg)
         );
+
+        assertEquals(1, requestIntersectorTests.executedCalls());
     }
 }

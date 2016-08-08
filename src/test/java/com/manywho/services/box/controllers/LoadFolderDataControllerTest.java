@@ -10,6 +10,8 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import static junit.framework.TestCase.assertEquals;
+
 public class LoadFolderDataControllerTest extends BoxServiceFunctionalTest {
 
     @Test
@@ -18,7 +20,7 @@ public class LoadFolderDataControllerTest extends BoxServiceFunctionalTest {
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("folder-load/box-response/folder.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("folder-load/box-response/file.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("folder-load/box-response/items-in-folder.json", 200));
 
         Response responseMsg = target("/data").request()
                 .headers(headers)
@@ -29,5 +31,7 @@ public class LoadFolderDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatFileContent("folder-load/response.json"),
                 getJsonFormatResponse(responseMsg)
         );
+
+        assertEquals(2, requestIntersectorTests.executedCalls());
     }
 }
