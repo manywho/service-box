@@ -6,6 +6,8 @@ import com.box.sdk.RequestInterceptor;
 import com.fiftyonred.mock_jedis.MockJedis;
 import com.fiftyonred.mock_jedis.MockJedisPool;
 import com.google.common.io.Resources;
+import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
+import com.manywho.sdk.services.providers.ObjectMapperProvider;
 import com.manywho.sdk.test.FunctionalTest;
 import com.manywho.sdk.test.MockFactory;
 import com.manywho.services.box.configuration.SecurityConfiguration;
@@ -15,7 +17,8 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import redis.clients.jedis.JedisPool;
 
 import javax.inject.Singleton;
-
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,5 +90,16 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
         when(connection.getContentEncoding()).thenReturn("UTF-8");
 
         return new BoxJSONResponse(connection);
+    }
+
+    protected static Entity<ObjectDataRequest> getObjectDataRequestFromFile(String filePath) throws URISyntaxException, IOException {
+        ObjectDataRequest objectDataRequest = ObjectMapperProvider
+                .getObjectMapper()
+                .readValue(
+                        getFile(filePath),
+                        ObjectDataRequest.class
+                );
+
+        return Entity.entity(objectDataRequest, MediaType.APPLICATION_JSON_TYPE);
     }
 }

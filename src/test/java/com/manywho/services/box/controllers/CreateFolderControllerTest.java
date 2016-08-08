@@ -8,7 +8,7 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-public class CreateFolderTest extends BoxServiceFunctionalTest{
+public class CreateFolderControllerTest extends BoxServiceFunctionalTest{
 
     @Test
     public void testCreateFolder() throws Exception {
