@@ -1,10 +1,12 @@
 package com.manywho.services.box;
 
+import com.box.sdk.RequestInterceptor;
 import com.manywho.sdk.services.config.RedisConfiguration;
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
 import com.manywho.services.box.configuration.RedisConfig;
 import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.interceptor.RequestInterceptorImpl;
 import com.manywho.services.box.managers.*;
 import com.manywho.services.box.oauth2.BoxProvider;
 import com.manywho.services.box.services.*;
@@ -41,6 +43,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(EventManager.class).to(EventManager.class);
         bind(CallbackWebhookManager.class).to(CallbackWebhookManager.class);
         bind(ListenerManager.class).to(ListenerManager.class);
-
+        bind(RequestInterceptorImpl.class).to(RequestInterceptor.class);
+        bind(TokenCacheService.class).to(TokenCacheService.class);
     }
 }
