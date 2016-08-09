@@ -5,6 +5,7 @@ import com.box.sdk.BoxWebHook.Trigger;
 import com.google.common.collect.Lists;
 import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.entities.MetadataSearch;
+import com.manywho.services.box.services.TokenCacheService;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -12,15 +13,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class BoxFacade {
     private final SecurityConfiguration securityConfiguration;
+    private com.box.sdk.RequestInterceptor requestInterceptor;
+    private TokenCacheService tokenCacheService;
+
 
     @Inject
-    public BoxFacade(SecurityConfiguration securityConfiguration) {
+    public BoxFacade(SecurityConfiguration securityConfiguration, RequestInterceptor requestInterceptor,
+                     TokenCacheService tokenCacheService) {
+
         this.securityConfiguration = securityConfiguration;
+        this.requestInterceptor = requestInterceptor;
+        this.tokenCacheService = tokenCacheService;
     }
 
     public BoxAPIConnection authenticateUser(String clientId, String clientSecret, String authorizationCode) {
@@ -35,14 +44,12 @@ public class BoxFacade {
         encryptionPreferences.setPrivateKey(privateKey);
         encryptionPreferences.setPrivateKeyPassword(securityConfiguration.getPrivateKeyPassword());
 
-        IAccessTokenCache accessTokenCache = new InMemoryLRUAccessTokenCache(100);
-
         return BoxDeveloperEditionAPIConnection.getAppEnterpriseConnection(
                 enterpriseId,
                 securityConfiguration.getOauth2DeveloperEditionClientId(),
                 securityConfiguration.getOauth2DeveloperEditionClientSecret(),
                 encryptionPreferences,
-                accessTokenCache
+                tokenCacheService.getAccessTokenCache()
         );
     }
 
@@ -88,11 +95,17 @@ public class BoxFacade {
     }
 
     private BoxAPIConnection createApiConnection(String accessToken) {
-        return new BoxAPIConnection(accessToken);
+        BoxAPIConnection boxAPIConnection = new BoxAPIConnection(accessToken);
+        boxAPIConnection.setRequestInterceptor(requestInterceptor);
+
+        return boxAPIConnection;
     }
 
     private BoxAPIConnection createApiConnection(String clientId, String clientSecret, String authorizationCode) {
-        return new BoxAPIConnection(clientId, clientSecret, authorizationCode);
+        BoxAPIConnection boxAPIConnection = new BoxAPIConnection(clientId, clientSecret, authorizationCode);
+        boxAPIConnection.setRequestInterceptor(requestInterceptor);
+
+        return boxAPIConnection;
     }
 
     public void copyFile(String accessToken, String fileId, String folderId, String newName) {
@@ -127,6 +140,10 @@ public class BoxFacade {
 
         URL address = new URL(callbackUri);
         return BoxWebHook.create(target, address, triggersToSend);
+    }
+
+    public List<BoxMetadataTemplate.Info> getEnterpriseTemplates(String accessToken) {
+        return BoxMetadataTemplate.getEnterpriseTemplates(createApiConnection(accessToken));
     }
 
     public BoxWebHook.Info getWebhook(String accessToken, String webhookId) throws MalformedURLException {
