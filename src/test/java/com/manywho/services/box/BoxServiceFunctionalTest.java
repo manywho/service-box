@@ -61,12 +61,17 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
         });
     }
 
-    private void mockSecurityConfigurationResponses(){
+    private void mockSecurityConfigurationResponses() {
         when(mockSecurityConfiguration.getOauth2ContentApiClientId()).thenReturn("xxx");
         when(mockSecurityConfiguration.getOauth2ContentApiClientSecret()).thenReturn("yyy");
         when(mockSecurityConfiguration.getOauth2DeveloperEditionClientId()).thenReturn("zzz");
         when(mockSecurityConfiguration.getOauth2DeveloperEditionClientSecret()).thenReturn("www");
-        when(mockSecurityConfiguration.getPrivateKeyLocation()).thenReturn(Resources.getResource("credentials/example-credentials.test").getPath().substring(1));
+        try {
+            String credentialsPath = Resources.getResource("credentials/example-credentials.test").toURI().getPath();
+            when(mockSecurityConfiguration.getPrivateKeyLocation()).thenReturn(credentialsPath);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
         when(mockSecurityConfiguration.getPrivateKeyPassword()).thenReturn("ppp");
     }
 
