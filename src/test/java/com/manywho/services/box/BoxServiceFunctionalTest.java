@@ -39,7 +39,7 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
 
     @Override
     protected javax.ws.rs.core.Application configure(){
-
+        System.setProperty("user.timezone", "UTC");
         MockJedisPool mockJedisPool = new MockJedisPool(new GenericObjectPoolConfig(), "localhost");
         mockJedis = (MockJedis) mockJedisPool.getResource();
         mockSecurityConfiguration = mock(SecurityConfiguration.class);
