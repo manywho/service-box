@@ -59,7 +59,7 @@
               "typeElementPropertyId": null,
               "developerName": "Created At",
               "contentType": null,
-              "contentValue": "2016-08-05T14:41:01.000+01:00",
+              "contentValue": "2016-08-05T13:41:01.000Z",
               "contentFormat": null,
               "objectData": null
             },
@@ -67,7 +67,7 @@
               "typeElementPropertyId": null,
               "developerName": "Modified At",
               "contentType": null,
-              "contentValue": "2016-08-05T14:41:01.000+01:00",
+              "contentValue": "2016-08-05T13:41:01.000Z",
               "contentFormat": null,
               "objectData": null
             }
