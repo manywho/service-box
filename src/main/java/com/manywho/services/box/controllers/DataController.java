@@ -7,13 +7,13 @@ import com.manywho.sdk.services.controllers.AbstractDataController;
 import com.manywho.services.box.managers.DataManager;
 import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
-
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 @Path("/")
-@Consumes("application/json")
-@Produces("application/json")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class DataController extends AbstractDataController {
 
     @Inject

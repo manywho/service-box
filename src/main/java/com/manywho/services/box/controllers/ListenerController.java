@@ -11,12 +11,13 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import static com.box.sdk.BoxWebHook.*;
 import static com.box.sdk.BoxWebHook.Trigger.*;
 
 @Path("/")
-@Consumes("application/json")
-@Produces("application/json")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class ListenerController extends AbstractListenerController{
 
     @Inject
