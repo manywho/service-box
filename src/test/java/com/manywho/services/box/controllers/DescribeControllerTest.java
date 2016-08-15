@@ -2,6 +2,7 @@ package com.manywho.services.box.controllers;
 
 import com.manywho.sdk.utils.AuthorizationUtils;
 import com.manywho.services.box.BoxServiceFunctionalTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -13,6 +14,7 @@ import static junit.framework.TestCase.assertEquals;
 public class DescribeControllerTest extends BoxServiceFunctionalTest{
 
     @Test
+    @Ignore
     public void testDescribeServiceResponse() throws Exception {
 
         MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();

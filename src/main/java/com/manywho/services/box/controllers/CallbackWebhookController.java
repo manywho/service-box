@@ -4,10 +4,11 @@ import com.manywho.services.box.entities.WebhookReturn;
 import com.manywho.services.box.managers.CallbackWebhookManager;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 @Path("/webhook")
-@Consumes("application/json")
-@Produces("application/json")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class CallbackWebhookController {
 
     @Inject

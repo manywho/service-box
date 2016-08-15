@@ -45,5 +45,6 @@ public class ApplicationBinder extends AbstractBinder {
         bind(ListenerManager.class).to(ListenerManager.class);
         bind(RequestInterceptorImpl.class).to(RequestInterceptor.class);
         bind(TokenCacheService.class).to(TokenCacheService.class);
+        bind(CallbackService.class).to(CallbackService.class);
     }
 }
