@@ -35,7 +35,7 @@ public class EventManager {
         cacheManager.deleteListenerServiceRequest(webhookId, triggerType);
         cacheManager.deleteAuthenticatedWhoForWebhook(webhookId, stateId);
 
-        if( !cacheManager.areAnyListenerServiceRequestForThisWebhook(webhookId) ) {
+        if( !cacheManager.areAnyListenerServiceRequestForThisWebhook(webhookId) && cacheManager.getFlowListener(targetType, targetId, triggerType) == null) {
             webhookManager.deleteWebhook(userToken, webhookId);
             cacheManager.deleteWebhook(targetType, targetId);
         }
