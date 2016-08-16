@@ -3,12 +3,12 @@ package com.manywho.services.box.managers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
+import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import org.apache.commons.lang3.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
-
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +19,52 @@ public class CacheManager {
     private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH = "service:box:listener-request:webhook:%s:*";
     private final static String REDIS_BOX_AUTHENTICATEDWHO = "service:box:autenticatedwho:webhook:%s:state:%s";
     private final static String REDIS_BOX_WEBHOOK = "service:box:webhook:targettype:%s:targetid:%s";
+    private final static String REDIS_BOX_FLOW_LISTENING = "service:box:listen:targettype:%s:targetid:%s:trigger:%s";
 
-    @Inject
     private JedisPool jedisPool;
+    private ObjectMapper objectMapper;
 
     @Inject
-    private ObjectMapper objectMapper;
+    public CacheManager(JedisPool jedisPool, ObjectMapper objectMapper) {
+        this.jedisPool = jedisPool;
+        this.objectMapper = objectMapper;
+    }
+
+    public void saveFlowListener(String targetType, String targetId, String trigger, ExecutionFlowMetadata executionFlowMetadata) throws Exception {
+        String key = String.format(REDIS_BOX_FLOW_LISTENING, targetType, targetId, trigger);
+
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(key, objectMapper.writeValueAsString(executionFlowMetadata));
+        }
+    }
+
+    public ExecutionFlowMetadata getFlowListener(String targetType, String targetId, String trigger) throws Exception {
+        try (Jedis jedis = jedisPool.getResource()) {
+            String executionFlowMetadata = jedis.get(String.format(REDIS_BOX_FLOW_LISTENING, targetType, targetId, trigger));
+
+            if (StringUtils.isNotEmpty(executionFlowMetadata)) {
+                return objectMapper.readValue(executionFlowMetadata, ExecutionFlowMetadata.class);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * not used at the moment, but there is a limit in the number of triggers that can be used
+     * so we should allow to delete listeners
+     *
+     * @param targetType
+     * @param targetId
+     * @param trigger
+     */
+    public void deleteFlowListener(String targetType, String targetId, String trigger) {
+        String key = String.format(REDIS_BOX_FLOW_LISTENING, targetType, targetId, trigger);
+
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.del(key);
+        }
+    }
 
     public void saveWebhook(String targetType, String targetId, String webhookId) throws Exception {
         String key = String.format(REDIS_BOX_WEBHOOK, targetType, targetId);

@@ -5,35 +5,43 @@ import com.box.sdk.BoxMetadataTemplate;
 import com.box.sdk.Metadata;
 import com.box.sdk.MetadataField;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
+import com.manywho.services.box.utilities.ParseUrlUtility;
+import org.apache.commons.lang3.StringUtils;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class CallbackService {
-    public void overwriteNullValuesWithDefaultOptions(List<ExecutionFlowMetadata> fileMetadata, List<BoxMetadataTemplate.Info> defaultValues) {
+    public void overwriteNullValuesWithDefaultOptions(List<ExecutionFlowMetadata> fileMetadata, List<BoxMetadataTemplate.Info> defaultValues) throws URISyntaxException {
         String templateFlowKey = "";
-        String defaultFlowVersionId;
-        String defaultFlowId;
+        String defaultTriggerId;
+        String defaultUri;
 
         for (BoxMetadataTemplate.Info template: defaultValues) {
-            defaultFlowVersionId = "";
-            defaultFlowId = "";
+            defaultUri = "";
+            defaultTriggerId = "";
             for (MetadataField field: template.getFields()) {
 
-                if (Objects.equals(field.getDisplayName(), "flow-id")) {
-                    defaultFlowId = field.getOptions().get(0);
+                if (Objects.equals(field.getDisplayName(), "ManyWho Flow Uri")) {
+                    defaultUri = field.getOptions().get(0);
                     templateFlowKey = template.getTemplateKey();
                 }
 
-                if (Objects.equals(field.getDisplayName(), "flow-version-id")) {
-                    defaultFlowVersionId = field.getOptions().get(0);
+                if (Objects.equals(field.getDisplayName(), "ManyWho Flow Trigger")) {
+                    defaultTriggerId = field.getOptions().get(0);
                     templateFlowKey = template.getTemplateKey();
                 }
             }
 
-            if(!defaultFlowId.isEmpty() && !defaultFlowVersionId.isEmpty()) {
-                populateEmptyValuesWithDefaultTemplate(fileMetadata, templateFlowKey, defaultFlowId, defaultFlowVersionId);
+            if(!StringUtils.isEmpty(defaultUri)) {
+                populateEmptyValuesWithDefaultTemplate(fileMetadata,
+                        templateFlowKey,
+                        ParseUrlUtility.getFlowId(defaultUri),
+                        ParseUrlUtility.getFlowVersionId(defaultUri),
+                        ParseUrlUtility.getTenantId(defaultUri),
+                        defaultTriggerId);
             }
         }
     }
@@ -46,18 +54,23 @@ public class CallbackService {
         return null;
     }
 
-    public List<ExecutionFlowMetadata> getAllPossibleExecutionFlowMetadata(BoxFile boxFile) {
+    public List<ExecutionFlowMetadata> getAllPossibleExecutionFlowMetadata(BoxFile boxFile) throws URISyntaxException {
         List<ExecutionFlowMetadata> fileMetadataList = new ArrayList<>();
 
         for (Metadata metadata:boxFile.getAllMetadata()) {
             ExecutionFlowMetadata executionFlowMetadata = new ExecutionFlowMetadata(metadata.getTemplateName());
 
-            if(metadata.get("/flowid") != null) {
-                executionFlowMetadata.setFlowId(metadata.get("/flowid"));
-                executionFlowMetadata.setFlowId(metadata.get("/flowversionid"));
+            if(metadata.get("/manywhoFlowUri") != null) {
+                executionFlowMetadata.setFlowVersionId(ParseUrlUtility.getFlowId(metadata.get("/manywhoFlowUri")));
+                executionFlowMetadata.setFlowVersionId(ParseUrlUtility.getFlowVersionId(metadata.get("/manywhoFlowUri")));
+                executionFlowMetadata.setTenantId(ParseUrlUtility.getTenantId(metadata.get("/manywhoFlowUri")));
+
+                if(metadata.get("/manywhoFlowTrigger") != null) {
+                    executionFlowMetadata.setTrigger(metadata.get("/manywhoFlowTrigger"));
+                }
             }
 
-            if(metadata.getScope()!= null) {
+            if(metadata.getScope() != null) {
                 executionFlowMetadata.setEnterpriseId(metadata.getScope().substring(11));
             }
 
@@ -67,15 +80,26 @@ public class CallbackService {
         return fileMetadataList;
     }
 
-    public void populateEmptyValuesWithDefaultTemplate(List<ExecutionFlowMetadata> fileMetadata, String keyTemplate, String flowId, String flowVersionId) {
-        for (ExecutionFlowMetadata metadata:fileMetadata) {
-            if(Objects.equals(metadata.getKeyTemplate(), keyTemplate)) {
-                if(metadata.getFlowId() == null) {
-                    metadata.setFlowId(flowId);
+    public void populateEmptyValuesWithDefaultTemplate(List<ExecutionFlowMetadata> fileMetadata, String keyTemplate,
+                                                       String flowId, String flowVersionId, String defaultTenantId,
+                                                       String defaultTriggerId) {
+
+        for (ExecutionFlowMetadata executionFlowMetadata:fileMetadata) {
+            if(Objects.equals(executionFlowMetadata.getKeyTemplate(), keyTemplate)) {
+                if(StringUtils.isEmpty(executionFlowMetadata.getFlowId())) {
+                    executionFlowMetadata.setFlowId(flowId);
                 }
 
-                if(metadata.getFlowVersionId() == null) {
-                    metadata.setFlowVersionId(flowVersionId);
+                if(StringUtils.isEmpty(executionFlowMetadata.getFlowVersionId())) {
+                    executionFlowMetadata.setFlowVersionId(flowVersionId);
+                }
+
+                if(StringUtils.isEmpty(executionFlowMetadata.getTenantId())) {
+                    executionFlowMetadata.setTenantId(defaultTenantId);
+                }
+
+                if(StringUtils.isEmpty(executionFlowMetadata.getTrigger())) {
+                    executionFlowMetadata.setTrigger(defaultTriggerId);
                 }
             }
         }

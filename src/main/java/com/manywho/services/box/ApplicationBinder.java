@@ -1,6 +1,7 @@
 package com.manywho.services.box;
 
 import com.box.sdk.RequestInterceptor;
+import com.manywho.sdk.client.raw.RawRunClient;
 import com.manywho.sdk.services.config.RedisConfiguration;
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
 import com.manywho.services.box.configuration.RedisConfig;
@@ -46,5 +47,8 @@ public class ApplicationBinder extends AbstractBinder {
         bind(RequestInterceptorImpl.class).to(RequestInterceptor.class);
         bind(TokenCacheService.class).to(TokenCacheService.class);
         bind(CallbackService.class).to(CallbackService.class);
+        bind(LaunchFlowManager.class).to(LaunchFlowManager.class);
+        bind(FlowService.class).to(FlowService.class);
+        bind(RawRunClient.class).to(RawRunClient.class);
     }
 }
