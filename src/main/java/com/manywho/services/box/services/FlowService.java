@@ -20,6 +20,7 @@ public class FlowService {
     public EngineInitializationResponse startFlow(String tenantId, FlowId flowId, ExecutionFlowMetadata executionFlowMetadata, String targetType, String targetId) throws Exception {
         EngineInitializationRequest engineInitializationRequest = new EngineInitializationRequest();
         engineInitializationRequest.setFlowId(flowId);
+
         EngineValueCollection engineValues = new EngineValueCollection();
 
         engineValues.add(new EngineValue("webhook-flow-id", ContentType.String, executionFlowMetadata.getFlowId()));
@@ -32,5 +33,27 @@ public class FlowService {
         engineInitializationRequest.setInputs(engineValues);
 
         return runClient.initialize(UUID.fromString(tenantId), null, engineInitializationRequest);
+    }
+
+    public EngineInitializationResponse startFlowAfterWebhook(ExecutionFlowMetadata executionFlowMetadata, String targetType, String targetId) throws Exception {
+        EngineInitializationRequest engineInitializationRequest = new EngineInitializationRequest();
+
+        if(executionFlowMetadata.getFlowVersionId() == null) {
+            engineInitializationRequest.setFlowId(new FlowId(executionFlowMetadata.getFlowId()));
+        } else {
+            engineInitializationRequest.setFlowId(new FlowId(executionFlowMetadata.getFlowId(), executionFlowMetadata.getFlowVersionId()));
+        }
+
+        EngineValueCollection engineValues = new EngineValueCollection();
+
+        engineValues.add(new EngineValue("webhook-target-id", ContentType.String, targetId));
+        engineValues.add(new EngineValue("webhook-target-type", ContentType.String, targetType));
+        engineInitializationRequest.setInputs(engineValues);
+
+        return runClient.initialize(UUID.fromString(executionFlowMetadata.getTenantId()), null, engineInitializationRequest);
+    }
+
+    public EngineInvokeResponse joinFlow(ExecutionFlowMetadata executionFlowMetadata, String stateId, String auth){
+       return runClient.join(UUID.fromString(executionFlowMetadata.getTenantId()), UUID.fromString(stateId), auth);
     }
 }
