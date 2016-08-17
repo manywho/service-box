@@ -48,7 +48,6 @@ public class CallbackLaunchFlowController {
 
         BoxAPIConnection apiConnection;
         apiConnection = authenticationService.authenticateUserWithBox(oauth2Provider.getClientId(), oauth2Provider.getClientSecret(), authCode);
-        //apiConnection = authenticationService.authenticateUserWithBox("962elg4c0kt15i3j5v8k7bcba1x9hc22", "VauUqXcXvZEPzwCTuu3Pi8TrLD5hZut7", authCode);
 
         ExecutionFlowMetadata executionFlowMetadata = this.launchFlowManager.getExecutionFlowMetadata(apiConnection.getAccessToken(), fileId);
 
