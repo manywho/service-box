@@ -8,7 +8,7 @@ import com.manywho.sdk.services.describe.actions.AbstractAction;
 public class AssignFlowWebhookCreate extends AbstractAction {
     @Override
     public String getUriPart() {
-        return "assign-webhook/flow";
+        return "trigger-assign/flow";
     }
 
     @Override
@@ -32,7 +32,6 @@ public class AssignFlowWebhookCreate extends AbstractAction {
             add(new DescribeValue("Trigger", ContentType.String, false));
         }};
     }
-
 
     @Override
     public DescribeValueCollection getServiceOutputs() {

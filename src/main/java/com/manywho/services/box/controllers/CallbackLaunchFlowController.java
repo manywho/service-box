@@ -3,6 +3,7 @@ package com.manywho.services.box.controllers;
 import com.box.sdk.BoxAPIConnection;
 import com.manywho.sdk.entities.draw.flow.FlowId;
 import com.manywho.sdk.entities.run.EngineInitializationResponse;
+import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import com.manywho.services.box.managers.CacheManager;
 import com.manywho.services.box.managers.LaunchFlowManager;
@@ -22,16 +23,19 @@ public class CallbackLaunchFlowController {
     WebhookManager webhookService;
     AuthenticationService authenticationService;
     FlowService flowService;
+    AbstractOauth2Provider oauth2Provider;
 
 
     @Inject
-    public CallbackLaunchFlowController(LaunchFlowManager launchFlowManager, CacheManager cacheManager, WebhookManager webhookService,
-                                        AuthenticationService authenticationService, FlowService flowService) {
+    public CallbackLaunchFlowController(LaunchFlowManager launchFlowManager, CacheManager cacheManager,
+                                        WebhookManager webhookService, AuthenticationService authenticationService,
+                                        FlowService flowService, AbstractOauth2Provider oauth2Provider) {
         this.launchFlowManager = launchFlowManager;
         this.cacheManager = cacheManager;
         this.webhookService = webhookService;
         this.authenticationService = authenticationService;
         this.flowService = flowService;
+        this.oauth2Provider = oauth2Provider;
     }
 
     @Produces(MediaType.TEXT_HTML)
@@ -44,7 +48,7 @@ public class CallbackLaunchFlowController {
 
         BoxAPIConnection apiConnection;
         apiConnection = authenticationService.authenticateUserWithBox(oauth2Provider.getClientId(), oauth2Provider.getClientSecret(), authCode);
-
+        //apiConnection = authenticationService.authenticateUserWithBox("", "", authCode);
 
         ExecutionFlowMetadata executionFlowMetadata = this.launchFlowManager.getExecutionFlowMetadata(apiConnection.getAccessToken(), fileId);
 

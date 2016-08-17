@@ -1,9 +1,12 @@
 package com.manywho.services.box.managers;
 
+import com.manywho.sdk.entities.run.EngineInitializationResponse;
 import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
 import com.manywho.sdk.entities.run.elements.type.MObject;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
+import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import com.manywho.services.box.services.DatabaseLoadService;
+import com.manywho.services.box.services.FlowService;
 import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
 
@@ -18,6 +21,9 @@ public class CallbackWebhookManager {
 
     @Inject
     private EventManager eventManager;
+
+    @Inject
+    private FlowService flowService;
 
     public void processEventFile(String webhookId, String targetId, String triggerType) throws Exception {
         AuthenticatedWho authenticatedWho;
@@ -41,5 +47,13 @@ public class CallbackWebhookManager {
             eventManager.sendEvent(request, object, Folder.NAME);
             eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FOLDER", targetId, triggerType, request.getStateId());
         }
+    }
+
+    public void proccessEventFileForFlow(String targetType, String targetId, String triggerType) throws Exception {
+        ExecutionFlowMetadata executionFlowMetadata = cacheManager.getFlowListener(targetType, targetId, triggerType);
+        EngineInitializationResponse response = flowService.startFlowAfterWebhook(executionFlowMetadata, targetType, targetId);
+
+        flowService.joinFlow(executionFlowMetadata, response.getStateId(), null);
+
     }
 }

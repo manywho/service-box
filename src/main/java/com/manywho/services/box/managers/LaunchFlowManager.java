@@ -44,7 +44,7 @@ public class LaunchFlowManager {
             info = webhookManager.getWebhookInfo(apiConnection.getAccessToken(), "", webhookId);
             webhookManager.addTriggerToWebhookInfo(apiConnection.getAccessToken(), info, executionFlowMetadata.getTrigger());
         } else {
-            webhookManager.createWebhook(apiConnection.getAccessToken(), "", "file", fileId, BoxWebHook.Trigger.fromValue(executionFlowMetadata.getTrigger()));
+            webhookManager.createWebhook(apiConnection.getAccessToken(), "", "FILE", fileId, BoxWebHook.Trigger.fromValue(executionFlowMetadata.getTrigger()));
         }
 
         cacheManager.saveFlowListener("file", fileId, executionFlowMetadata.getTrigger(), executionFlowMetadata);

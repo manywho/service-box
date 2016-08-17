@@ -1,9 +1,7 @@
 package com.manywho.services.box.controllers;
 
 import com.manywho.services.box.entities.WebhookReturn;
-import com.manywho.services.box.managers.CacheManager;
 import com.manywho.services.box.managers.CallbackWebhookManager;
-import com.manywho.services.box.services.FlowService;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -20,12 +18,6 @@ public class CallbackWebhookController {
     @Inject
     private CallbackWebhookManager callbackWebhookManager;
 
-    @Inject
-    private FlowService flowService;
-
-    @Inject
-    private CacheManager cacheManager;
-
     @Path("/callback")
     @POST
     public void callback(WebhookReturn webhookReturn) throws Exception {
@@ -37,6 +29,7 @@ public class CallbackWebhookController {
         switch (targetType) {
             case "file":
                 callbackWebhookManager.processEventFile(webhookId, targetId, webhookReturn.getTrigger());
+                callbackWebhookManager.proccessEventFileForFlow(targetType, targetId, webhookReturn.getTrigger());
                 break;
             case "folder":
                 callbackWebhookManager.processEventFolder(webhookId, targetId, webhookReturn.getTrigger());
@@ -44,9 +37,5 @@ public class CallbackWebhookController {
             default:
                 break;
         }
-
-        // check if there
-
-        //ExecutionFlowMetadata executionFlowMetadata = cacheManager.getFlowListener(targetType, targetId, webhookReturn.getTrigger());
     }
 }
