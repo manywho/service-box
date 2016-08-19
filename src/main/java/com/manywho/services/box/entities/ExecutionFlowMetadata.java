@@ -6,8 +6,6 @@ public class ExecutionFlowMetadata {
     private String flowVersionId;
     private String enterpriseId;
     private String trigger;
-    private String accessToken;
-    private String refreshToken;
     private String tenantId;
 
     public ExecutionFlowMetadata(String keyTemplate) {
@@ -58,22 +56,6 @@ public class ExecutionFlowMetadata {
 
     public void setTrigger(String trigger) {
         this.trigger = trigger;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
     }
 
     public String getTenantId() {

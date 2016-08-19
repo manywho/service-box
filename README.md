@@ -29,6 +29,7 @@ $ ant -Dsecure.privateKeyLocation=xxx \
 -Doauth2.contentApi.clientSecret=xxx \
 -Doauth2.developerEdition.clientId=xxx \
 -Doauth2.developerEdition.clientSecret=xxx \
+-Dassignment.flowId=xxx \
 -Dredis.url=xxx \
 
 ```

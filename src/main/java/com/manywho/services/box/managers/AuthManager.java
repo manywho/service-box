@@ -12,6 +12,7 @@ import com.manywho.sdk.enums.AuthorizationType;
 import com.manywho.sdk.services.PropertyCollectionParser;
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
 import com.manywho.services.box.entities.Configuration;
+import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.services.AuthenticationService;
 import com.manywho.services.box.services.AuthorizationService;
 import org.scribe.oauth.OAuthService;
@@ -28,6 +29,9 @@ public class AuthManager {
     @Inject
     private PropertyCollectionParser propertyParser;
 
+    @Inject
+    private CacheManager cacheManager;
+
     public AuthenticatedWhoResult authenticateUser(AbstractOauth2Provider provider, AuthenticationCredentials credentials) throws Exception {
         BoxAPIConnection apiConnection = authenticationService.authenticateUserWithBox(
                 provider.getClientId(),
@@ -37,6 +41,9 @@ public class AuthManager {
 
         BoxUser.Info userInformation = authenticationService.getCurrentBoxUser(apiConnection.getAccessToken());
         if (userInformation != null) {
+            Credentials credentialsBoxUser = new Credentials(apiConnection.getAccessToken(), apiConnection.getRefreshToken());
+            cacheManager.saveCredentails(userInformation.getID(), credentialsBoxUser);
+
             return authenticationService.buildAuthenticatedWhoResult(
                     provider.getName(),
                     userInformation.getLogin(),

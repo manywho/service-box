@@ -8,6 +8,7 @@
             <entry key="oauth2.developerEdition.clientSecret" value="${oauth2.developerEdition.clientSecret}"/>
             <entry key="secure.privateKeyLocation" value="${secure.privateKeyLocation}"/>
             <entry key="secure.privateKeyPassword" value="${secure.privateKeyPassword}"/>
+            <entry key="assignment.flowId" value="${assignment.flowId}"/>
             <entry key="redis.url" value="${redis.url}"/>
         </propertyfile>
     </target>

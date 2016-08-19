@@ -4,6 +4,7 @@ import com.box.sdk.RequestInterceptor;
 import com.manywho.sdk.client.raw.RawRunClient;
 import com.manywho.sdk.services.config.RedisConfiguration;
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
+import com.manywho.services.box.configuration.FlowConfiguration;
 import com.manywho.services.box.configuration.RedisConfig;
 import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.facades.BoxFacade;
@@ -36,6 +37,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(FileUploadService.class).to(FileUploadService.class);
         bind(ObjectMapperService.class).to(ObjectMapperService.class);
         bind(SecurityConfiguration.class).to(SecurityConfiguration.class);
+        bind(FlowConfiguration.class).to(FlowConfiguration.class);
         bind(TaskManager.class).to(TaskManager.class);
         bind(TaskService.class).to(TaskService.class);
         bind(WebhookManager.class).to(WebhookManager.class);

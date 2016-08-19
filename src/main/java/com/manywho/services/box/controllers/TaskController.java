@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/task")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class TaskController extends AbstractController {
+public class  TaskController extends AbstractController {
 
     @Inject
     private TaskManager taskManager;

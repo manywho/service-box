@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.services.TokenCacheService;
-
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -21,7 +20,6 @@ public class BoxFacade {
     private final SecurityConfiguration securityConfiguration;
     private com.box.sdk.RequestInterceptor requestInterceptor;
     private TokenCacheService tokenCacheService;
-
 
     @Inject
     public BoxFacade(SecurityConfiguration securityConfiguration, RequestInterceptor requestInterceptor,
@@ -65,6 +63,14 @@ public class BoxFacade {
         return new BoxFile(createApiConnection(accessToken), id);
     }
 
+    public BoxAPIConnection getValidBoxApiConnection(String accessToken, String refreshToken) {
+        BoxAPIConnection boxAPIConnection = createApiConnection(securityConfiguration.getOauth2ContentApiClientId(),
+                securityConfiguration.getOauth2ContentApiClientSecret(), accessToken, refreshToken);
+
+        BoxUser.getCurrentUser(boxAPIConnection);
+        return boxAPIConnection;
+    }
+
     public Iterable<BoxGroup.Info> loadGroups(String accessToken) {
         return BoxGroup.getAllGroups(createApiConnection(accessToken));
     }
@@ -103,6 +109,13 @@ public class BoxFacade {
 
     private BoxAPIConnection createApiConnection(String clientId, String clientSecret, String authorizationCode) {
         BoxAPIConnection boxAPIConnection = new BoxAPIConnection(clientId, clientSecret, authorizationCode);
+        boxAPIConnection.setRequestInterceptor(requestInterceptor);
+
+        return boxAPIConnection;
+    }
+
+    private BoxAPIConnection createApiConnection(String clientId, String clientSecret, String accessToken, String refreshToken) {
+        BoxAPIConnection boxAPIConnection = new BoxAPIConnection(clientId, clientSecret, accessToken, refreshToken);
         boxAPIConnection.setRequestInterceptor(requestInterceptor);
 
         return boxAPIConnection;

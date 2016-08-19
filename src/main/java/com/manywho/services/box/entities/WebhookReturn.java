@@ -12,6 +12,9 @@ public class WebhookReturn {
     @JsonProperty("webhook")
     private HashMap<String, Object> webhook;
 
+    @JsonProperty("created_by")
+    private HashMap<String, Object> createdBy;
+
     @JsonProperty("trigger")
     private String trigger;
 
@@ -21,6 +24,10 @@ public class WebhookReturn {
 
     public HashMap<String, Object> getWebhook() {
         return webhook;
+    }
+
+    public HashMap<String, Object> getCreatedBy() {
+        return createdBy;
     }
 
     public String getTrigger() {

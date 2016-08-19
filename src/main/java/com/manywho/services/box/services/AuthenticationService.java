@@ -4,14 +4,18 @@ import com.box.sdk.BoxAPIConnection;
 import com.box.sdk.BoxUser;
 import com.manywho.sdk.entities.security.AuthenticatedWhoResult;
 import com.manywho.sdk.enums.AuthenticationStatus;
+import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.facades.BoxFacade;
-
+import com.manywho.services.box.managers.CacheManager;
 import javax.inject.Inject;
 
 public class AuthenticationService {
 
     @Inject
     private BoxFacade boxFacade;
+
+    @Inject
+    private CacheManager cacheManager;
 
     public BoxAPIConnection authenticateUserWithBox(String clientId, String clientSecret, String code) {
         return boxFacade.authenticateUser(clientId, clientSecret, code);
@@ -36,5 +40,20 @@ public class AuthenticationService {
 
     public BoxUser.Info getCurrentBoxUser(String accessToken) {
         return boxFacade.getCurrentUser(accessToken);
+    }
+
+    public Credentials updateCredentials(String boxUserId) throws Exception {
+        Credentials credentials = cacheManager.getCredentials(boxUserId);
+        BoxAPIConnection boxAPIConnection = boxFacade.getValidBoxApiConnection(credentials.getAccessToken(),
+                credentials.getRefreshToken());
+        credentials.setAccessToken(boxAPIConnection.getAccessToken());
+
+        if( boxAPIConnection.getRefreshToken() != null && !boxAPIConnection.getRefreshToken().isEmpty()) {
+            credentials.setRefreshToken(boxAPIConnection.getRefreshToken());
+        }
+
+        cacheManager.saveCredentails(boxUserId, credentials);
+
+        return credentials;
     }
 }

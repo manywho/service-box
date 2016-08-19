@@ -3,6 +3,7 @@ package com.manywho.services.box.managers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
+import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import org.apache.commons.lang3.StringUtils;
 import redis.clients.jedis.Jedis;
@@ -20,6 +21,7 @@ public class CacheManager {
     private final static String REDIS_BOX_AUTHENTICATEDWHO = "service:box:autenticatedwho:webhook:%s:state:%s";
     private final static String REDIS_BOX_WEBHOOK = "service:box:webhook:targettype:%s:targetid:%s";
     private final static String REDIS_BOX_FLOW_LISTENING = "service:box:listen:targettype:%s:targetid:%s:trigger:%s";
+    private final static String REDIS_BOX_CREDENTIALS = "service:box:user:%s:credentials";
 
     private JedisPool jedisPool;
     private ObjectMapper objectMapper;
@@ -29,6 +31,27 @@ public class CacheManager {
         this.jedisPool = jedisPool;
         this.objectMapper = objectMapper;
     }
+
+    public void saveCredentails(String boxUserId, Credentials credentials) throws Exception {
+        String key = String.format(REDIS_BOX_CREDENTIALS, boxUserId);
+
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(key, objectMapper.writeValueAsString(credentials));
+        }
+    }
+
+    public Credentials getCredentials(String boxUserId) throws Exception {
+        try (Jedis jedis = jedisPool.getResource()) {
+            String credentials = jedis.get(String.format(REDIS_BOX_CREDENTIALS, boxUserId));
+
+            if (StringUtils.isNotEmpty(credentials)) {
+                return objectMapper.readValue(credentials, Credentials.class);
+            }
+        }
+
+        return null;
+    }
+
 
     public void saveFlowListener(String targetType, String targetId, String trigger, ExecutionFlowMetadata executionFlowMetadata) throws Exception {
         String key = String.format(REDIS_BOX_FLOW_LISTENING, targetType, targetId, trigger);
