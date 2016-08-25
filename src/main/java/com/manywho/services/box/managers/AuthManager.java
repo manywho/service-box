@@ -16,33 +16,58 @@ import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.services.AuthenticationService;
 import com.manywho.services.box.services.AuthorizationService;
 import org.scribe.oauth.OAuthService;
-
 import javax.inject.Inject;
 
 public class AuthManager {
-    @Inject
     private AuthenticationService authenticationService;
-
-    @Inject
     private AuthorizationService authorizationService;
-
-    @Inject
     private PropertyCollectionParser propertyParser;
-
-    @Inject
     private CacheManager cacheManager;
 
-    public AuthenticatedWhoResult authenticateUser(AbstractOauth2Provider provider, AuthenticationCredentials credentials) throws Exception {
-        BoxAPIConnection apiConnection = authenticationService.authenticateUserWithBox(
-                provider.getClientId(),
-                provider.getClientSecret(),
-                credentials.getCode()
-        );
+    @Inject
+    public AuthManager(AuthenticationService authenticationService, AuthorizationService authorizationService,
+                       PropertyCollectionParser propertyParser,CacheManager cacheManager){
+        this.authenticationService = authenticationService;
+        this.propertyParser = propertyParser;
+        this.authorizationService = authorizationService;
+        this.cacheManager = cacheManager;
+    }
 
-        BoxUser.Info userInformation = authenticationService.getCurrentBoxUser(apiConnection.getAccessToken());
+
+    public AuthenticatedWhoResult authenticateUser(AbstractOauth2Provider provider, AuthenticationCredentials credentials) throws Exception {
+
+        BoxAPIConnection apiConnection;
+        Credentials credentialsBoxUser;
+        BoxUser.Info userInformation;
+        /**
+         * if I receive a token then the user is authenticated and I need to confirm details
+         * If I receive a code I need to get and access token and also save the refresh token
+         */
+        if(credentials.getToken()!= null) {
+            apiConnection = authenticationService.confirmUserAuthenticationWithBox(credentials.getToken());
+            userInformation = authenticationService.getCurrentBoxUser(apiConnection.getAccessToken());
+        } else {
+            apiConnection = authenticationService.authenticateUserWithBox(
+                    provider.getClientId(),
+                    provider.getClientSecret(),
+                    credentials.getCode());
+            userInformation = authenticationService.getCurrentBoxUser(apiConnection.getAccessToken());
+            cacheManager.saveCredentials(userInformation.getID(), new Credentials(apiConnection.getAccessToken(), apiConnection.getRefreshToken(), userInformation.getID()));
+        }
+
         if (userInformation != null) {
-            Credentials credentialsBoxUser = new Credentials(apiConnection.getAccessToken(), apiConnection.getRefreshToken());
-            cacheManager.saveCredentails(userInformation.getID(), credentialsBoxUser);
+            if(apiConnection.getRefreshToken() != null) {
+                credentialsBoxUser = new Credentials(apiConnection.getAccessToken(), apiConnection.getRefreshToken(),
+                        userInformation.getID());
+            } else {
+                credentialsBoxUser = cacheManager.getCredentials(userInformation.getID());
+                credentialsBoxUser.setAccessToken(apiConnection.getAccessToken());
+                cacheManager.saveCredentials(userInformation.getID(), credentialsBoxUser);
+            }
+
+            cacheManager.saveCredentials(userInformation.getID(), credentialsBoxUser);
+
+            //cacheManager.saveUserIdByTokenKey(apiConnection.getAccessToken(), userInformation.getID());
 
             return authenticationService.buildAuthenticatedWhoResult(
                     provider.getName(),

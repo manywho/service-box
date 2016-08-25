@@ -8,12 +8,18 @@ import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import com.manywho.services.box.utilities.ParseUrlUtility;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.inject.Inject;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class CallbackService {
+
+    @Inject
+    public CallbackService(){
+    }
+
     public void overwriteNullValuesWithDefaultOptions(List<ExecutionFlowMetadata> fileMetadata, List<BoxMetadataTemplate.Info> defaultValues) throws URISyntaxException {
         String templateFlowKey = "";
         String defaultTriggerId;
@@ -61,7 +67,7 @@ public class CallbackService {
             ExecutionFlowMetadata executionFlowMetadata = new ExecutionFlowMetadata(metadata.getTemplateName());
 
             if(metadata.get("/manywhoFlowUri") != null) {
-                executionFlowMetadata.setFlowVersionId(ParseUrlUtility.getFlowId(metadata.get("/manywhoFlowUri")));
+                executionFlowMetadata.setFlowId(ParseUrlUtility.getFlowId(metadata.get("/manywhoFlowUri")));
                 executionFlowMetadata.setFlowVersionId(ParseUrlUtility.getFlowVersionId(metadata.get("/manywhoFlowUri")));
                 executionFlowMetadata.setTenantId(ParseUrlUtility.getTenantId(metadata.get("/manywhoFlowUri")));
 

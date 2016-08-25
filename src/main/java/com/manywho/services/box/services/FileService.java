@@ -10,8 +10,12 @@ import com.manywho.services.box.facades.BoxFacade;
 import javax.inject.Inject;
 
 public class FileService {
-    @Inject
     private BoxFacade boxFacade;
+
+    @Inject
+    public FileService(BoxFacade boxFacade) {
+        this.boxFacade = boxFacade;
+    }
 
     public Object buildManyWhoFileObject(BoxFile.Info fileInformation, BoxFile file) {
         BoxSharedLink.Permissions permissions = new BoxSharedLink.Permissions();

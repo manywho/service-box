@@ -9,8 +9,12 @@ import org.joda.time.DateTime;
 import javax.inject.Inject;
 
 public class TaskService {
-    @Inject
     private BoxFacade boxFacade;
+
+    @Inject
+    public TaskService(BoxFacade boxFacade) {
+        this.boxFacade = boxFacade;
+    }
 
     public BoxTask.Info addTaskToFile(String token, String fileId, String message, DateTime dueAt) throws Exception {
         // Load the requested file from Box so we can add a new task to it

@@ -16,11 +16,14 @@ import javax.inject.Inject;
 import java.util.List;
 
 public class DescribeService {
-    @Inject
     private PropertyCollectionParser propertyParser;
+    private BoxFacade boxFacade;
 
     @Inject
-    private BoxFacade boxFacade;
+    public DescribeService(PropertyCollectionParser propertyParser, BoxFacade boxFacade){
+        this.propertyParser = propertyParser;
+        this.boxFacade = boxFacade;
+    }
 
     public TypeElementCollection buildTypeElementsFromMetadataTemplates(String accessToken) {
         // If no access token is provided, then don't try and create Types from Metadata templates

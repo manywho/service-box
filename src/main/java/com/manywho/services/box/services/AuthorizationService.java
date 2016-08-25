@@ -21,11 +21,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AuthorizationService {
-    @Inject
     private BoxFacade boxFacade;
+    private ObjectMapperService objectMapperService;
 
     @Inject
-    private ObjectMapperService objectMapperService;
+    public AuthorizationService(BoxFacade boxFacade, ObjectMapperService objectMapperService) {
+        this.boxFacade = boxFacade;
+        this.objectMapperService = objectMapperService;
+    }
 
     public String getUserAuthorizationStatus(Authorization authorization, AuthenticatedWho user) {
         switch (authorization.getGlobalAuthenticationType()) {

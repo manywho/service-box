@@ -18,10 +18,16 @@ public class CacheManager {
     private final static String REDIS_BOX_LISTENER_REQUEST = "service:box:listener-request:webhook:%s:trigger:%s:state:%s";
     private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:*";
     private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH = "service:box:listener-request:webhook:%s:*";
+
     private final static String REDIS_BOX_AUTHENTICATEDWHO = "service:box:autenticatedwho:webhook:%s:state:%s";
+
     private final static String REDIS_BOX_WEBHOOK = "service:box:webhook:targettype:%s:targetid:%s";
+
     private final static String REDIS_BOX_FLOW_LISTENING = "service:box:listen:targettype:%s:targetid:%s:trigger:%s";
+
     private final static String REDIS_BOX_CREDENTIALS = "service:box:user:%s:credentials";
+    private final static String REDIS_BOX_TOKEN_AS_A_KEY = "service:box:user:token:%s";
+    private final static String REDIS_BOX_FLOW_HEADER ="service:box:box-userid:%s:flow-auth-header";
 
     private JedisPool jedisPool;
     private ObjectMapper objectMapper;
@@ -32,7 +38,51 @@ public class CacheManager {
         this.objectMapper = objectMapper;
     }
 
-    public void saveCredentails(String boxUserId, Credentials credentials) throws Exception {
+    public void saveFlowHeaderByUser(String boxUserId, String header) throws Exception {
+        String key = String.format(REDIS_BOX_FLOW_HEADER, boxUserId);
+
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(key, objectMapper.writeValueAsString(header));
+        }
+    }
+
+    public String getFlowHeaderByUser(String boxUserId) throws Exception {
+        try (Jedis jedis = jedisPool.getResource()) {
+            String credentials = jedis.get(String.format(REDIS_BOX_FLOW_HEADER, boxUserId));
+
+            if (StringUtils.isNotEmpty(credentials)) {
+                return objectMapper.readValue(credentials, String.class);
+            }
+        }
+
+        return null;
+    }
+
+    public void saveUserIdByTokenKey(String accessTokenKey, String userId) throws Exception {
+        String key = String.format(REDIS_BOX_TOKEN_AS_A_KEY, accessTokenKey);
+
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(key, objectMapper.writeValueAsString(userId));
+        }
+    }
+
+    public String getUserIdByTokenKey(String accessTokenKey) throws Exception {
+        try (Jedis jedis = jedisPool.getResource()) {
+            String credentials = jedis.get(String.format(REDIS_BOX_TOKEN_AS_A_KEY, accessTokenKey));
+
+            if (StringUtils.isNotEmpty(credentials)) {
+                return objectMapper.readValue(credentials, String.class);
+            }
+        }
+
+        return null;
+    }
+
+    public Credentials getCredentialsByTokenKey(String tokenKey) throws Exception {
+        return getCredentials(this.getUserIdByTokenKey(tokenKey));
+    }
+
+    public void saveCredentials(String boxUserId, Credentials credentials) throws Exception {
         String key = String.format(REDIS_BOX_CREDENTIALS, boxUserId);
 
         try (Jedis jedis = jedisPool.getResource()) {
@@ -51,7 +101,6 @@ public class CacheManager {
 
         return null;
     }
-
 
     public void saveFlowListener(String targetType, String targetId, String trigger, ExecutionFlowMetadata executionFlowMetadata) throws Exception {
         String key = String.format(REDIS_BOX_FLOW_LISTENING, targetType, targetId, trigger);

@@ -14,11 +14,14 @@ import javax.inject.Inject;
 import java.util.List;
 
 public class DatabaseSaveService {
-    @Inject
     private BoxFacade boxFacade;
+    private ObjectMapperService objectMapperService;
 
     @Inject
-    private ObjectMapperService objectMapperService;
+    public DatabaseSaveService(BoxFacade boxFacade, ObjectMapperService objectMapperService) {
+        this.boxFacade = boxFacade;
+        this.objectMapperService = objectMapperService;
+    }
 
     public Object saveFileMetadata(String token, ObjectDataType objectDataType, MObject metadataObject) throws Exception {
         // Get the virtual ___file property from the given Metadata object

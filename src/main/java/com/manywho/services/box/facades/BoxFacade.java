@@ -4,7 +4,9 @@ import com.box.sdk.*;
 import com.box.sdk.BoxWebHook.Trigger;
 import com.google.common.collect.Lists;
 import com.manywho.services.box.configuration.SecurityConfiguration;
+import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.MetadataSearch;
+import com.manywho.services.box.managers.CacheManager;
 import com.manywho.services.box.services.TokenCacheService;
 import javax.inject.Inject;
 import java.io.IOException;
@@ -14,24 +16,31 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class BoxFacade {
     private final SecurityConfiguration securityConfiguration;
     private com.box.sdk.RequestInterceptor requestInterceptor;
     private TokenCacheService tokenCacheService;
+    private CacheManager cacheManager;
 
     @Inject
     public BoxFacade(SecurityConfiguration securityConfiguration, RequestInterceptor requestInterceptor,
-                     TokenCacheService tokenCacheService) {
+                     TokenCacheService tokenCacheService, CacheManager cacheManager) {
 
         this.securityConfiguration = securityConfiguration;
         this.requestInterceptor = requestInterceptor;
         this.tokenCacheService = tokenCacheService;
+        this.cacheManager = cacheManager;
     }
 
     public BoxAPIConnection authenticateUser(String clientId, String clientSecret, String authorizationCode) {
         return createApiConnection(clientId, clientSecret, authorizationCode);
+    }
+
+    public BoxAPIConnection confirmUserAuthentication(String accessToken) {
+        return createApiConnection(accessToken);
     }
 
     public BoxDeveloperEditionAPIConnection createDeveloperApiConnection(String enterpriseId) throws IOException {
@@ -52,7 +61,11 @@ public class BoxFacade {
     }
 
     public BoxUser.Info getCurrentUser(String accessToken) {
-        return BoxUser.getCurrentUser(createApiConnection(accessToken)).getInfo();
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        BoxUser.Info boxUser =  BoxUser.getCurrentUser(boxAPIConnection).getInfo();
+        boxAPIConnection.getRefreshToken();
+
+        return boxUser;
     }
 
     public BoxFolder getFolder(String accessToken, String id) {
@@ -60,14 +73,18 @@ public class BoxFacade {
     }
 
     public BoxFile getFile(String accessToken, String id) {
-        return new BoxFile(createApiConnection(accessToken), id);
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        BoxFile boxFile = new BoxFile(boxAPIConnection, id);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return boxFile;
     }
 
     public BoxAPIConnection getValidBoxApiConnection(String accessToken, String refreshToken) {
-        BoxAPIConnection boxAPIConnection = createApiConnection(securityConfiguration.getOauth2ContentApiClientId(),
-                securityConfiguration.getOauth2ContentApiClientSecret(), accessToken, refreshToken);
-
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
         BoxUser.getCurrentUser(boxAPIConnection);
+        updateCredentials(boxAPIConnection, accessToken);
+
         return boxAPIConnection;
     }
 
@@ -98,27 +115,6 @@ public class BoxFacade {
 
     public BoxTask getTask(String accessToken, String id) {
         return new BoxTask(createApiConnection(accessToken), id);
-    }
-
-    private BoxAPIConnection createApiConnection(String accessToken) {
-        BoxAPIConnection boxAPIConnection = new BoxAPIConnection(accessToken);
-        boxAPIConnection.setRequestInterceptor(requestInterceptor);
-
-        return boxAPIConnection;
-    }
-
-    private BoxAPIConnection createApiConnection(String clientId, String clientSecret, String authorizationCode) {
-        BoxAPIConnection boxAPIConnection = new BoxAPIConnection(clientId, clientSecret, authorizationCode);
-        boxAPIConnection.setRequestInterceptor(requestInterceptor);
-
-        return boxAPIConnection;
-    }
-
-    private BoxAPIConnection createApiConnection(String clientId, String clientSecret, String accessToken, String refreshToken) {
-        BoxAPIConnection boxAPIConnection = new BoxAPIConnection(clientId, clientSecret, accessToken, refreshToken);
-        boxAPIConnection.setRequestInterceptor(requestInterceptor);
-
-        return boxAPIConnection;
     }
 
     public void copyFile(String accessToken, String fileId, String folderId, String newName) {
@@ -169,8 +165,10 @@ public class BoxFacade {
     }
 
     public void updateWebhook(String accessToken, String webhookId, BoxWebHook.Info info) {
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
         BoxWebHook boxWebHook = new BoxWebHook(createApiConnection(accessToken), webhookId);
         boxWebHook.updateInfo(info);
+        updateCredentials(boxAPIConnection, accessToken);
     }
 
     public BoxSharedLink createSharedLink(String accessToken, String id) {
@@ -178,5 +176,79 @@ public class BoxFacade {
         permissions.setCanDownload(true);
 
         return new BoxFile(createApiConnection(accessToken), id).createSharedLink(BoxSharedLink.Access.OPEN, null, permissions);
+    }
+
+    private BoxAPIConnection createApiConnection(String clientId, String clientSecret, String authorizationCode) {
+        BoxAPIConnection boxAPIConnection = new BoxAPIConnection(clientId, clientSecret, authorizationCode);
+        boxAPIConnection.setRequestInterceptor(requestInterceptor);
+
+        return boxAPIConnection;
+    }
+
+    private BoxAPIConnection createApiConnection(String accessToken) {
+        Credentials credentials = getLastCredentials(accessToken);
+
+        BoxAPIConnection boxAPIConnection;
+        boxAPIConnection = new BoxAPIConnection(securityConfiguration.getOauth2ContentApiClientId(),
+                    securityConfiguration.getOauth2ContentApiClientSecret(), credentials.getAccessToken(), credentials.getRefreshToken());
+
+//        if(boxAPIConnection.needsRefresh()) {
+//            boxAPIConnection = new BoxAPIConnection(securityConfiguration.getOauth2ContentApiClientId(),
+//                    securityConfiguration.getOauth2ContentApiClientSecret(), credentials.getAccessToken(), credentials.getRefreshToken());
+//        }
+
+         if(boxAPIConnection.getRefreshToken() != null && !Objects.equals(credentials.getRefreshToken(), boxAPIConnection.getRefreshToken())) {
+            try {
+                cacheManager.saveCredentials(credentials.getBoxUserId(), credentials);
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+
+        boxAPIConnection.setRequestInterceptor(requestInterceptor);
+
+        return boxAPIConnection;
+    }
+
+    private void updateCredentials(BoxAPIConnection boxAPIConnection, String accessToken) {
+        Credentials credentials;
+
+        try {
+            credentials = getLastCredentials(accessToken);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        if (!Objects.equals(boxAPIConnection.getRefreshToken(), credentials.getRefreshToken())) {
+            credentials.setRefreshToken(boxAPIConnection.getRefreshToken());
+        }
+
+        if (!Objects.equals(boxAPIConnection.getAccessToken(), credentials.getAccessToken())) {
+            credentials.setAccessToken(boxAPIConnection.getAccessToken());
+        }
+
+        try {
+            if(credentials.getBoxUserId() != null) {
+                cacheManager.saveCredentials(credentials.getBoxUserId(), credentials);
+                cacheManager.saveUserIdByTokenKey(credentials.getAccessToken(), credentials.getBoxUserId());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    private Credentials getLastCredentials(String accessTokenKey) {
+        try {
+            Credentials credentials = cacheManager.getCredentialsByTokenKey(accessTokenKey);
+            if (credentials == null) {
+
+                return new Credentials(accessTokenKey, null, null);
+            } else {
+
+                return credentials;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

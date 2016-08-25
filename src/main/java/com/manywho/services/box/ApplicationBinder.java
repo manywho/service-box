@@ -1,9 +1,9 @@
 package com.manywho.services.box;
 
 import com.box.sdk.RequestInterceptor;
-import com.manywho.sdk.client.raw.RawRunClient;
 import com.manywho.sdk.services.config.RedisConfiguration;
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
+import com.manywho.services.box.clients.ExtendedRawRunClient;
 import com.manywho.services.box.configuration.FlowConfiguration;
 import com.manywho.services.box.configuration.RedisConfig;
 import com.manywho.services.box.configuration.SecurityConfiguration;
@@ -41,7 +41,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(TaskManager.class).to(TaskManager.class);
         bind(TaskService.class).to(TaskService.class);
         bind(WebhookManager.class).to(WebhookManager.class);
-        bind(WebhookService.class).to(WebhookService.class);
+        bind(WebhookTriggersService.class).to(WebhookTriggersService.class);
         bind(CacheManager.class).to(CacheManager.class);
         bind(EventManager.class).to(EventManager.class);
         bind(CallbackWebhookManager.class).to(CallbackWebhookManager.class);
@@ -51,6 +51,9 @@ public class ApplicationBinder extends AbstractBinder {
         bind(CallbackService.class).to(CallbackService.class);
         bind(LaunchFlowManager.class).to(LaunchFlowManager.class);
         bind(FlowService.class).to(FlowService.class);
-        bind(RawRunClient.class).to(RawRunClient.class);
+        bind(ExtendedRawRunClient.class).to(ExtendedRawRunClient.class);
+        bind(AssignFlowManager.class).to(AssignFlowManager.class);
+        bind(ListenerService.class).to(ListenerService.class);
+        bind(WebhookHandlerManager.class).to(WebhookHandlerManager.class);
     }
 }

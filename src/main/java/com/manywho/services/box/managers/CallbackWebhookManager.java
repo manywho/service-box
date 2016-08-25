@@ -1,17 +1,28 @@
 package com.manywho.services.box.managers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.CaseFormat;
+import com.google.common.base.Charsets;
 import com.manywho.sdk.entities.run.EngineInitializationResponse;
+import com.manywho.sdk.entities.run.EngineInvokeRequest;
+import com.manywho.sdk.entities.run.EngineInvokeResponse;
 import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
+import com.manywho.sdk.entities.run.elements.map.MapElementInvokeRequest;
 import com.manywho.sdk.entities.run.elements.type.MObject;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
-import com.manywho.services.box.entities.Credentials;
+import com.manywho.sdk.enums.InvokeType;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import com.manywho.services.box.services.DatabaseLoadService;
 import com.manywho.services.box.services.FlowService;
 import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
-
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
 import javax.inject.Inject;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CallbackWebhookManager {
     @Inject
@@ -25,6 +36,9 @@ public class CallbackWebhookManager {
 
     @Inject
     private FlowService flowService;
+
+    @Inject
+    private ObjectMapper objectMapper;
 
     public void processEventFile(String webhookId, String targetId, String triggerType) throws Exception {
         AuthenticatedWho authenticatedWho;
@@ -50,15 +64,50 @@ public class CallbackWebhookManager {
         }
     }
 
-    public void proccessEventFileForFlow(String boxWebhookCreatorId, String targetType, String targetId, String triggerType) throws Exception {
+    public void processEventFileForFlow(String boxWebhookCreatorId, String targetType, String targetId, String triggerType) throws Exception {
         ExecutionFlowMetadata executionFlowMetadata = cacheManager.getFlowListener(targetType, targetId, triggerType);
         if (executionFlowMetadata == null) return;
 
-        Credentials credentials = cacheManager.getCredentials(boxWebhookCreatorId);
-        cacheManager.saveCredentails(boxWebhookCreatorId, credentials);
-        cacheManager.saveFlowListener(targetType, targetId,triggerType, executionFlowMetadata);
+        AuthenticatedWho authenticationWho = getAuthenticatedWhoObject(cacheManager.getFlowHeaderByUser(boxWebhookCreatorId));
 
-        EngineInitializationResponse flow =flowService.startFlowAfterWebhook(credentials, executionFlowMetadata, targetType, targetId);
-        flowService.joinFlow(executionFlowMetadata, flow.getStateId(), null);
+        EngineInitializationResponse flow;
+        flow = flowService.initializeFlowWithoutAuthentication(executionFlowMetadata);
+        String code = flowService.getFlowAuthenticationCode(flow.getStateId(), authenticationWho, null, null, null, null);
+        flow = flowService.initializeFlowWithAuthentication(executionFlowMetadata, targetType, targetId, code);
+
+        EngineInvokeRequest engineInvokeRequest = new EngineInvokeRequest();
+        engineInvokeRequest.setStateId(flow.getStateId());
+        engineInvokeRequest.setInvokeType(InvokeType.Forward);
+        engineInvokeRequest.setStateToken(flow.getStateToken());
+        engineInvokeRequest.setStateId(flow.getStateId());
+        engineInvokeRequest.setCurrentMapElementId(flow.getCurrentMapElementId());
+        engineInvokeRequest.setMapElementInvokeRequest(new MapElementInvokeRequest());
+
+        EngineInvokeResponse engineInvokeResponse = flowService.executeFlow(executionFlowMetadata.getTenantId(), code, engineInvokeRequest);
     }
+
+    private AuthenticatedWho getAuthenticatedWhoObject(String authorizationHeader) {
+        if (authorizationHeader == null) {
+            return null;
+        }
+
+        String decodedHeader;
+
+        try {
+            decodedHeader = URLDecoder.decode(authorizationHeader, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Unable to deserialize the incoming AuthenticatedWho", e);
+        }
+
+        Map<String, String> pairs = URLEncodedUtils.parse(decodedHeader, Charsets.UTF_8)
+                .stream()
+                .map(pair -> new BasicNameValuePair(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, pair.getName()), pair.getValue()))
+                .collect(Collectors.toMap(
+                        entry -> CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, entry.getName()),
+                        BasicNameValuePair::getValue
+                ));
+
+        return objectMapper.convertValue(pairs, AuthenticatedWho.class);
+    }
+
 }

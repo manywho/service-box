@@ -18,12 +18,14 @@ import java.util.stream.Collectors;
 
 public class DatabaseLoadService {
     private static final int MAX_FILE_SIZE_FOR_LOADING_CONTENT = 100000;
-
-    @Inject
     private BoxFacade boxFacade;
+    private ObjectMapperService objectMapperService;
 
     @Inject
-    private ObjectMapperService objectMapperService;
+    public DatabaseLoadService(BoxFacade boxFacade, ObjectMapperService objectMapperService){
+        this.boxFacade = boxFacade;
+        this.objectMapperService = objectMapperService;
+    }
 
     public Object loadFile(String token, String id) throws Exception {
         BoxFile file = boxFacade.getFile(token, id);

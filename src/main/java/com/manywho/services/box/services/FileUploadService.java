@@ -14,9 +14,12 @@ import java.io.InputStream;
 import java.util.Optional;
 
 public class FileUploadService {
+    private BoxFacade boxFacade;
 
     @Inject
-    private BoxFacade boxFacade;
+    public FileUploadService(BoxFacade boxFacade){
+        this.boxFacade = boxFacade;
+    }
 
     public BodyPart getFilePart(FormDataMultiPart formDataMultiPart) throws Exception {
         // If the filename is blank or doesn't exist, assume it's the FileDataRequest and skip it

@@ -1,24 +1,39 @@
 package com.manywho.services.box.services;
 
-import com.manywho.sdk.client.raw.RawRunClient;
 import com.manywho.sdk.entities.draw.flow.FlowId;
 import com.manywho.sdk.entities.run.*;
+import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.enums.ContentType;
-import com.manywho.services.box.entities.Credentials;
+import com.manywho.sdk.enums.FlowMode;
+import com.manywho.services.box.clients.ExtendedRawRunClient;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
+import com.manywho.services.box.entities.InitializationRequest;
 
 import javax.inject.Inject;
 import java.util.UUID;
 
 public class FlowService {
-    final private RawRunClient runClient;
+    final private ExtendedRawRunClient runClient;
 
     @Inject
-    public FlowService(RawRunClient runClient) {
+    public FlowService(ExtendedRawRunClient runClient) {
         this.runClient = runClient;
     }
 
-    public EngineInitializationResponse startFlow(String tenantId, FlowId flowId, ExecutionFlowMetadata executionFlowMetadata, String targetType, String targetId) throws Exception {
+    public String getFlowAuthenticationCode(String stateId, AuthenticatedWho authenticatedWho, String password, String sessionToken, String sessionUrl, String loginUrl ) {
+        InitializationRequest initializationRequest = new InitializationRequest();
+        initializationRequest.setUsername(authenticatedWho.getUsername());
+        initializationRequest.setLoginUrl(loginUrl);
+        initializationRequest.setPassword(password);
+        initializationRequest.setSessionToken(sessionToken);
+        initializationRequest.setToken(authenticatedWho.getToken());
+        initializationRequest.setSessionUrl(sessionUrl);
+
+
+        return runClient.authentication(UUID.fromString(stateId), UUID.fromString(authenticatedWho.getManyWhoTenantId()), initializationRequest);
+    }
+
+    public EngineInitializationResponse startFlow(String tenantId, FlowId flowId, ExecutionFlowMetadata executionFlowMetadata, String targetType, String targetId, String auth) throws Exception {
         EngineInitializationRequest engineInitializationRequest = new EngineInitializationRequest();
         engineInitializationRequest.setFlowId(flowId);
 
@@ -33,13 +48,27 @@ public class FlowService {
 
         engineInitializationRequest.setInputs(engineValues);
 
-        return runClient.initialize(UUID.fromString(tenantId), null, engineInitializationRequest);
+        return runClient.initialize(UUID.fromString(tenantId), auth, engineInitializationRequest);
     }
 
-    public EngineInitializationResponse startFlowAfterWebhook(Credentials credentials,
-                                                              ExecutionFlowMetadata executionFlowMetadata,
-                                                              String targetType, String targetId) throws Exception {
+    public EngineInitializationResponse initializeFlowWithoutAuthentication(ExecutionFlowMetadata executionFlowMetadata) throws Exception {
 
+        EngineInitializationRequest engineInitializationRequest = new EngineInitializationRequest();
+        engineInitializationRequest.setMode(FlowMode.Default.toString());
+
+        if(executionFlowMetadata.getFlowVersionId() == null) {
+            engineInitializationRequest.setFlowId(new FlowId(executionFlowMetadata.getFlowId()));
+        } else {
+            engineInitializationRequest.setFlowId(new FlowId(executionFlowMetadata.getFlowId(), executionFlowMetadata.getFlowVersionId()));
+        }
+
+        return runClient.initialize(UUID.fromString(executionFlowMetadata.getTenantId()), null, engineInitializationRequest);
+    }
+
+
+    public EngineInitializationResponse initializeFlowWithAuthentication(ExecutionFlowMetadata executionFlowMetadata,
+                                                                         String targetType, String targetId,
+                                                                         String header) throws Exception {
         EngineInitializationRequest engineInitializationRequest = new EngineInitializationRequest();
 
         if(executionFlowMetadata.getFlowVersionId() == null) {
@@ -51,14 +80,12 @@ public class FlowService {
         EngineValueCollection engineValues = new EngineValueCollection();
         engineValues.add(new EngineValue("webhook-target-id", ContentType.String, targetId));
         engineValues.add(new EngineValue("webhook-target-type", ContentType.String, targetType));
-        // todo probably need to be passed in the header
-        engineValues.add(new EngineValue("access token", ContentType.String, credentials.getAccessToken()));
         engineInitializationRequest.setInputs(engineValues);
 
-        return runClient.initialize(UUID.fromString(executionFlowMetadata.getTenantId()), null, engineInitializationRequest);
+        return runClient.initialize(UUID.fromString(executionFlowMetadata.getTenantId()), header, engineInitializationRequest);
     }
 
-    public EngineInvokeResponse joinFlow(ExecutionFlowMetadata executionFlowMetadata, String stateId, String auth){
-       return runClient.join(UUID.fromString(executionFlowMetadata.getTenantId()), UUID.fromString(stateId), auth);
+    public EngineInvokeResponse executeFlow(String tenantId, String auth, EngineInvokeRequest engineInvokeRequest) {
+        return runClient.execute(UUID.fromString(tenantId), auth, engineInvokeRequest);
     }
 }

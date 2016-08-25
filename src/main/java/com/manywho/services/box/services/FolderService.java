@@ -7,11 +7,14 @@ import com.manywho.services.box.facades.BoxFacade;
 import javax.inject.Inject;
 
 public class FolderService {
-    @Inject
     private BoxFacade boxFacade;
+    private ObjectMapperService objectMapperService;
 
     @Inject
-    private ObjectMapperService objectMapperService;
+    public FolderService(BoxFacade boxFacade, ObjectMapperService objectMapperService) {
+        this.boxFacade = boxFacade;
+        this.objectMapperService = objectMapperService;
+    }
 
     public Object createFolder(String token, String parentFolderId, String name) throws Exception {
         BoxFolder.Info folder = boxFacade.createFolder(token, parentFolderId, name);

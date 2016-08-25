@@ -1,48 +1,63 @@
 package com.manywho.services.box.managers;
 
 import com.box.sdk.BoxWebHook;
-import com.manywho.services.box.services.WebhookService;
+import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.services.WebhookTriggersService;
 import javax.inject.Inject;
 import javax.ws.rs.core.UriInfo;
 import java.util.HashSet;
 import java.util.Set;
 
 public class WebhookManager {
-    private WebhookService webhookService;
+    private WebhookTriggersService webhookTriggersService;
     private CacheManager cacheManager;
+    private BoxFacade boxFacade;
     private UriInfo uriInfo;
 
     @Inject
-    public WebhookManager(WebhookService webhookService, CacheManager cacheManager, UriInfo uriInfo) {
-        this.webhookService = webhookService;
+    public WebhookManager(WebhookTriggersService webhookTriggersService, CacheManager cacheManager, UriInfo uriInfo, BoxFacade boxFacade) {
+        this.webhookTriggersService = webhookTriggersService;
         this.cacheManager = cacheManager;
         this.uriInfo = uriInfo;
+        this.boxFacade = boxFacade;
     }
 
     public BoxWebHook.Info createWebhook(String userToken, String token, String targetType, String targetId, BoxWebHook.Trigger trigger) throws Exception {
         Set<BoxWebHook.Trigger> triggersToSend = new HashSet<>();
         triggersToSend.add(trigger);
 
-        BoxWebHook.Info webhookInfo = webhookService.createWebhook(userToken, targetId, targetType,
-                "https://" + uriInfo.getAbsolutePath().getHost() + "/api/box/3/webhook/callback", triggersToSend);
+        BoxWebHook.Info webhook = boxFacade.createWebhook(userToken, targetId, targetType, "https://" + uriInfo.getAbsolutePath().getHost() + "/api/box/3/webhook/callback", triggersToSend);
 
-        cacheManager.saveWebhook(targetType, targetId, webhookInfo.getID());
+        if (webhook == null) {
+            throw new Exception("Unable to create a Webhook with the name");
+        }
 
-        return webhookInfo;
+        cacheManager.saveWebhook(targetType, targetId, webhook.getID());
+
+        return webhook;
     }
 
     public BoxWebHook.Info getWebhookInfo(String userToken, String token, String webhookId) throws Exception {
 
-        return webhookService.getWebhookInfo(userToken, webhookId);
+        BoxWebHook.Info webhook = boxFacade.getWebhook(userToken, webhookId);
+        if (webhook == null) {
+            throw new Exception("Unable to get a Webhook with id" + webhookId);
+        }
+
+        return webhook;
     }
 
     public void addTriggerToWebhookInfo(String accessToken, BoxWebHook.Info info, String trigger)
     {
-        webhookService.addTriggerToWebhookInfo(info, BoxWebHook.Trigger.fromValue(trigger));
-        webhookService.updateWebhookInfo(accessToken, info.getResource().getID(), info);
+        webhookTriggersService.addTriggerToWebhookInfo(info, BoxWebHook.Trigger.fromValue(trigger));
+        updateWebhookInfo(accessToken, info.getResource().getID(), info);
     }
 
     public void deleteWebhook(String userToken, String id) {
-        webhookService.deleteWebhook(userToken, id);
+        boxFacade.deleteWebhook(userToken, id);
+    }
+
+    public void updateWebhookInfo(String token, String webhookId, BoxWebHook.Info info) {
+        boxFacade.updateWebhook(token, webhookId, info);
     }
 }

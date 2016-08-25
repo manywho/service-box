@@ -7,15 +7,22 @@ import com.manywho.sdk.enums.AuthenticationStatus;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.facades.BoxFacade;
 import com.manywho.services.box.managers.CacheManager;
+
 import javax.inject.Inject;
 
 public class AuthenticationService {
-
-    @Inject
     private BoxFacade boxFacade;
+    private CacheManager cacheManager;
 
     @Inject
-    private CacheManager cacheManager;
+    public AuthenticationService(BoxFacade boxFacade, CacheManager cacheManager) {
+        this.boxFacade = boxFacade;
+        this.cacheManager = cacheManager;
+    }
+
+    public BoxAPIConnection confirmUserAuthenticationWithBox(String accessToken) {
+        return boxFacade.confirmUserAuthentication(accessToken);
+    }
 
     public BoxAPIConnection authenticateUserWithBox(String clientId, String clientSecret, String code) {
         return boxFacade.authenticateUser(clientId, clientSecret, code);
@@ -44,15 +51,18 @@ public class AuthenticationService {
 
     public Credentials updateCredentials(String boxUserId) throws Exception {
         Credentials credentials = cacheManager.getCredentials(boxUserId);
-        BoxAPIConnection boxAPIConnection = boxFacade.getValidBoxApiConnection(credentials.getAccessToken(),
-                credentials.getRefreshToken());
-        credentials.setAccessToken(boxAPIConnection.getAccessToken());
 
-        if( boxAPIConnection.getRefreshToken() != null && !boxAPIConnection.getRefreshToken().isEmpty()) {
-            credentials.setRefreshToken(boxAPIConnection.getRefreshToken());
+        if(credentials!=  null) {
+            BoxAPIConnection boxAPIConnection = boxFacade.getValidBoxApiConnection(credentials.getAccessToken(),
+                    credentials.getRefreshToken());
+            credentials.setAccessToken(boxAPIConnection.getAccessToken());
+
+            if (boxAPIConnection.getRefreshToken() != null && !boxAPIConnection.getRefreshToken().isEmpty()) {
+                credentials.setRefreshToken(boxAPIConnection.getRefreshToken());
+            }
+
+            cacheManager.saveCredentials(boxUserId, credentials);
         }
-
-        cacheManager.saveCredentails(boxUserId, credentials);
 
         return credentials;
     }

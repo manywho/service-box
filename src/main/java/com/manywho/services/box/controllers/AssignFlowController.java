@@ -1,15 +1,14 @@
 package com.manywho.services.box.controllers;
 
-import com.box.sdk.BoxAPIConnection;
 import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
 import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.PropertyCollectionParser;
 import com.manywho.sdk.services.annotations.AuthorizationRequired;
 import com.manywho.sdk.services.controllers.AbstractController;
-import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import com.manywho.services.box.entities.requests.AssignFlowWebhookCreate;
-import com.manywho.services.box.managers.LaunchFlowManager;
+import com.manywho.services.box.managers.AssignFlowManager;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -21,13 +20,14 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AssignFlowController extends AbstractController{
-    private LaunchFlowManager launchFlowManager;
     private PropertyCollectionParser propertyParser;
+    private AssignFlowManager assignFlowManager;
 
     @Inject
-    public AssignFlowController(LaunchFlowManager launchFlowManager, PropertyCollectionParser propertyParser) {
-        this.launchFlowManager = launchFlowManager;
+    public AssignFlowController(PropertyCollectionParser propertyParser,
+                                AssignFlowManager assignFlowManager) {
         this.propertyParser = propertyParser;
+        this.assignFlowManager = assignFlowManager;
     }
 
     @Path("/flow")
@@ -35,15 +35,9 @@ public class AssignFlowController extends AbstractController{
     @AuthorizationRequired
     public ServiceResponse assignFlowToWebhook(ServiceRequest serviceRequest) throws Exception {
         AssignFlowWebhookCreate assignFlow = propertyParser.parse(serviceRequest.getInputs(), AssignFlowWebhookCreate.class);
-        ExecutionFlowMetadata executionFlowMetadata = new ExecutionFlowMetadata();
-        executionFlowMetadata.setTrigger(assignFlow.getTrigger());
-        executionFlowMetadata.setFlowId(assignFlow.getFlowId());
-        executionFlowMetadata.setFlowVersionId(assignFlow.getFlowVersionId());
-        executionFlowMetadata.setTenantId(assignFlow.getTenantId());
 
-        BoxAPIConnection boxAPIConnection = new BoxAPIConnection(getAuthenticatedWho().getToken());
-
-        launchFlowManager.createFlowListener(assignFlow.getTargetId(), boxAPIConnection , executionFlowMetadata);
+        assignFlowManager.assignFlowToWebhook(assignFlow, getAuthenticatedWho(),
+                request.getHeaders().get("authorization").get(0));
 
         return new ServiceResponse(InvokeType.Forward, serviceRequest.getToken());
     }

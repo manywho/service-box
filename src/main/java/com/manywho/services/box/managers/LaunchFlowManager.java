@@ -6,7 +6,7 @@ import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import com.manywho.services.box.facades.BoxFacade;
 import com.manywho.services.box.services.AuthenticationService;
 import com.manywho.services.box.services.CallbackService;
-import com.manywho.services.box.services.WebhookService;
+import com.manywho.services.box.services.WebhookTriggersService;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -17,37 +17,22 @@ public class LaunchFlowManager {
     BoxFacade boxFacade;
     CacheManager cacheManager;
     AbstractOauth2Provider oauth2Provider;
-    WebhookService webhookService;
+    WebhookTriggersService webhookTriggersService;
     WebhookManager webhookManager;
     CallbackService callbackService;
 
     @Inject
     public LaunchFlowManager(AuthenticationService authenticationService, BoxFacade boxFacade,
                              AbstractOauth2Provider oauth2Provider, CallbackService callbackService,
-                             WebhookService webhookService, CacheManager cacheManager, WebhookManager webhookManager) {
+                             WebhookTriggersService webhookTriggersService, CacheManager cacheManager, WebhookManager webhookManager) {
 
         this.oauth2Provider = oauth2Provider;
         this.authenticationService = authenticationService;
         this.boxFacade = boxFacade;
         this.callbackService = callbackService;
-        this.webhookService = webhookService;
+        this.webhookTriggersService = webhookTriggersService;
         this.cacheManager = cacheManager;
         this.webhookManager = webhookManager;
-    }
-
-    public void createFlowListener(String fileId, BoxAPIConnection apiConnection, ExecutionFlowMetadata executionFlowMetadata) throws Exception {
-
-        String webhookId = cacheManager.getWebhook("file", fileId);
-        BoxWebHook.Info info;
-
-        if(webhookId != null) {
-            info = webhookManager.getWebhookInfo(apiConnection.getAccessToken(), "", webhookId);
-            webhookManager.addTriggerToWebhookInfo(apiConnection.getAccessToken(), info, executionFlowMetadata.getTrigger());
-        } else {
-            webhookManager.createWebhook(apiConnection.getAccessToken(), "", "FILE", fileId, BoxWebHook.Trigger.fromValue(executionFlowMetadata.getTrigger()));
-        }
-
-        cacheManager.saveFlowListener("file", fileId, executionFlowMetadata.getTrigger(), executionFlowMetadata);
     }
 
     public ExecutionFlowMetadata getExecutionFlowMetadata(String accessToken, String fileId) throws Exception {
