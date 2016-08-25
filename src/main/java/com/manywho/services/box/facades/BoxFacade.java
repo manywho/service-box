@@ -72,6 +72,10 @@ public class BoxFacade {
         return new BoxFolder(createApiConnection(accessToken), id);
     }
 
+    public BoxFile getFileWithWebIntegretionCredentials(String accessToken, String id) {
+        return new BoxFile(new BoxAPIConnection(accessToken), id);
+    }
+
     public BoxFile getFile(String accessToken, String id) {
         BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
         BoxFile boxFile = new BoxFile(boxAPIConnection, id);

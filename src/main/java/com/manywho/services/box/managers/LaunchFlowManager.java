@@ -37,7 +37,7 @@ public class LaunchFlowManager {
 
     public ExecutionFlowMetadata getExecutionFlowMetadata(String accessToken, String fileId) throws Exception {
 
-        BoxFile boxFile = boxFacade.getFile(accessToken, fileId);
+        BoxFile boxFile = boxFacade.getFileWithWebIntegretionCredentials(accessToken, fileId);
 
         List<ExecutionFlowMetadata> fileMetadata = callbackService.getAllPossibleExecutionFlowMetadata(boxFile);
 
