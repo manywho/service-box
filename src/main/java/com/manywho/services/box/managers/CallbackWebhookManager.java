@@ -86,7 +86,7 @@ public class CallbackWebhookManager {
             LOGGER.info(objectMapper.writeValueAsString(flow));
 
             LOGGER.info("getFlowAuthenticationCode");
-            String code = flowService.getFlowAuthenticationCode(flow.getStateId(), authenticationWho.getManyWhoTenantId(), authenticationWho, null, null, null, null);
+            String code = flowService.getFlowAuthenticationCode(flow.getStateId(), executionFlowMetadata.getTenantId(), authenticationWho, null, null, null, null);
             LOGGER.info(objectMapper.writeValueAsString(code));
 
             LOGGER.info("initializeFlowWithAuthentication");
