@@ -7,7 +7,7 @@
         <GELF name="graylog" server="graylog.manywho.net" port="12201" />
     </Appenders>
     <Loggers>
-        <AsyncLogger name="com.manywho.services.box.3" level="all">
+        <AsyncLogger name="com.manywho.services.box" level="all">
             <AppenderRef ref="graylog"/>
         </AsyncLogger>
         <AsyncRoot level="info">
