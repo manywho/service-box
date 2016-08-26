@@ -30,7 +30,7 @@ public class FlowService {
         initializationRequest.setSessionUrl(sessionUrl);
 
 
-        return runClient.authentication(UUID.fromString(stateId), UUID.fromString(authenticatedWho.getManyWhoTenantId()), initializationRequest);
+        return runClient.authentication(UUID.fromString(stateId), UUID.fromString(tenantId), initializationRequest);
     }
 
     public EngineInitializationResponse startFlow(String tenantId, FlowId flowId, ExecutionFlowMetadata executionFlowMetadata, String targetType, String targetId, String auth) throws Exception {
