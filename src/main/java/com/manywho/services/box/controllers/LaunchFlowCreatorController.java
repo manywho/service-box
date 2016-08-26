@@ -10,6 +10,9 @@ import com.manywho.services.box.managers.CacheManager;
 import com.manywho.services.box.managers.LaunchFlowManager;
 import com.manywho.services.box.services.AuthenticationService;
 import com.manywho.services.box.services.FlowService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -25,6 +28,7 @@ public class LaunchFlowCreatorController {
     private FlowService flowService;
     private AbstractOauth2Provider oauth2Provider;
     private FlowConfiguration flowConfiguration;
+    private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
 
     @Inject
     public LaunchFlowCreatorController(LaunchFlowManager launchFlowManager, CacheManager cacheManager,
@@ -63,6 +67,8 @@ public class LaunchFlowCreatorController {
                 oauth2Provider.getClientSecret(), authCode);
 
         ExecutionFlowMetadata executionFlowMetadata = this.launchFlowManager.getExecutionFlowMetadata(apiConnection.getAccessToken(), fileId);
+
+        LOGGER.debug(executionFlowMetadata);
 
         if (executionFlowMetadata.getTrigger()!= null) {
             if( cacheManager.getFlowListener("file", fileId, executionFlowMetadata.getTrigger()) == null) {
