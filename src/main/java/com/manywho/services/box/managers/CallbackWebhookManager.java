@@ -72,6 +72,8 @@ public class CallbackWebhookManager {
 
     public void processEventFileForFlow(String boxWebhookCreatorId, String targetType, String targetId, String triggerType) throws Exception {
         ExecutionFlowMetadata executionFlowMetadata = cacheManager.getFlowListener(targetType, targetId, triggerType);
+        LOGGER.info(objectMapper.writeValueAsString(executionFlowMetadata));
+        
         if (executionFlowMetadata == null) return;
 
         AuthenticatedWho authenticationWho = getAuthenticatedWhoObject(cacheManager.getFlowHeaderByUser(boxWebhookCreatorId));
@@ -90,7 +92,7 @@ public class CallbackWebhookManager {
         engineInvokeRequest.setMapElementInvokeRequest(new MapElementInvokeRequest());
 
         EngineInvokeResponse engineInvokeResponse = flowService.executeFlow(executionFlowMetadata.getTenantId(), code, engineInvokeRequest);
-        
+
         LOGGER.info(objectMapper.writeValueAsString(engineInvokeResponse));
     }
 
