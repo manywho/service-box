@@ -67,6 +67,7 @@ public class FlowService {
 
 
     public EngineInitializationResponse initializeFlowWithAuthentication(ExecutionFlowMetadata executionFlowMetadata,
+                                                                         String tenantId,
                                                                          String targetType, String targetId,
                                                                          String header) throws Exception {
         EngineInitializationRequest engineInitializationRequest = new EngineInitializationRequest();
@@ -82,7 +83,7 @@ public class FlowService {
         engineValues.add(new EngineValue("webhook-target-type", ContentType.String, targetType));
         engineInitializationRequest.setInputs(engineValues);
 
-        return runClient.initialize(UUID.fromString(executionFlowMetadata.getTenantId()), header, engineInitializationRequest);
+        return runClient.initialize(UUID.fromString(tenantId), header, engineInitializationRequest);
     }
 
     public EngineInvokeResponse executeFlow(String tenantId, String auth, EngineInvokeRequest engineInvokeRequest) {

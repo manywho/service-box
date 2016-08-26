@@ -72,6 +72,8 @@ public class CallbackWebhookManager {
 
     public void processEventFileForFlow(String boxWebhookCreatorId, String targetType, String targetId, String triggerType) throws Exception {
         ExecutionFlowMetadata executionFlowMetadata = cacheManager.getFlowListener(targetType, targetId, triggerType);
+        LOGGER.info("Init processEventFileForFlow");
+
         LOGGER.info(objectMapper.writeValueAsString(executionFlowMetadata));
 
         if (executionFlowMetadata == null) return;
@@ -79,13 +81,16 @@ public class CallbackWebhookManager {
         AuthenticatedWho authenticationWho = getAuthenticatedWhoObject(cacheManager.getFlowHeaderByUser(boxWebhookCreatorId));
         try {
             EngineInitializationResponse flow;
+            LOGGER.info("initializeFlowWithoutAuthentication");
             flow = flowService.initializeFlowWithoutAuthentication(executionFlowMetadata);
             LOGGER.info(objectMapper.writeValueAsString(flow));
 
-
-            String code = flowService.getFlowAuthenticationCode(flow.getStateId(), executionFlowMetadata.getTenantId(), authenticationWho, null, null, null, null);
+            LOGGER.info("getFlowAuthenticationCode");
+            String code = flowService.getFlowAuthenticationCode(flow.getStateId(), authenticationWho.getManyWhoTenantId(), authenticationWho, null, null, null, null);
             LOGGER.info(objectMapper.writeValueAsString(code));
-            flow = flowService.initializeFlowWithAuthentication(executionFlowMetadata, targetType, targetId, code);
+
+            LOGGER.info("initializeFlowWithAuthentication");
+            flow = flowService.initializeFlowWithAuthentication(executionFlowMetadata, executionFlowMetadata.getTenantId(), targetType, targetId, code);
             LOGGER.info(objectMapper.writeValueAsString(flow));
 
             EngineInvokeRequest engineInvokeRequest = new EngineInvokeRequest();
@@ -99,7 +104,7 @@ public class CallbackWebhookManager {
             EngineInvokeResponse engineInvokeResponse = flowService.executeFlow(executionFlowMetadata.getTenantId(), code, engineInvokeRequest);
             LOGGER.info(objectMapper.writeValueAsString(engineInvokeResponse));
         } catch (Exception e) {
-            LOGGER.info(e.getMessage());
+            LOGGER.error(e.getMessage());
             throw e;
         }
 
