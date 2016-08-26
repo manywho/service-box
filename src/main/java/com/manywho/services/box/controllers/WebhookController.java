@@ -36,7 +36,7 @@ public class WebhookController {
         String createdByUserId = (String) webhookReturn.getCreatedBy().get("id");
 
         LOGGER.debug(webhookReturn);
-        
+
         webhookHandlerManager.handleWebhook(webhookReturn, webhookId, targetId, targetType, createdByUserId);
     }
 }
