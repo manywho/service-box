@@ -80,9 +80,11 @@ public class CallbackWebhookManager {
         try {
             EngineInitializationResponse flow;
             flow = flowService.initializeFlowWithoutAuthentication(executionFlowMetadata);
+            LOGGER.info(objectMapper.writeValueAsString(flow));
             String code = flowService.getFlowAuthenticationCode(flow.getStateId(), authenticationWho, null, null, null, null);
+            LOGGER.info(objectMapper.writeValueAsString(code));
             flow = flowService.initializeFlowWithAuthentication(executionFlowMetadata, targetType, targetId, code);
-
+            LOGGER.info(objectMapper.writeValueAsString(flow));
             EngineInvokeRequest engineInvokeRequest = new EngineInvokeRequest();
             engineInvokeRequest.setStateId(flow.getStateId());
             engineInvokeRequest.setInvokeType(InvokeType.Forward);
