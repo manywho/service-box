@@ -18,6 +18,10 @@ import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.ParameterizedMessageFactory;
+
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -25,6 +29,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CallbackWebhookManager {
+    private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
+
     @Inject
     private CacheManager cacheManager;
 
@@ -84,6 +90,8 @@ public class CallbackWebhookManager {
         engineInvokeRequest.setMapElementInvokeRequest(new MapElementInvokeRequest());
 
         EngineInvokeResponse engineInvokeResponse = flowService.executeFlow(executionFlowMetadata.getTenantId(), code, engineInvokeRequest);
+        
+        LOGGER.info(objectMapper.writeValueAsString(engineInvokeResponse));
     }
 
     private AuthenticatedWho getAuthenticatedWhoObject(String authorizationHeader) {
