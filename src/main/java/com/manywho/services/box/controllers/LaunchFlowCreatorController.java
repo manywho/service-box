@@ -66,13 +66,14 @@ public class LaunchFlowCreatorController {
 
         if (executionFlowMetadata.getTrigger()!= null) {
             if( cacheManager.getFlowListener("file", fileId, executionFlowMetadata.getTrigger()) == null) {
-                EngineInitializationResponse response = flowService.startFlow(
-                        executionFlowMetadata.getTenantId(),
-                        new FlowId(flowConfiguration.getAssignmentFlowId()),
+                FlowId flowId = new FlowId("b7b520d1-f8e1-4a81-b704-28459ec048a4", "f305045c-a320-4d5b-8482-fb1526a240e3");
+                String tenantId = "2d925770-d411-42b9-9ea3-7ce669397d82";
+
+                EngineInitializationResponse response = flowService.startFlow(tenantId, flowId,
                         executionFlowMetadata, "file", fileId, null);
 
-                String urlRedirect = String.format("https://flow.manywho.com/%s/play/default?join=%s",
-                        executionFlowMetadata.getTenantId(), response.getStateId());
+                String urlRedirect = String.format("https://flow.manywho.com/%s/play/default?join=%s", tenantId,
+                        response.getStateId());
 
                 return Response.temporaryRedirect(new URI(urlRedirect)).build();
             } else {
