@@ -4,7 +4,7 @@
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <GELF name="graylog" server="" port="12201" />
+        <GELF name="graylog" server="graylog.manywho.net" port="12201" />
     </Appenders>
     <Loggers>
         <AsyncLogger name="com.manywho.services.box.3" level="all">
