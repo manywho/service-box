@@ -73,27 +73,32 @@ public class CallbackWebhookManager {
     public void processEventFileForFlow(String boxWebhookCreatorId, String targetType, String targetId, String triggerType) throws Exception {
         ExecutionFlowMetadata executionFlowMetadata = cacheManager.getFlowListener(targetType, targetId, triggerType);
         LOGGER.info(objectMapper.writeValueAsString(executionFlowMetadata));
-        
+
         if (executionFlowMetadata == null) return;
 
         AuthenticatedWho authenticationWho = getAuthenticatedWhoObject(cacheManager.getFlowHeaderByUser(boxWebhookCreatorId));
+        try {
+            EngineInitializationResponse flow;
+            flow = flowService.initializeFlowWithoutAuthentication(executionFlowMetadata);
+            String code = flowService.getFlowAuthenticationCode(flow.getStateId(), authenticationWho, null, null, null, null);
+            flow = flowService.initializeFlowWithAuthentication(executionFlowMetadata, targetType, targetId, code);
 
-        EngineInitializationResponse flow;
-        flow = flowService.initializeFlowWithoutAuthentication(executionFlowMetadata);
-        String code = flowService.getFlowAuthenticationCode(flow.getStateId(), authenticationWho, null, null, null, null);
-        flow = flowService.initializeFlowWithAuthentication(executionFlowMetadata, targetType, targetId, code);
+            EngineInvokeRequest engineInvokeRequest = new EngineInvokeRequest();
+            engineInvokeRequest.setStateId(flow.getStateId());
+            engineInvokeRequest.setInvokeType(InvokeType.Forward);
+            engineInvokeRequest.setStateToken(flow.getStateToken());
+            engineInvokeRequest.setStateId(flow.getStateId());
+            engineInvokeRequest.setCurrentMapElementId(flow.getCurrentMapElementId());
+            engineInvokeRequest.setMapElementInvokeRequest(new MapElementInvokeRequest());
 
-        EngineInvokeRequest engineInvokeRequest = new EngineInvokeRequest();
-        engineInvokeRequest.setStateId(flow.getStateId());
-        engineInvokeRequest.setInvokeType(InvokeType.Forward);
-        engineInvokeRequest.setStateToken(flow.getStateToken());
-        engineInvokeRequest.setStateId(flow.getStateId());
-        engineInvokeRequest.setCurrentMapElementId(flow.getCurrentMapElementId());
-        engineInvokeRequest.setMapElementInvokeRequest(new MapElementInvokeRequest());
+            EngineInvokeResponse engineInvokeResponse = flowService.executeFlow(executionFlowMetadata.getTenantId(), code, engineInvokeRequest);
+            LOGGER.info(objectMapper.writeValueAsString(engineInvokeResponse));
+        } catch (Exception e) {
+            LOGGER.info(e.getMessage());
+            throw e;
+        }
 
-        EngineInvokeResponse engineInvokeResponse = flowService.executeFlow(executionFlowMetadata.getTenantId(), code, engineInvokeRequest);
 
-        LOGGER.info(objectMapper.writeValueAsString(engineInvokeResponse));
     }
 
     private AuthenticatedWho getAuthenticatedWhoObject(String authorizationHeader) {
