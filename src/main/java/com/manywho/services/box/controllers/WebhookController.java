@@ -35,7 +35,7 @@ public class WebhookController {
         String targetType = (String) webhookReturn.getSource().get("type");
         String createdByUserId = (String) webhookReturn.getCreatedBy().get("id");
 
-        LOGGER.debug(webhookReturn);
+        LOGGER.info(webhookReturn);
 
         webhookHandlerManager.handleWebhook(webhookReturn, webhookId, targetId, targetType, createdByUserId);
     }

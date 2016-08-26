@@ -68,7 +68,7 @@ public class LaunchFlowCreatorController {
 
         ExecutionFlowMetadata executionFlowMetadata = this.launchFlowManager.getExecutionFlowMetadata(apiConnection.getAccessToken(), fileId);
 
-        LOGGER.debug(executionFlowMetadata);
+        LOGGER.info(executionFlowMetadata);
 
         if (executionFlowMetadata.getTrigger()!= null) {
             if( cacheManager.getFlowListener("file", fileId, executionFlowMetadata.getTrigger()) == null) {
