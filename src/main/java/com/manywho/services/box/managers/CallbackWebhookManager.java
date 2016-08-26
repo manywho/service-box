@@ -18,9 +18,6 @@ import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
@@ -29,7 +26,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CallbackWebhookManager {
-    private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
 
     @Inject
     private CacheManager cacheManager;
@@ -72,26 +68,14 @@ public class CallbackWebhookManager {
 
     public void processEventFileForFlow(String boxWebhookCreatorId, String targetType, String targetId, String triggerType) throws Exception {
         ExecutionFlowMetadata executionFlowMetadata = cacheManager.getFlowListener(targetType, targetId, triggerType);
-        LOGGER.info("Init processEventFileForFlow");
-
-        LOGGER.info(objectMapper.writeValueAsString(executionFlowMetadata));
-
         if (executionFlowMetadata == null) return;
 
         AuthenticatedWho authenticationWho = getAuthenticatedWhoObject(cacheManager.getFlowHeaderByUser(boxWebhookCreatorId));
         try {
             EngineInitializationResponse flow;
-            LOGGER.info("initializeFlowWithoutAuthentication");
             flow = flowService.initializeFlowWithoutAuthentication(executionFlowMetadata);
-            LOGGER.info(objectMapper.writeValueAsString(flow));
-
-            LOGGER.info("getFlowAuthenticationCode");
             String code = flowService.getFlowAuthenticationCode(flow.getStateId(), executionFlowMetadata.getTenantId(), authenticationWho, null, null, null, null);
-            LOGGER.info(objectMapper.writeValueAsString(code));
-
-            LOGGER.info("initializeFlowWithAuthentication");
             flow = flowService.initializeFlowWithAuthentication(executionFlowMetadata, executionFlowMetadata.getTenantId(), targetType, targetId, code);
-            LOGGER.info(objectMapper.writeValueAsString(flow));
 
             EngineInvokeRequest engineInvokeRequest = new EngineInvokeRequest();
             engineInvokeRequest.setStateId(flow.getStateId());
@@ -102,9 +86,7 @@ public class CallbackWebhookManager {
             engineInvokeRequest.setMapElementInvokeRequest(new MapElementInvokeRequest());
 
             EngineInvokeResponse engineInvokeResponse = flowService.executeFlow(executionFlowMetadata.getTenantId(), code, engineInvokeRequest);
-            LOGGER.info(objectMapper.writeValueAsString(engineInvokeResponse));
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
             throw e;
         }
 

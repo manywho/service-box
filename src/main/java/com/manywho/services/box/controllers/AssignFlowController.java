@@ -39,7 +39,6 @@ public class AssignFlowController extends AbstractController{
     @AuthorizationRequired
     public ServiceResponse assignFlowToWebhook(ServiceRequest serviceRequest) throws Exception {
         AssignFlowWebhookCreate assignFlow = propertyParser.parse(serviceRequest.getInputs(), AssignFlowWebhookCreate.class);
-        LOGGER.info(assignFlow);
 
         assignFlowManager.assignFlowToWebhook(assignFlow, getAuthenticatedWho(),
                 request.getHeaders().get("authorization").get(0));
