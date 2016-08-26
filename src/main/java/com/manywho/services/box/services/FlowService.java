@@ -20,7 +20,7 @@ public class FlowService {
         this.runClient = runClient;
     }
 
-    public String getFlowAuthenticationCode(String stateId, AuthenticatedWho authenticatedWho, String password, String sessionToken, String sessionUrl, String loginUrl ) {
+    public String getFlowAuthenticationCode(String stateId, String tenantId, AuthenticatedWho authenticatedWho, String password, String sessionToken, String sessionUrl, String loginUrl ) {
         InitializationRequest initializationRequest = new InitializationRequest();
         initializationRequest.setUsername(authenticatedWho.getUsername());
         initializationRequest.setLoginUrl(loginUrl);
