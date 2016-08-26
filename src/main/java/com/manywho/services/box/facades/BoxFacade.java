@@ -69,9 +69,21 @@ public class BoxFacade {
     }
 
     public BoxFolder getFolder(String accessToken, String id) {
-        return new BoxFolder(createApiConnection(accessToken), id);
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        BoxFolder boxFolder = new BoxFolder(boxAPIConnection, id);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return boxFolder;
     }
 
+    /**
+     * This method is called using the web integration credentials, these credentials are not valid for webhooks
+     * we don't save these refresh token
+     *
+     * @param accessToken
+     * @param id
+     * @return
+     */
     public BoxFile getFileWithWebIntegretionCredentials(String accessToken, String id) {
         return new BoxFile(new BoxAPIConnection(accessToken), id);
     }
@@ -93,11 +105,19 @@ public class BoxFacade {
     }
 
     public Iterable<BoxGroup.Info> loadGroups(String accessToken) {
-        return BoxGroup.getAllGroups(createApiConnection(accessToken));
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        Iterable<BoxGroup.Info> groups = BoxGroup.getAllGroups(boxAPIConnection);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return groups;
     }
 
     public Iterable<BoxUser.Info> loadUsers(String accessToken) {
-        return BoxUser.getAllEnterpriseUsers(createApiConnection(accessToken));
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        Iterable<BoxUser.Info> users = BoxUser.getAllEnterpriseUsers(boxAPIConnection);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return users;
     }
 
     public Iterable<BoxItem.Info> searchByMetadata(String accessToken, String metadataType, MetadataSearch metadataSearch) {
@@ -118,7 +138,11 @@ public class BoxFacade {
     }
 
     public BoxTask getTask(String accessToken, String id) {
-        return new BoxTask(createApiConnection(accessToken), id);
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        BoxTask boxTask = new BoxTask(boxAPIConnection, id);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return boxTask;
     }
 
     public void copyFile(String accessToken, String fileId, String folderId, String newName) {
@@ -128,31 +152,38 @@ public class BoxFacade {
     }
 
     public void moveFile(String accessToken, String fileId, String folderId, String newName) {
-        BoxAPIConnection apiConnection = createApiConnection(accessToken);
-
-        new BoxFile(apiConnection, fileId).move(new BoxFolder(apiConnection, folderId), newName);
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        new BoxFile(boxAPIConnection, fileId).move(new BoxFolder(boxAPIConnection, folderId), newName);
+        updateCredentials(boxAPIConnection, accessToken);
     }
 
     public BoxFolder.Info createFolder(String accessToken, String parentFolderId, String name) {
-        return new BoxFolder(createApiConnection(accessToken), parentFolderId).createFolder(name);
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        BoxFolder.Info boxFolder = new BoxFolder(boxAPIConnection, parentFolderId).createFolder(name);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return boxFolder;
     }
 
     public BoxWebHook.Info createWebhook(String accessToken, String targetId, String targetType, String callbackUri, Set<Trigger> triggersToSend) throws MalformedURLException {
         BoxResource target;
-
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
         switch (targetType) {
             case "FOLDER":
-                target = new BoxFolder(createApiConnection(accessToken), targetId);
+                target = new BoxFolder(boxAPIConnection, targetId);
                 break;
             case "FILE":
-                target = new BoxFile(createApiConnection(accessToken), targetId);
+                target = new BoxFile(boxAPIConnection, targetId);
                 break;
             default:
                 throw new RuntimeException("The target "+ targetType + " does not support triggers");
         }
 
         URL address = new URL(callbackUri);
-        return BoxWebHook.create(target, address, triggersToSend);
+        BoxWebHook.Info webhook = BoxWebHook.create(target, address, triggersToSend);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return  webhook;
     }
 
     public List<BoxMetadataTemplate.Info> getEnterpriseTemplates(String accessToken) {
@@ -160,12 +191,18 @@ public class BoxFacade {
     }
 
     public BoxWebHook.Info getWebhook(String accessToken, String webhookId) throws MalformedURLException {
-        return new BoxWebHook(createApiConnection(accessToken), webhookId).getInfo();
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        BoxWebHook.Info webhook = new BoxWebHook(boxAPIConnection, webhookId).getInfo();
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return webhook;
     }
 
     public void deleteWebhook(String accessToken, String id) {
-        BoxWebHook boxWebHook = new BoxWebHook(createApiConnection(accessToken), id);
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        BoxWebHook boxWebHook = new BoxWebHook(boxAPIConnection, id);
         boxWebHook.delete();
+        updateCredentials(boxAPIConnection, accessToken);
     }
 
     public void updateWebhook(String accessToken, String webhookId, BoxWebHook.Info info) {
@@ -195,11 +232,6 @@ public class BoxFacade {
         BoxAPIConnection boxAPIConnection;
         boxAPIConnection = new BoxAPIConnection(securityConfiguration.getOauth2ContentApiClientId(),
                     securityConfiguration.getOauth2ContentApiClientSecret(), credentials.getAccessToken(), credentials.getRefreshToken());
-
-//        if(boxAPIConnection.needsRefresh()) {
-//            boxAPIConnection = new BoxAPIConnection(securityConfiguration.getOauth2ContentApiClientId(),
-//                    securityConfiguration.getOauth2ContentApiClientSecret(), credentials.getAccessToken(), credentials.getRefreshToken());
-//        }
 
          if(boxAPIConnection.getRefreshToken() != null && !Objects.equals(credentials.getRefreshToken(), boxAPIConnection.getRefreshToken())) {
             try {
