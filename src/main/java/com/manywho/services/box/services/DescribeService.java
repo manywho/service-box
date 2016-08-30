@@ -3,7 +3,6 @@ package com.manywho.services.box.services;
 import com.box.sdk.BoxMetadataTemplate;
 import com.manywho.sdk.entities.draw.elements.type.TypeElement;
 import com.manywho.sdk.entities.draw.elements.type.TypeElementCollection;
-import com.manywho.sdk.entities.run.EngineValueCollection;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.services.PropertyCollectionParser;
 import com.manywho.services.box.entities.Configuration;
@@ -53,9 +52,7 @@ public class DescribeService {
         return typeElements;
     }
 
-    public String fetchEnterpriseAccessToken(EngineValueCollection configurationValues) throws Exception {
-        Configuration configuration = propertyParser.parse(configurationValues, Configuration.class);
-
+    public String fetchEnterpriseAccessToken( Configuration configuration) throws Exception {
         return boxFacade.createDeveloperApiConnection(configuration.getEnterpriseId()).getAccessToken();
     }
 

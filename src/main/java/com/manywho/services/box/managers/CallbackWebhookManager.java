@@ -89,8 +89,6 @@ public class CallbackWebhookManager {
         } catch (Exception e) {
             throw e;
         }
-
-
     }
 
     private AuthenticatedWho getAuthenticatedWhoObject(String authorizationHeader) {
