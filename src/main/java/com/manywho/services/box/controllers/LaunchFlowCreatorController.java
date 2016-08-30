@@ -61,13 +61,16 @@ public class LaunchFlowCreatorController {
      */
     public Response callback(@QueryParam("auth_code") String authCode, @QueryParam("file_id") String fileId,
                              @QueryParam("redirect_to_box") String redirectToBox, @QueryParam("user_id") String userId,
-                             @QueryParam("manywho_uri") String flowUri, @QueryParam("trigger") String trigger)
+                             @QueryParam("flow_uri") String flowUri, @QueryParam("trigger") String trigger)
             throws Exception {
         try {
             BoxAPIConnection apiConnection = authenticationService.authenticateUserWithBox(oauth2Provider.getClientId(),
                     oauth2Provider.getClientSecret(), authCode);
 
             ExecutionFlowMetadata executionFlowMetadata;
+
+            LOGGER.debug(flowUri);
+            LOGGER.debug(trigger);
 
             if (!StringUtils.isEmpty(flowUri) && !StringUtils.isEmpty(trigger)) {
                 executionFlowMetadata = new ExecutionFlowMetadata();
