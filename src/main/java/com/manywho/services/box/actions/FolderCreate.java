@@ -33,7 +33,7 @@ public class FolderCreate extends AbstractAction {
     @Override
     public DescribeValueCollection getServiceOutputs() {
         return new DescribeValueCollection() {{
-            add(new DescribeValue("Folder", ContentType.Object, true, null, Folder.NAME));
+            add(new DescribeValue("Folder", ContentType.Object, false, null, Folder.NAME));
         }};
     }
 }

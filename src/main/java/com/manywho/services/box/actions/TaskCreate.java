@@ -35,7 +35,7 @@ public class TaskCreate extends AbstractAction {
     @Override
     public DescribeValueCollection getServiceOutputs() {
         return new DescribeValueCollection() {{
-            add(new DescribeValue("Task", ContentType.Object, true, null, Task.NAME));
+            add(new DescribeValue("Task", ContentType.Object, false, null, Task.NAME));
         }};
     }
 }
