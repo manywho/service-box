@@ -30,6 +30,8 @@ $ ant -Dsecure.privateKeyLocation=xxx \
 -Doauth2.developerEdition.clientId=xxx \
 -Doauth2.developerEdition.clientSecret=xxx \
 -Dassignment.flowId=xxx \
+-Dassignment.flowVersionId=xxx \
+-Dassignment.tenantId=xxx \
 -Dredis.url=xxx \
 
 ```
