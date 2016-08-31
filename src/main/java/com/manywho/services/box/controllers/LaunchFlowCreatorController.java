@@ -4,6 +4,7 @@ import com.box.sdk.BoxAPIConnection;
 import com.manywho.sdk.entities.draw.flow.FlowId;
 import com.manywho.sdk.entities.run.EngineInitializationResponse;
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
+import com.manywho.services.box.configuration.FlowConfiguration;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import com.manywho.services.box.managers.CacheManager;
 import com.manywho.services.box.managers.LaunchFlowManager;
@@ -28,18 +29,20 @@ public class LaunchFlowCreatorController {
     private AuthenticationService authenticationService;
     private FlowService flowService;
     private AbstractOauth2Provider oauth2Provider;
+    private FlowConfiguration flowConfiguration;
 
     private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
 
     @Inject
     public LaunchFlowCreatorController(LaunchFlowManager launchFlowManager, CacheManager cacheManager,
                                        AuthenticationService authenticationService, FlowService flowService,
-                                       AbstractOauth2Provider oauth2Provider) {
+                                       AbstractOauth2Provider oauth2Provider, FlowConfiguration flowConfiguration) {
         this.launchFlowManager = launchFlowManager;
         this.cacheManager = cacheManager;
         this.authenticationService = authenticationService;
         this.flowService = flowService;
         this.oauth2Provider = oauth2Provider;
+        this.flowConfiguration = flowConfiguration;
     }
 
     @Produces(MediaType.TEXT_HTML)
@@ -108,13 +111,13 @@ public class LaunchFlowCreatorController {
     }
 
     private String getRedirectUri(@QueryParam("file_id") String fileId, ExecutionFlowMetadata executionFlowMetadata) throws Exception {
-        // todo all this need to be in the configuration
-        FlowId flowId = new FlowId("b7b520d1-f8e1-4a81-b704-28459ec048a4", "f305045c-a320-4d5b-8482-fb1526a240e3");
-        String tenantId = "2d925770-d411-42b9-9ea3-7ce669397d82";
 
-        EngineInitializationResponse response = flowService.startFlow(tenantId, flowId,
+        FlowId flowId = new FlowId(flowConfiguration.getAssignmentFlowId(), flowConfiguration.getAssignmentFlowVersionId());
+
+        EngineInitializationResponse response = flowService.startFlow(flowConfiguration.getAssignmentTenantId(), flowId,
                 executionFlowMetadata, "file", fileId, null);
 
-        return String.format("https://flow.manywho.com/%s/play/default?join=%s", tenantId, response.getStateId());
+        return String.format("https://flow.manywho.com/%s/play/default?join=%s",
+                flowConfiguration.getAssignmentTenantId(), response.getStateId());
     }
 }
