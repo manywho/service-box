@@ -1,8 +1,17 @@
 package com.manywho.services.box.configuration;
 
+import com.manywho.sdk.services.config.ServiceConfigurationDefault;
+import com.manywho.sdk.services.config.ServiceConfigurationEnvironmentVariables;
 import com.manywho.sdk.services.config.ServiceConfigurationProperties;
 
-public class SecurityConfiguration extends ServiceConfigurationProperties {
+import javax.inject.Inject;
+
+public class SecurityConfiguration extends ServiceConfigurationDefault {
+    @Inject
+    public SecurityConfiguration(ServiceConfigurationEnvironmentVariables environment, ServiceConfigurationProperties properties) {
+        super(environment, properties);
+    }
+
     public String getOauth2ContentApiClientId() {
         return this.get("oauth2.contentApi.clientId");
     }
