@@ -2,12 +2,12 @@ package com.manywho.services.box.services;
 
 import com.box.sdk.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
-import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
-import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
-import com.manywho.sdk.entities.run.elements.type.Property;
-import com.manywho.sdk.entities.run.elements.type.PropertyCollection;
+import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.utils.StreamUtils;
-import com.manywho.services.box.types.*;
+import com.manywho.services.box.types.Comment;
+import com.manywho.services.box.types.File;
+import com.manywho.services.box.types.Folder;
+import com.manywho.services.box.types.Task;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -111,7 +111,7 @@ public class ObjectMapperService {
     }
 
     public Object convertFileMetadata(BoxFile file, ObjectDataType objectDataType) {
-        Metadata metadata = file.getMetadata("enterprise/" + objectDataType.getDeveloperName());
+        Metadata metadata = file.getMetadata( objectDataType.getDeveloperName());
 
         // Populate all the desired properties from the values in the metadata (except for the virtual ___file field)
         PropertyCollection properties = objectDataType.getProperties()

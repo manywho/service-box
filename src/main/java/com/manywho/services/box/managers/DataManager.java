@@ -52,7 +52,7 @@ public class DataManager {
     public ObjectCollection loadMetadataType(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
         MetadataSearch metadataSearch = new MetadataSearch();
 
-        if (objectDataRequest.getListFilter() != null) {
+        if (objectDataRequest.getListFilter() != null && objectDataRequest.getListFilter().getWhere()!= null) {
             // Add any columns in the filter to the metadata search object
             objectDataRequest.getListFilter().getWhere().stream()
                     .filter(where -> !where.getColumnName().equals("___file"))
