@@ -45,7 +45,7 @@ public class DatabaseSaveService {
             file.updateMetadata("enterprise", convertPropertiesToMetadata(metadataObject, metadata));
         } else {
             // Create a new Metadata item for the file on Box, with the given data
-            file.createMetadata("enterprise/" + metadataType, convertPropertiesToMetadata(metadataObject, new Metadata()));
+            file.createMetadata(metadataType, convertPropertiesToMetadata(metadataObject, new Metadata()));
         }
 
         return objectMapperService.convertFileMetadata(file, objectDataType);
