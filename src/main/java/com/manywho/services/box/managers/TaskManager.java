@@ -1,11 +1,12 @@
 package com.manywho.services.box.managers;
 
 import com.box.sdk.BoxTask;
+import com.box.sdk.BoxTaskAssignment;
 import com.manywho.sdk.entities.run.EngineValue;
 import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
 import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
-import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
+import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.enums.InvokeType;
@@ -15,6 +16,7 @@ import com.manywho.services.box.entities.requests.TaskCreate;
 import com.manywho.services.box.services.ObjectMapperService;
 import com.manywho.services.box.services.TaskService;
 import com.manywho.services.box.types.Task;
+import com.manywho.services.box.types.TaskAssignment;
 
 import javax.inject.Inject;
 
@@ -57,9 +59,17 @@ public class TaskManager {
         // Parse the received ManyWho objects into POJOs
         TaskAddAssignment assignment = propertyCollectionParser.parse(serviceRequest.getInputs(), TaskAddAssignment.class);
         if (assignment != null) {
-            taskService.addAssignmentToTask(user.getToken(), assignment.getTask().getId(), assignment.getAssigneeEmail());
+            BoxTaskAssignment.Info taskInfo = taskService.addAssignmentToTask(user.getToken(), assignment.getTask().getId(), assignment.getAssigneeEmail());
+            Object taskObject = objectMapperService.convertBoxTaskAssignment(taskInfo);
+
+            return new ServiceResponse(
+                    InvokeType.Forward,
+                    new EngineValue("TaskAssignment", ContentType.Object, TaskAssignment.NAME, new ObjectCollection(taskObject)),
+                    serviceRequest.getToken()
+            );
         }
 
-        return new ServiceResponse(InvokeType.Forward, serviceRequest.getToken());
+
+        throw new Exception("An invalid task assignment creation request was given");
     }
 }

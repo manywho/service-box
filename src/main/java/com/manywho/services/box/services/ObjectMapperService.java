@@ -4,10 +4,7 @@ import com.box.sdk.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.utils.StreamUtils;
-import com.manywho.services.box.types.Comment;
-import com.manywho.services.box.types.File;
-import com.manywho.services.box.types.Folder;
-import com.manywho.services.box.types.Task;
+import com.manywho.services.box.types.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -101,9 +98,25 @@ public class ObjectMapperService {
         properties.add(new Property("Message", info.getMessage()));
         properties.add(new Property("Is Completed?", info.isCompleted()));
         properties.add(new Property("Created At", info.getCreatedAt()));
+        properties.add(new Property("File", convertBoxFileBasic(info.getItem())));
 
         Object object = new Object();
         object.setDeveloperName(Task.NAME);
+        object.setExternalId(info.getID());
+        object.setProperties(properties);
+
+        return object;
+    }
+
+
+    public Object convertBoxTaskAssignment(BoxTaskAssignment.Info info) {
+        PropertyCollection properties = new PropertyCollection();
+        properties.add(new Property("ID", info.getID()));
+        properties.add(new Property("Assignee Email", info.getAssignedTo().getLogin()));
+        properties.add(new Property("File", convertBoxFileBasic((BoxFile.Info) info.getItem())));
+
+        Object object = new Object();
+        object.setDeveloperName(TaskAssignment.NAME);
         object.setExternalId(info.getID());
         object.setProperties(properties);
 

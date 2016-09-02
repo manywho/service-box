@@ -1,13 +1,12 @@
 package com.manywho.services.box.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.manywho.services.box.entities.webhook.Source;
 
 import java.util.HashMap;
 
 public class WebhookReturn {
 
-    @JsonProperty("source")
-    private HashMap<String, Object> source;
 
     @JsonProperty("webhook")
     private HashMap<String, Object> webhook;
@@ -18,9 +17,10 @@ public class WebhookReturn {
     @JsonProperty("trigger")
     private String trigger;
 
-    public HashMap<String, Object> getSource() {
-        return source;
-    }
+    @JsonProperty("source")
+    private Source source;
+
+    public Source getSource() {return source;}
 
     public HashMap<String, Object> getWebhook() {
         return webhook;

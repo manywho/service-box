@@ -1,8 +1,6 @@
 package com.manywho.services.box.services;
 
-import com.box.sdk.BoxFile;
-import com.box.sdk.BoxFolder;
-import com.box.sdk.BoxItem;
+import com.box.sdk.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
@@ -37,6 +35,29 @@ public class DatabaseLoadService {
 
         throw new Exception("Unable to load file with ID " + id + " from Box");
     }
+
+    public Object loadTask(String token, String id) throws Exception {
+        BoxTask task = boxFacade.getTask(token, id);
+        if (task != null) {
+            BoxTask.Info info = task.getInfo();
+
+            return objectMapperService.convertBoxTask(info);
+        }
+
+        throw new Exception("Unable to load task with ID " + id + " from Box");
+    }
+
+    public Object loadTaskAssignment(String token, String id) throws Exception {
+        BoxTaskAssignment task = boxFacade.getTaskAssignment(token, id);
+        if (task != null) {
+            BoxTaskAssignment.Info info = task.getInfo();
+
+            return objectMapperService.convertBoxTaskAssignment(info);
+        }
+
+        throw new Exception("Unable to load task with ID " + id + " from Box");
+    }
+
 
     public Object loadFolder(String token, String id) throws Exception {
         BoxFolder folder = boxFacade.getFolder(token, id);

@@ -96,6 +96,14 @@ public class BoxFacade {
         return boxFile;
     }
 
+    public BoxTaskAssignment getTaskAssignment(String accessToken, String id) {
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        BoxTaskAssignment taskAssignment = new BoxTaskAssignment(boxAPIConnection, id);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return taskAssignment;
+    }
+
     public BoxAPIConnection getValidBoxApiConnection(String accessToken, String refreshToken) {
         BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
         BoxUser.getCurrentUser(boxAPIConnection);

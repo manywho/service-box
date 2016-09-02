@@ -12,10 +12,12 @@ import com.manywho.sdk.entities.run.elements.type.MObject;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
+import com.manywho.services.box.facades.BoxFacade;
 import com.manywho.services.box.services.DatabaseLoadService;
 import com.manywho.services.box.services.FlowService;
 import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
+import com.manywho.services.box.types.Task;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -42,6 +44,9 @@ public class CallbackWebhookManager {
     @Inject
     private ObjectMapper objectMapper;
 
+    @Inject
+    private BoxFacade boxFacade;
+
     public void processEventFile(String webhookId, String targetId, String triggerType) throws Exception {
         AuthenticatedWho authenticatedWho;
         MObject object;
@@ -50,6 +55,18 @@ public class CallbackWebhookManager {
             authenticatedWho = cacheManager.getAuthenticatedWhoForWebhook(webhookId, request.getStateId());
             object = databaseLoadService.loadFile(authenticatedWho.getToken(), targetId);
             eventManager.sendEvent(request, object, File.NAME);
+            eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FILE", targetId, triggerType, request.getStateId());
+        }
+    }
+
+    public void processEventTask(String webhookId, String targetId, String triggerType) throws Exception {
+        AuthenticatedWho authenticatedWho;
+        MObject object;
+
+        for (ListenerServiceRequest request:cacheManager.getListenerServiceRequest(webhookId, triggerType)) {
+            authenticatedWho = cacheManager.getAuthenticatedWhoForWebhook(webhookId, request.getStateId());
+            object = databaseLoadService.loadTask(authenticatedWho.getToken(), targetId);
+            eventManager.sendEvent(request, object, Task.NAME);
             eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FILE", targetId, triggerType, request.getStateId());
         }
     }
@@ -68,6 +85,33 @@ public class CallbackWebhookManager {
 
     public void processEventFileForFlow(String boxWebhookCreatorId, String targetType, String targetId, String triggerType) throws Exception {
         ExecutionFlowMetadata executionFlowMetadata = cacheManager.getFlowListener(targetType, targetId, triggerType);
+        if (executionFlowMetadata == null) return;
+
+        AuthenticatedWho authenticationWho = getAuthenticatedWhoObject(cacheManager.getFlowHeaderByUser(boxWebhookCreatorId));
+        try {
+            EngineInitializationResponse flow;
+            flow = flowService.initializeFlowWithoutAuthentication(executionFlowMetadata);
+            String code = flowService.getFlowAuthenticationCode(flow.getStateId(), executionFlowMetadata.getTenantId(), authenticationWho, null, null, null, null);
+            flow = flowService.initializeFlowWithAuthentication(executionFlowMetadata, executionFlowMetadata.getTenantId(), targetType, targetId, code);
+
+            EngineInvokeRequest engineInvokeRequest = new EngineInvokeRequest();
+            engineInvokeRequest.setStateId(flow.getStateId());
+            engineInvokeRequest.setInvokeType(InvokeType.Forward);
+            engineInvokeRequest.setStateToken(flow.getStateToken());
+            engineInvokeRequest.setStateId(flow.getStateId());
+            engineInvokeRequest.setCurrentMapElementId(flow.getCurrentMapElementId());
+            engineInvokeRequest.setMapElementInvokeRequest(new MapElementInvokeRequest());
+
+            EngineInvokeResponse engineInvokeResponse = flowService.executeFlow(executionFlowMetadata.getTenantId(), code, engineInvokeRequest);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public void processEventTaskForFlow(String boxWebhookCreatorId, String targetType, String targetId,
+                                        String triggerType, String itemId, String itemType) throws Exception {
+
+        ExecutionFlowMetadata executionFlowMetadata = cacheManager.getFlowListener(itemType, itemId, triggerType);
         if (executionFlowMetadata == null) return;
 
         AuthenticatedWho authenticationWho = getAuthenticatedWhoObject(cacheManager.getFlowHeaderByUser(boxWebhookCreatorId));

@@ -2,6 +2,7 @@ package com.manywho.services.box.services;
 
 import com.box.sdk.BoxFile;
 import com.box.sdk.BoxTask;
+import com.box.sdk.BoxTaskAssignment;
 import com.manywho.services.box.facades.BoxFacade;
 import org.joda.time.DateTime;
 
@@ -34,7 +35,7 @@ public class TaskService {
         throw new Exception("The requested file could not be loaded from Box");
     }
 
-    public void addAssignmentToTask(String token, String id, String assigneeEmail) {
-        boxFacade.getTask(token, id).addAssignment(assigneeEmail);
+    public BoxTaskAssignment.Info addAssignmentToTask(String token, String id, String assigneeEmail) {
+        return boxFacade.getTask(token, id).addAssignment(assigneeEmail);
     }
 }

@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.github.manywho</groupId>
             <artifactId>box-java-sdk</artifactId>
-            <version>182756d47dd099ad45ff5e49063cecbf3500cc0e</version>
+            <version>e3ee9d1c5b75ac14b09a6b9fb71d16b8cb4cd29d</version>
         </dependency>
         <dependency>
             <groupId>org.graylog2.log4j2</groupId>
