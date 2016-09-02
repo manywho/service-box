@@ -21,7 +21,7 @@ public class WebhookHandlerManager {
             case "file":
                 if(authenticationService.updateCredentials(createdByUserId) != null) {
                     callbackWebhookManager.processEventFile(webhookId, targetId, webhookReturn.getTrigger());
-                    callbackWebhookManager.processEventFileForFlow(createdByUserId, targetType, targetId, webhookReturn.getTrigger());
+                    callbackWebhookManager.processEventForFlow(createdByUserId, targetType, targetId, webhookReturn.getTrigger());
                 }
                 break;
             case "task_assignment":
@@ -35,6 +35,7 @@ public class WebhookHandlerManager {
             case "folder":
                 if(authenticationService.updateCredentials(createdByUserId) != null) {
                     callbackWebhookManager.processEventFolder(webhookId, targetId, webhookReturn.getTrigger());
+                    callbackWebhookManager.processEventForFlow(createdByUserId, targetType, targetId, webhookReturn.getTrigger());
                 }
                 break;
             default:

@@ -83,7 +83,7 @@ public class CallbackWebhookManager {
         }
     }
 
-    public void processEventFileForFlow(String boxWebhookCreatorId, String targetType, String targetId, String triggerType) throws Exception {
+    public void processEventForFlow(String boxWebhookCreatorId, String targetType, String targetId, String triggerType) throws Exception {
         ExecutionFlowMetadata executionFlowMetadata = cacheManager.getFlowListener(targetType, targetId, triggerType);
         if (executionFlowMetadata == null) return;
 

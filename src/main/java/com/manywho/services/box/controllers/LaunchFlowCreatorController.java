@@ -72,9 +72,6 @@ public class LaunchFlowCreatorController {
 
             ExecutionFlowMetadata executionFlowMetadata;
 
-            LOGGER.debug(flowUri);
-            LOGGER.debug(trigger);
-
             if (!StringUtils.isEmpty(flowUri) && !StringUtils.isEmpty(trigger)) {
                 executionFlowMetadata = new ExecutionFlowMetadata();
                 executionFlowMetadata.setFlowId(ParseUrlUtility.getFlowId(flowUri));
