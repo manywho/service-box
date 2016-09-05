@@ -19,6 +19,9 @@ public class DataManager {
     @Inject
     private DatabaseSaveService databaseSaveService;
 
+    @Inject
+    private FileManager fileManager;
+
     public ObjectCollection loadFileType(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
         // Check if the load is for a single object with an identifier
         if (objectDataRequest.getListFilter() != null && StringUtils.isNotEmpty(objectDataRequest.getListFilter().getId())) {
@@ -38,6 +41,18 @@ public class DataManager {
         }
 
         return databaseLoadService.loadFiles(user.getToken(), folder);
+    }
+
+    public ObjectCollection loadFileSystem(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
+        // Check if the load is for a single object with an identifier
+        if (objectDataRequest.getListFilter() != null && StringUtils.isNotEmpty(objectDataRequest.getListFilter().getId())) {
+            return fileManager.loadManyWhoFile(user, objectDataRequest.getListFilter().getId());
+        }
+
+        // at the moment only support list of the files for the root directory
+        String folderId = "0";
+
+        return fileManager.loadFiles(user, folderId);
     }
 
     public ObjectCollection loadFolderType(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {

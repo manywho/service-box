@@ -9,6 +9,7 @@ import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
 import com.manywho.services.box.types.Task;
 import com.manywho.services.box.types.TaskAssignment;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -40,6 +41,8 @@ public class DataController extends AbstractDataController {
                 return new ObjectDataResponse(dataManager.loadTask(getAuthenticatedWho(), objectDataRequest));
             case TaskAssignment.NAME:
                 return new ObjectDataResponse(dataManager.loadTaskAssignment(getAuthenticatedWho(), objectDataRequest));
+            case "$File":
+                return new ObjectDataResponse(dataManager.loadFileSystem(getAuthenticatedWho(), objectDataRequest));
             default:
                 // Assume the type represents Metadata
                 return new ObjectDataResponse(dataManager.loadMetadataType(getAuthenticatedWho(), objectDataRequest));

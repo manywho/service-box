@@ -7,6 +7,7 @@ import com.manywho.sdk.entities.run.elements.type.ObjectDataResponse;
 import com.manywho.sdk.services.annotations.AuthorizationRequired;
 import com.manywho.sdk.services.controllers.AbstractController;
 import com.manywho.services.box.managers.FileManager;
+import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import javax.inject.Inject;
@@ -42,7 +43,9 @@ public class FileController extends AbstractController {
     @POST
     @AuthorizationRequired
     public ObjectDataResponse loadFiles(FileDataRequest fileDataRequest) throws Exception {
-        return fileManager.loadFiles(getAuthenticatedWho(), fileDataRequest);
+        String selectedFolder = StringUtils.isNotEmpty(fileDataRequest.getResourcePath()) ? fileDataRequest.getResourcePath() : "0";
+
+        return new ObjectDataResponse(fileManager.loadFiles(getAuthenticatedWho(), selectedFolder));
     }
 
     @POST
