@@ -12,7 +12,6 @@ import com.manywho.sdk.entities.run.elements.type.MObject;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
-import com.manywho.services.box.facades.BoxFacade;
 import com.manywho.services.box.services.DatabaseLoadService;
 import com.manywho.services.box.services.FlowService;
 import com.manywho.services.box.types.File;
@@ -45,19 +44,28 @@ public class CallbackWebhookManager {
     @Inject
     private ObjectMapper objectMapper;
 
-    @Inject
-    private BoxFacade boxFacade;
-
     public void processEventFile(String webhookId, String targetId, String triggerType) throws Exception {
         AuthenticatedWho authenticatedWho;
         MObject object;
 
         for (ListenerServiceRequest request:cacheManager.getListenerServiceRequest(webhookId, triggerType)) {
             authenticatedWho = cacheManager.getAuthenticatedWhoForWebhook(webhookId, request.getStateId());
-            object = databaseLoadService.loadFile(authenticatedWho.getToken(), targetId);
-            eventManager.sendEvent(request, object, File.NAME);
-            eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FILE", targetId, triggerType, request.getStateId());
+
+            if(Objects.equals(request.getValueForListening().getTypeElementDeveloperName(), "Folder")) {
+                object = databaseLoadService.loadFolder(authenticatedWho.getToken(),
+                        request.getValueForListening().getObjectData().get(0).getExternalId());
+                eventManager.sendEvent(request, object, Folder.NAME);
+                eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FOLDER", targetId, triggerType, request.getStateId(), getFolderIdFromRequest(request));
+            } else {
+                object = databaseLoadService.loadFile(authenticatedWho.getToken(), targetId);
+                eventManager.sendEvent(request, object, File.NAME);
+                eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FILE", targetId, triggerType, request.getStateId(), null);
+            }
         }
+    }
+
+    public String getFolderIdFromRequest(ListenerServiceRequest request) {
+        return request.getValueForListening().getObjectData().get(0).getExternalId();
     }
 
     public void processEventTask(String webhookId, String targetId, String triggerType) throws Exception {
@@ -68,7 +76,7 @@ public class CallbackWebhookManager {
             authenticatedWho = cacheManager.getAuthenticatedWhoForWebhook(webhookId, request.getStateId());
             object = databaseLoadService.loadTask(authenticatedWho.getToken(), targetId);
             eventManager.sendEvent(request, object, Task.NAME);
-            eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FILE", targetId, triggerType, request.getStateId());
+            eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FILE", targetId, triggerType, request.getStateId(), null);
         }
     }
 
@@ -80,7 +88,7 @@ public class CallbackWebhookManager {
             authenticatedWho = cacheManager.getAuthenticatedWhoForWebhook(webhookId, request.getStateId());
             object = databaseLoadService.loadFolder(authenticatedWho.getToken(), targetId);
             eventManager.sendEvent(request, object, Folder.NAME);
-            eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FOLDER", targetId, triggerType, request.getStateId());
+            eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FOLDER", targetId, triggerType, request.getStateId(), null);
         }
     }
 

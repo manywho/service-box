@@ -31,13 +31,14 @@ public class EventManager {
         runService.sendEvent(null, null, listenerServiceRequest.getTenantId(), listenerServiceRequest.getCallbackUri(), listenerServiceResponse);
     }
 
-    public void cleanEvent(String userToken, String webhookId, String targetType, String targetId, String triggerType, String stateId) throws Exception {
+    public void cleanEvent(String userToken, String webhookId, String targetType, String targetId, String triggerType, String stateId, String sourceTriggerId) throws Exception {
         cacheManager.deleteListenerServiceRequest(webhookId, triggerType);
         cacheManager.deleteAuthenticatedWhoForWebhook(webhookId, stateId);
 
         if( !cacheManager.areAnyListenerServiceRequestForThisWebhook(webhookId) && cacheManager.getFlowListener(targetType, targetId, triggerType) == null) {
             webhookManager.deleteWebhook(userToken, webhookId);
             cacheManager.deleteWebhook(targetType, targetId);
+            cacheManager.deleteWebhook(targetType, sourceTriggerId);
         }
     }
 }
