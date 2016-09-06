@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CacheManager {
     private final static String REDIS_BOX_LISTENER_REQUEST = "service:box:listener-request:webhook:%s:trigger:%s:state:%s";
-    private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:*";
+    private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:state*";
     private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH = "service:box:listener-request:webhook:%s:*";
 
     private final static String REDIS_BOX_AUTHENTICATEDWHO = "service:box:autenticatedwho:webhook:%s:state:%s";

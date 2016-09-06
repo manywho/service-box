@@ -74,9 +74,28 @@ public class CallbackWebhookManager {
 
         for (ListenerServiceRequest request:cacheManager.getListenerServiceRequest(webhookId, triggerType)) {
             authenticatedWho = cacheManager.getAuthenticatedWhoForWebhook(webhookId, request.getStateId());
-            object = databaseLoadService.loadTask(authenticatedWho.getToken(), targetId);
-            eventManager.sendEvent(request, object, Task.NAME);
-            eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FILE", targetId, triggerType, request.getStateId(), null);
+
+            if(Objects.equals(request.getValueForListening().getTypeElementDeveloperName(), "File")) {
+
+                object = databaseLoadService.loadFile(authenticatedWho.getToken(),
+                        request.getValueForListening().getObjectData().get(0).getExternalId());
+                eventManager.sendEvent(request, object, File.NAME);
+                eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FILE", targetId, triggerType, request.getStateId(), getFolderIdFromRequest(request));
+
+            } else if (Objects.equals(request.getValueForListening().getTypeElementDeveloperName(), "Folder")) {
+                object = databaseLoadService.loadFolder(authenticatedWho.getToken(),
+                        request.getValueForListening().getObjectData().get(0).getExternalId());
+
+                eventManager.sendEvent(request, object, Folder.NAME);
+                eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FOLDER", targetId, triggerType, request.getStateId(), getFolderIdFromRequest(request));
+
+            } else {
+                object = databaseLoadService.loadTaskAssignment(authenticatedWho.getToken(), targetId);
+                eventManager.sendEvent(request, object, Task.NAME);
+                eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "TASK", targetId, triggerType, request.getStateId(), null);
+            }
+
+
         }
     }
 
