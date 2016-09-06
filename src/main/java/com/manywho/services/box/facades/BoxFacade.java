@@ -76,6 +76,14 @@ public class BoxFacade {
         return boxFolder;
     }
 
+    public PartialCollection<BoxItem.Info>  getFolders(String accessToken, BoxSearchParameters searchParameters) {
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        PartialCollection<BoxItem.Info> boxFolders = new BoxSearch(createApiConnection(accessToken)).searchRange(0, 500, searchParameters);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return boxFolders;
+    }
+
     /**
      * This method is called using the web integration credentials, these credentials are not valid for webhooks
      * we don't save these refresh token

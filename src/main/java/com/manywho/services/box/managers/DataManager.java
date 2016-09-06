@@ -1,5 +1,7 @@
 package com.manywho.services.box.managers;
 
+import com.box.sdk.BoxMetadataFilter;
+import com.box.sdk.BoxSearchParameters;
 import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
@@ -10,6 +12,9 @@ import com.manywho.services.box.services.DatabaseSaveService;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class DataManager {
@@ -59,6 +64,37 @@ public class DataManager {
         // Check if the load is for a single object with an identifier
         if (objectDataRequest.getListFilter() != null && StringUtils.isNotEmpty(objectDataRequest.getListFilter().getId())) {
             return new ObjectCollection(databaseLoadService.loadFolder(user.getToken(), objectDataRequest.getListFilter().getId()));
+        }
+
+        if(objectDataRequest.getListFilter() != null) {
+
+            BoxSearchParameters boxSearchParameters = new BoxSearchParameters();
+            boxSearchParameters.setType("folder");
+            ListFilterWhereCollection listFilterWheres = objectDataRequest.getListFilter().getWhere();
+
+            List<String> contentTypes = new ArrayList<>();
+
+            Boolean validFilter = false;
+
+            for (ListFilterWhere where : listFilterWheres) {
+                if (Objects.equals(where.getColumnName(), "Name")) {
+                    boxSearchParameters.setQuery(where.getContentValue());
+                    contentTypes.add("name");
+                    validFilter = true;
+                }
+                if (Objects.equals(where.getColumnName(), "Description")) {
+                    boxSearchParameters.setQuery(where.getContentValue());
+                    contentTypes.add("description");
+                    validFilter = true;
+                }
+            }
+
+            if(!validFilter) {
+                throw new Exception("One valid filter is required (please select Name or Description)");
+            }
+
+            boxSearchParameters.setContentTypes(contentTypes);
+            return databaseLoadService.loadFolder(user.getToken(), boxSearchParameters);
         }
 
         throw new Exception("Loading a list of folders is not yet supported");

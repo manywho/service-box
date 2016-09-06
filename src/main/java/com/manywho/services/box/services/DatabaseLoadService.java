@@ -12,6 +12,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatabaseLoadService {
@@ -66,6 +68,19 @@ public class DatabaseLoadService {
         }
 
         throw new Exception("Unable to load folder with ID " + id + " from Box");
+    }
+
+    public ObjectCollection loadFolder(String token, BoxSearchParameters boxSearchParameters) {
+        PartialCollection<BoxItem.Info> folder = boxFacade.getFolders(token, boxSearchParameters);
+
+        ObjectCollection objectList= new ObjectCollection();
+        for (BoxItem.Info boxIem: folder) {
+            if(boxIem.getClass() == BoxFolder.Info.class) {
+                objectList.add(objectMapperService.convertBoxFolder((BoxFolder.Info) boxIem));
+            }
+        }
+
+        return objectList;
     }
 
     public ObjectCollection loadMetadata(String token, ObjectDataType objectDataType, MetadataSearch metadataSearch) {
