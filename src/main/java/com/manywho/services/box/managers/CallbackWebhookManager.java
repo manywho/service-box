@@ -19,6 +19,9 @@ import com.manywho.services.box.types.Folder;
 import com.manywho.services.box.types.Task;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
@@ -28,7 +31,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CallbackWebhookManager {
-
+    private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
     @Inject
     private CacheManagerInterface cacheManager;
 
@@ -47,17 +50,24 @@ public class CallbackWebhookManager {
     public void processEventFile(String webhookId, String targetId, String triggerType) throws Exception {
         AuthenticatedWho authenticatedWho;
         MObject object;
+        LOGGER.debug("processEventFile");
 
         for (ListenerServiceRequest request:cacheManager.getListenerServiceRequest(webhookId, triggerType)) {
+            LOGGER.debug(objectMapper.writeValueAsString(request));
             authenticatedWho = cacheManager.getAuthenticatedWhoForWebhook(webhookId, request.getStateId());
 
             if(Objects.equals(request.getValueForListening().getTypeElementDeveloperName(), "Folder")) {
+                LOGGER.debug("webhook in folder");
                 object = databaseLoadService.loadFolder(authenticatedWho.getToken(),
                         request.getValueForListening().getObjectData().get(0).getExternalId());
+
+                LOGGER.debug(objectMapper.writeValueAsString(object));
                 eventManager.sendEvent(request, object, Folder.NAME);
                 eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FOLDER", targetId, triggerType, request.getStateId(), getFolderIdFromRequest(request));
             } else {
+                LOGGER.debug("webhook in file");
                 object = databaseLoadService.loadFile(authenticatedWho.getToken(), targetId);
+                LOGGER.debug(objectMapper.writeValueAsString(object));
                 eventManager.sendEvent(request, object, File.NAME);
                 eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FILE", targetId, triggerType, request.getStateId(), null);
             }
