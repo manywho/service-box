@@ -2,6 +2,7 @@ package com.manywho.services.box.controllers;
 
 import com.manywho.sdk.utils.AuthorizationUtils;
 import com.manywho.services.box.test.BoxServiceFunctionalTest;
+import org.json.JSONException;
 import org.junit.Test;
 
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -15,7 +16,7 @@ import static junit.framework.TestCase.assertEquals;
 public class LoadFolderDataControllerTest extends BoxServiceFunctionalTest {
 
     @Test
-    public void testLoadFolder() throws IOException, URISyntaxException {
+    public void testLoadFolder() throws IOException, URISyntaxException, JSONException {
         MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 

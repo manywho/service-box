@@ -21,9 +21,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.manywho</groupId>
-            <artifactId>sdk</artifactId>
+            <groupId>com.github.manywho</groupId>
+            <artifactId>sdk-java</artifactId>
+            <version>a2911fd2a88290e367888ba6ef4a1848ce1270cc</version>
+        </dependency>
+        <dependency>
+            <groupId>com.manywho.sdk</groupId>
+            <artifactId>sdk-test</artifactId>
             <version>1.25.0-SNAPSHOT</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.manywho</groupId>

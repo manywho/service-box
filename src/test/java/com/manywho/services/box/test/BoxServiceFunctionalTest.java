@@ -18,6 +18,7 @@ import com.manywho.services.box.managers.CacheManagerInterface;
 import com.manywho.services.box.services.TokenCacheService;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.json.JSONException;
 import redis.clients.jedis.JedisPool;
 
 import javax.inject.Singleton;
@@ -97,7 +98,7 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
         when(mockTokenCacheService.getAccessTokenCache()).thenReturn(mockInMemoryLRUAccessTokenCache);
     }
 
-    public BoxJSONResponse createBoxApiResponse(String path, int code) throws IOException, URISyntaxException {
+    public BoxJSONResponse createBoxApiResponse(String path, int code) throws IOException, URISyntaxException, JSONException {
         InputStream stream = new ByteArrayInputStream(getJsonFormatFileContent(path).getBytes(StandardCharsets.UTF_8));
         HttpURLConnection connection = mock(HttpURLConnection.class);
 

@@ -2,6 +2,7 @@ package com.manywho.services.box.controllers;
 
 import com.manywho.sdk.utils.AuthorizationUtils;
 import com.manywho.services.box.test.BoxServiceFunctionalTest;
+import org.json.JSONException;
 import org.junit.Test;
 
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -15,7 +16,7 @@ import static junit.framework.TestCase.assertEquals;
 public class FileControllerTest extends BoxServiceFunctionalTest {
 
     @Test
-    public void testCopyFile() throws IOException, URISyntaxException {
+    public void testCopyFile() throws IOException, URISyntaxException, JSONException {
         MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
@@ -35,7 +36,7 @@ public class FileControllerTest extends BoxServiceFunctionalTest {
     }
 
     @Test
-    public void testMoveFile() throws IOException, URISyntaxException {
+    public void testMoveFile() throws IOException, URISyntaxException, JSONException {
         MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 

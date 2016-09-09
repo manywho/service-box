@@ -4,6 +4,7 @@ import com.manywho.services.box.test.BoxServiceFunctionalTest;
 import com.manywho.services.box.test.FlowResponseMock;
 import com.manywho.services.box.test.HttpClientForTest;
 import com.mashape.unirest.http.Unirest;
+import org.json.JSONException;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
@@ -34,7 +35,7 @@ public class WebhookControllerTest extends BoxServiceFunctionalTest {
      *  clean database
      */
     @Test
-    public void testFileDownloadedOnlyOneListenerRequest() throws IOException, URISyntaxException {
+    public void testFileDownloadedOnlyOneListenerRequest() throws IOException, URISyntaxException, JSONException {
         String authenticatedWhoKey = "service:box:autenticatedwho:webhook:177326:state:dd56ef5e-7ec4-4902-9db5-e7ad74c7ff53";
         String listenerRequestKey = "service:box:listener-request:webhook:177326:trigger:FILE.DOWNLOADED:state:dd56ef5e-7ec4-4902-9db5-e7ad74c7ff53";
         String userkey = "service:box:user:328136111:credentials";
