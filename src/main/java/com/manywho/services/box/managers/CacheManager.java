@@ -176,10 +176,10 @@ public class CacheManager implements CacheManagerInterface{
 
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.set(key, objectMapper.writeValueAsString(listenerServiceRequest));
+            LOGGER.debug("saveListenerServiceRequest : " + key );
+            LOGGER.debug(jedis.get(key));
+            LOGGER.debug("end saveListenerServiceRequest " );
         }
-
-        LOGGER.debug("saveListenerServiceRequest : " + key );
-        LOGGER.debug(objectMapper.writeValueAsString(listenerServiceRequest));
     }
 
     public void deleteListenerServiceRequest(String webhookId, String trigger) {
