@@ -39,7 +39,7 @@ public class WebhookController {
         String targetType = webhookReturn.getSource().getType();
         String createdByUserId = (String) webhookReturn.getCreatedBy().get("id");
         try {
-            LOGGER.debug("the listener is called");
+            LOGGER.debug(objectMapper.writeValueAsString(webhookReturn));
 
             webhookHandlerManager.handleWebhook(webhookReturn, webhookId, targetId, targetType, createdByUserId);
         }catch (Exception ex) {

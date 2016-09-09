@@ -3,12 +3,16 @@ package com.manywho.services.box.managers;
 
 import com.manywho.services.box.entities.WebhookReturn;
 import com.manywho.services.box.services.AuthenticationService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 
 import javax.inject.Inject;
 
 public class WebhookHandlerManager {
-    AuthenticationService authenticationService;
-    CallbackWebhookManager callbackWebhookManager;
+    private AuthenticationService authenticationService;
+    private CallbackWebhookManager callbackWebhookManager;
+    private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
 
     @Inject
     public WebhookHandlerManager(AuthenticationService authenticationService, CallbackWebhookManager callbackWebhookManager){
@@ -17,29 +21,30 @@ public class WebhookHandlerManager {
     }
 
     public void handleWebhook(WebhookReturn webhookReturn, String webhookId, String targetId, String targetType, String createdByUserId) throws Exception {
+        if(authenticationService.updateCredentials(createdByUserId) == null) {
+            LOGGER.debug("credentials null it shouldn't happen");
+            return;
+        }
+
         switch (targetType) {
             case "file":
-                if(authenticationService.updateCredentials(createdByUserId) != null) {
-                    callbackWebhookManager.processEventFile(webhookId, targetId, webhookReturn.getTrigger());
-                    callbackWebhookManager.processEventForFlow(createdByUserId, targetType, targetId, webhookReturn.getTrigger());
-                }
+                callbackWebhookManager.processEventFile(webhookId, targetId, webhookReturn.getTrigger());
+                callbackWebhookManager.processEventForFlow(createdByUserId, targetType, targetId, webhookReturn.getTrigger());
                 break;
             case "task_assignment":
-                if(authenticationService.updateCredentials(createdByUserId) != null) {
-                    callbackWebhookManager.processEventTask(webhookId, targetId, webhookReturn.getTrigger());
-                    callbackWebhookManager.processEventTaskForFlow(createdByUserId, targetType, targetId,
-                            webhookReturn.getTrigger(), webhookReturn.getSource().getItem().getId(),
-                            webhookReturn.getSource().getItem().getType());
-                }
+                callbackWebhookManager.processEventTask(webhookId, targetId, webhookReturn.getTrigger());
+                callbackWebhookManager.processEventTaskForFlow(createdByUserId, targetType, targetId,
+                        webhookReturn.getTrigger(), webhookReturn.getSource().getItem().getId(),
+                        webhookReturn.getSource().getItem().getType());
+
                 break;
             case "folder":
-                if(authenticationService.updateCredentials(createdByUserId) != null) {
-                    callbackWebhookManager.processEventFolder(webhookId, targetId, webhookReturn.getTrigger());
-                    callbackWebhookManager.processEventForFlow(createdByUserId, targetType, targetId, webhookReturn.getTrigger());
-                }
+                callbackWebhookManager.processEventFolder(webhookId, targetId, webhookReturn.getTrigger());
+                callbackWebhookManager.processEventForFlow(createdByUserId, targetType, targetId, webhookReturn.getTrigger());
                 break;
             default:
                 break;
         }
+        LOGGER.debug("targetType:" + targetType + " targetId:"+ targetId + " processed" );
     }
 }
