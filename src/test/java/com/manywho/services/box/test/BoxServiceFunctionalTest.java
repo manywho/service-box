@@ -18,6 +18,7 @@ import com.manywho.services.box.managers.CacheManagerInterface;
 import com.manywho.services.box.services.TokenCacheService;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.glassfish.jersey.test.TestProperties;
 import org.json.JSONException;
 import redis.clients.jedis.JedisPool;
 
@@ -46,6 +47,8 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
 
     @Override
     protected javax.ws.rs.core.Application configure(){
+        //take first available port, to fix problem in deployment
+        forceSet(TestProperties.CONTAINER_PORT, "0");
         System.setProperty("user.timezone", "UTC");
         MockJedisPool mockJedisPool = new MockJedisPool(new GenericObjectPoolConfig(), "localhost");
         mockJedis = (MockJedis) mockJedisPool.getResource();
