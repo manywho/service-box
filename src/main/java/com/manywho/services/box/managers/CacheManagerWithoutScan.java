@@ -12,28 +12,19 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Some methods are not supported by jedis moc (like scan method) so I have created this class to do the same
- * functionality (less efficient) in a way that can be supported by the mock jedis
+ * This class have been created to temporary solution for scan problem in tickcet CORE-2605
+ * todo this should be removed and used instead CacheManager.class
  */
-public class CacheManager2 extends CacheManager {
+public class CacheManagerWithoutScan extends CacheManager {
     private JedisPool jedisPool;
     private ObjectMapper objectMapper;
     @Inject
-    public CacheManager2(JedisPool jedisPool, ObjectMapper objectMapper) {
+    public CacheManagerWithoutScan(JedisPool jedisPool, ObjectMapper objectMapper) {
         super(jedisPool, objectMapper);
         this.jedisPool = jedisPool;
         this.objectMapper = objectMapper;
     }
 
-    /**
-     * We can not mock scan search using jedis mock, so we are using the keys in the test, but this should never be
-     * used in production
-     *
-     * @param webhookId
-     * @param trigger
-     * @return
-     * @throws Exception
-     */
     @Override
     public List<ListenerServiceRequest> getListenerServiceRequest(String webhookId, String trigger) throws Exception {
 
@@ -55,14 +46,6 @@ public class CacheManager2 extends CacheManager {
         return listenerServiceRequest;
     }
 
-
-    /**
-     * We can not mock scan search using jedis mock, so we are using the keys in the test, but this should never be
-     * used in production
-     *
-     * @param webhookId
-     * @param trigger
-     */
     @Override
     public void deleteListenerServiceRequest(String webhookId, String trigger) {
         try (Jedis jedis = jedisPool.getResource()) {
