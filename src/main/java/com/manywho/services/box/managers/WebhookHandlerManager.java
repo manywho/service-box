@@ -36,7 +36,6 @@ public class WebhookHandlerManager {
                 callbackWebhookManager.processEventTaskForFlow(createdByUserId, targetType, targetId,
                         webhookReturn.getTrigger(), webhookReturn.getSource().getItem().getId(),
                         webhookReturn.getSource().getItem().getType());
-
                 break;
             case "folder":
                 callbackWebhookManager.processEventFolder(webhookId, targetId, webhookReturn.getTrigger());

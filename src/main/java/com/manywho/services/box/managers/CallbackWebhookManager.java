@@ -26,6 +26,7 @@ import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -51,8 +52,11 @@ public class CallbackWebhookManager {
         AuthenticatedWho authenticatedWho;
         MObject object;
         LOGGER.debug("processEventFile");
+        List<ListenerServiceRequest> requests = cacheManager.getListenerServiceRequest(webhookId, triggerType);
+        LOGGER.debug("requests : " + requests.size());
+        LOGGER.debug(objectMapper.writeValueAsString(requests));
 
-        for (ListenerServiceRequest request:cacheManager.getListenerServiceRequest(webhookId, triggerType)) {
+        for (ListenerServiceRequest request:requests) {
             LOGGER.debug(objectMapper.writeValueAsString(request));
             authenticatedWho = cacheManager.getAuthenticatedWhoForWebhook(webhookId, request.getStateId());
 
