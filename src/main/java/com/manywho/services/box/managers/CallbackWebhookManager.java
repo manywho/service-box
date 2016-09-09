@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class CallbackWebhookManager {
 
     @Inject
-    private CacheManager cacheManager;
+    private CacheManagerInterface cacheManager;
 
     @Inject
     private DatabaseLoadService databaseLoadService;

@@ -10,12 +10,12 @@ import java.util.Set;
 
 public class WebhookManager {
     private WebhookTriggersService webhookTriggersService;
-    private CacheManager cacheManager;
+    private CacheManagerInterface cacheManager;
     private BoxFacade boxFacade;
     private UriInfo uriInfo;
 
     @Inject
-    public WebhookManager(WebhookTriggersService webhookTriggersService, CacheManager cacheManager, UriInfo uriInfo, BoxFacade boxFacade) {
+    public WebhookManager(WebhookTriggersService webhookTriggersService, CacheManagerInterface cacheManager, UriInfo uriInfo, BoxFacade boxFacade) {
         this.webhookTriggersService = webhookTriggersService;
         this.cacheManager = cacheManager;
         this.uriInfo = uriInfo;

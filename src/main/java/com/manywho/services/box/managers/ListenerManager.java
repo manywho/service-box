@@ -10,10 +10,10 @@ import javax.inject.Inject;
 public class ListenerManager {
     private WebhookManager webhookManager;
     private WebhookTriggersService webhookTriggersService;
-    private CacheManager cacheManager;
+    private CacheManagerInterface cacheManager;
 
     @Inject
-    public ListenerManager(WebhookManager webhookManager, WebhookTriggersService webhookTriggersService, CacheManager cacheManager) {
+    public ListenerManager(WebhookManager webhookManager, WebhookTriggersService webhookTriggersService, CacheManagerInterface cacheManager) {
         this.webhookManager = webhookManager;
         this.webhookTriggersService = webhookTriggersService;
         this.cacheManager = cacheManager;

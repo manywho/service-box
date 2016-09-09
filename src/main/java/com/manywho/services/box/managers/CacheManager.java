@@ -10,11 +10,12 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
+
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CacheManager {
+public class CacheManager implements CacheManagerInterface{
     private final static String REDIS_BOX_LISTENER_REQUEST = "service:box:listener-request:webhook:%s:trigger:%s:state:%s";
     private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:state*";
     private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH = "service:box:listener-request:webhook:%s:*";

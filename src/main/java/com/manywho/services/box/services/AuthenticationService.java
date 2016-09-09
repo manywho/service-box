@@ -6,16 +6,16 @@ import com.manywho.sdk.entities.security.AuthenticatedWhoResult;
 import com.manywho.sdk.enums.AuthenticationStatus;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.facades.BoxFacade;
-import com.manywho.services.box.managers.CacheManager;
+import com.manywho.services.box.managers.CacheManagerInterface;
 
 import javax.inject.Inject;
 
 public class AuthenticationService {
     private BoxFacade boxFacade;
-    private CacheManager cacheManager;
+    private CacheManagerInterface cacheManager;
 
     @Inject
-    public AuthenticationService(BoxFacade boxFacade, CacheManager cacheManager) {
+    public AuthenticationService(BoxFacade boxFacade, CacheManagerInterface cacheManager) {
         this.boxFacade = boxFacade;
         this.cacheManager = cacheManager;
     }

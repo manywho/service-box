@@ -6,7 +6,7 @@ import com.manywho.sdk.entities.run.EngineInitializationResponse;
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
 import com.manywho.services.box.configuration.FlowConfiguration;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
-import com.manywho.services.box.managers.CacheManager;
+import com.manywho.services.box.managers.CacheManagerInterface;
 import com.manywho.services.box.managers.LaunchFlowManager;
 import com.manywho.services.box.services.AuthenticationService;
 import com.manywho.services.box.services.FlowService;
@@ -25,7 +25,7 @@ import java.net.URI;
 @Path("/callback")
 public class LaunchFlowCreatorController {
     private LaunchFlowManager launchFlowManager;
-    private CacheManager cacheManager;
+    private CacheManagerInterface cacheManager;
     private AuthenticationService authenticationService;
     private FlowService flowService;
     private AbstractOauth2Provider oauth2Provider;
@@ -34,7 +34,7 @@ public class LaunchFlowCreatorController {
     private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
 
     @Inject
-    public LaunchFlowCreatorController(LaunchFlowManager launchFlowManager, CacheManager cacheManager,
+    public LaunchFlowCreatorController(LaunchFlowManager launchFlowManager, CacheManagerInterface cacheManager,
                                        AuthenticationService authenticationService, FlowService flowService,
                                        AbstractOauth2Provider oauth2Provider, FlowConfiguration flowConfiguration) {
         this.launchFlowManager = launchFlowManager;

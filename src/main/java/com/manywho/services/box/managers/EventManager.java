@@ -17,7 +17,7 @@ public class EventManager {
     private RunService runService;
 
     @Inject
-    private CacheManager cacheManager;
+    private CacheManagerInterface cacheManager;
 
     public void sendEvent(ListenerServiceRequest listenerServiceRequest, MObject object, String name) throws Exception {
         ListenerServiceResponse listenerServiceResponse = new ListenerServiceResponse();

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class LaunchFlowManager {
     AuthenticationService authenticationService;
     BoxFacade boxFacade;
-    CacheManager cacheManager;
+    CacheManagerInterface cacheManager;
     AbstractOauth2Provider oauth2Provider;
     WebhookTriggersService webhookTriggersService;
     WebhookManager webhookManager;
@@ -24,7 +24,7 @@ public class LaunchFlowManager {
     @Inject
     public LaunchFlowManager(AuthenticationService authenticationService, BoxFacade boxFacade,
                              AbstractOauth2Provider oauth2Provider, CallbackService callbackService,
-                             WebhookTriggersService webhookTriggersService, CacheManager cacheManager, WebhookManager webhookManager) {
+                             WebhookTriggersService webhookTriggersService, CacheManagerInterface cacheManager, WebhookManager webhookManager) {
 
         this.oauth2Provider = oauth2Provider;
         this.authenticationService = authenticationService;

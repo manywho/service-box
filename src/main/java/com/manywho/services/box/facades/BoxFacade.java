@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.MetadataSearch;
-import com.manywho.services.box.managers.CacheManager;
+import com.manywho.services.box.managers.CacheManagerInterface;
 import com.manywho.services.box.services.TokenCacheService;
 import javax.inject.Inject;
 import java.io.IOException;
@@ -23,11 +23,11 @@ public class BoxFacade {
     private final SecurityConfiguration securityConfiguration;
     private com.box.sdk.RequestInterceptor requestInterceptor;
     private TokenCacheService tokenCacheService;
-    private CacheManager cacheManager;
+    private CacheManagerInterface cacheManager;
 
     @Inject
     public BoxFacade(SecurityConfiguration securityConfiguration, RequestInterceptor requestInterceptor,
-                     TokenCacheService tokenCacheService, CacheManager cacheManager) {
+                     TokenCacheService tokenCacheService, CacheManagerInterface cacheManager) {
 
         this.securityConfiguration = securityConfiguration;
         this.requestInterceptor = requestInterceptor;

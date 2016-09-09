@@ -22,11 +22,11 @@ public class AuthManager {
     private AuthenticationService authenticationService;
     private AuthorizationService authorizationService;
     private PropertyCollectionParser propertyParser;
-    private CacheManager cacheManager;
+    private CacheManagerInterface cacheManager;
 
     @Inject
     public AuthManager(AuthenticationService authenticationService, AuthorizationService authorizationService,
-                       PropertyCollectionParser propertyParser,CacheManager cacheManager){
+                       PropertyCollectionParser propertyParser,CacheManagerInterface cacheManager){
         this.authenticationService = authenticationService;
         this.propertyParser = propertyParser;
         this.authorizationService = authorizationService;

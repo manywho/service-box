@@ -9,11 +9,11 @@ import com.manywho.services.box.services.ListenerService;
 import javax.inject.Inject;
 
 public class AssignFlowManager {
-    private CacheManager cacheManager;
+    private CacheManagerInterface cacheManager;
     private ListenerService listenerService;
 
     @Inject
-    public AssignFlowManager(CacheManager cacheManager, ListenerService listenerService){
+    public AssignFlowManager(CacheManagerInterface cacheManager, ListenerService listenerService){
         this.cacheManager = cacheManager;
         this.listenerService = listenerService;
     }

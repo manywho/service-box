@@ -27,8 +27,8 @@ public class WebhookController {
     public void callback(WebhookReturn webhookReturn) throws Exception {
 
         String webhookId = (String) webhookReturn.getWebhook().get("id");
-        String targetId = (String) webhookReturn.getSource().getId();
-        String targetType = (String) webhookReturn.getSource().getType();
+        String targetId = webhookReturn.getSource().getId();
+        String targetType = webhookReturn.getSource().getType();
         String createdByUserId = (String) webhookReturn.getCreatedBy().get("id");
 
         webhookHandlerManager.handleWebhook(webhookReturn, webhookId, targetId, targetType, createdByUserId);

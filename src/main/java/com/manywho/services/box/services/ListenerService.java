@@ -2,17 +2,17 @@ package com.manywho.services.box.services;
 
 import com.box.sdk.BoxWebHook;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
-import com.manywho.services.box.managers.CacheManager;
+import com.manywho.services.box.managers.CacheManagerInterface;
 import com.manywho.services.box.managers.WebhookManager;
 
 import javax.inject.Inject;
 
 public class ListenerService {
-    CacheManager cacheManager;
+    CacheManagerInterface cacheManager;
     WebhookManager webhookManager;
 
     @Inject
-    public ListenerService(CacheManager cacheManager, WebhookManager webhookManager) {
+    public ListenerService(CacheManagerInterface cacheManager, WebhookManager webhookManager) {
         this.cacheManager = cacheManager;
         this.webhookManager = webhookManager;
     }

@@ -1,7 +1,7 @@
 package com.manywho.services.box.controllers;
 
 import com.manywho.sdk.utils.AuthorizationUtils;
-import com.manywho.services.box.BoxServiceFunctionalTest;
+import com.manywho.services.box.test.BoxServiceFunctionalTest;
 import org.junit.Ignore;
 import org.junit.Test;
 

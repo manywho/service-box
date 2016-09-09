@@ -1,16 +1,20 @@
-package com.manywho.services.box;
+package com.manywho.services.box.test;
 
 import com.box.sdk.BoxJSONResponse;
 import com.box.sdk.InMemoryLRUAccessTokenCache;
 import com.box.sdk.RequestInterceptor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiftyonred.mock_jedis.MockJedis;
 import com.fiftyonred.mock_jedis.MockJedisPool;
 import com.google.common.io.Resources;
+import com.manywho.sdk.client.raw.RawRunClient;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
 import com.manywho.sdk.services.providers.ObjectMapperProvider;
 import com.manywho.sdk.test.FunctionalTest;
 import com.manywho.sdk.test.MockFactory;
 import com.manywho.services.box.configuration.SecurityConfiguration;
+import com.manywho.services.box.entities.WebhookReturn;
+import com.manywho.services.box.managers.CacheManagerInterface;
 import com.manywho.services.box.services.TokenCacheService;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -36,6 +40,8 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
     protected SecurityConfiguration mockSecurityConfiguration;
     protected RequestIntersectorTestsImpl requestIntersectorTests;
     protected TokenCacheService mockTokenCacheService;
+    protected HttpClientForTest httpClientForTest;
+    protected RawRunClient rawRunClient;
 
     @Override
     protected javax.ws.rs.core.Application configure(){
@@ -46,8 +52,12 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
         mockSecurityConfigurationResponses();
         mockTokenCacheService = mock(TokenCacheService.class);
         mockTokenCache();
-
         requestIntersectorTests = new RequestIntersectorTestsImpl();
+
+        httpClientForTest = new HttpClientForTest();
+        rawRunClient = new RawRunClient();
+
+        CacheManagerInterface cacheManager = new CacheManagerTest(mockJedisPool, new ObjectMapper());
 
         return new com.manywho.services.box.Application().register(new AbstractBinder() {
 
@@ -57,6 +67,7 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
                 bindFactory(new MockFactory<RequestIntersectorTestsImpl>(requestIntersectorTests)).to(RequestInterceptor.class).ranked(1);
                 bindFactory(new MockFactory<SecurityConfiguration>(mockSecurityConfiguration)).to(SecurityConfiguration.class).in(Singleton.class).ranked(1);
                 bindFactory(new MockFactory<TokenCacheService>(mockTokenCacheService)).to(TokenCacheService.class).ranked(1);
+                bindFactory(new MockFactory<CacheManagerInterface>(cacheManager)).to(CacheManagerInterface.class).ranked(1);
             }
         });
     }
@@ -106,5 +117,10 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
                 );
 
         return Entity.entity(objectDataRequest, MediaType.APPLICATION_JSON_TYPE);
+    }
+
+    protected static Entity<WebhookReturn> getWebhookFromFile(String filePath) throws URISyntaxException, IOException {
+        WebhookReturn webhookReturn = ObjectMapperProvider.getObjectMapper().readValue(getFile(filePath), WebhookReturn.class);
+        return Entity.entity(webhookReturn, MediaType.APPLICATION_JSON_TYPE);
     }
 }
