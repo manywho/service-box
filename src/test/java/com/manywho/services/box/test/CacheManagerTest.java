@@ -43,7 +43,7 @@ public class CacheManagerTest extends CacheManager {
         List<ListenerServiceRequest> listenerServiceRequest = new ArrayList<>();
 
         try (Jedis jedis = jedisPool.getResource()) {
-            String pattern = String.format("service:box:listener-request:webhook:%s:trigger:%s:state*", webhookId, trigger);
+            String pattern = String.format(REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS, webhookId, trigger);
             Set<String> keys = jedis.keys(pattern);
 
             for (String key:keys) {
@@ -69,7 +69,7 @@ public class CacheManagerTest extends CacheManager {
     @Override
     public void deleteListenerServiceRequest(String webhookId, String trigger) {
         try (Jedis jedis = jedisPool.getResource()) {
-            String pattern = String.format("service:box:listener-request:webhook:%s:trigger:%s:state*", webhookId, trigger);
+            String pattern = String.format(REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS, webhookId, trigger);
             Set<String> keys = jedis.keys(pattern);
 
             for (String key : keys) {
@@ -80,7 +80,7 @@ public class CacheManagerTest extends CacheManager {
 
     public Boolean areAnyListenerServiceRequestForThisWebhook(String webhookId) throws Exception {
         try (Jedis jedis = jedisPool.getResource()) {
-            String pattern = String.format("service:box:listener-request:webhook:%s:*", webhookId);
+            String pattern = String.format(REDIS_BOX_LISTENER_REQUEST_SEARCH, webhookId);
             Set<String> keys = jedis.keys(pattern);
             return keys.size()>0;
         }

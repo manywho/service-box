@@ -16,19 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CacheManager implements CacheManagerInterface{
-    private final static String REDIS_BOX_LISTENER_REQUEST = "service:box:listener-request:webhook:%s:trigger:%s:state:%s";
-    private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:state*";
-    private final static String REDIS_BOX_LISTENER_REQUEST_SEARCH = "service:box:listener-request:webhook:%s:*";
+    protected final static String REDIS_BOX_LISTENER_REQUEST =                 "service:box:listener-request:webhook:%s:trigger:%s:state:%s";
+    protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:state*";
+    protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH =          "service:box:listener-request:webhook:%s:*";
 
-    private final static String REDIS_BOX_AUTHENTICATEDWHO = "service:box:autenticatedwho:webhook:%s:state:%s";
+    protected final static String REDIS_BOX_AUTHENTICATEDWHO = "service:box:autenticatedwho:webhook:%s:state:%s";
 
-    private final static String REDIS_BOX_WEBHOOK = "service:box:webhook:targettype:%s:targetid:%s";
+    protected final static String REDIS_BOX_WEBHOOK = "service:box:webhook:targettype:%s:targetid:%s";
 
-    private final static String REDIS_BOX_FLOW_LISTENING = "service:box:listen:targettype:%s:targetid:%s:trigger:%s";
+    protected final static String REDIS_BOX_FLOW_LISTENING = "service:box:listen:targettype:%s:targetid:%s:trigger:%s";
 
-    private final static String REDIS_BOX_CREDENTIALS = "service:box:user:%s:credentials";
-    private final static String REDIS_BOX_TOKEN_AS_A_KEY = "service:box:user:token:%s";
-    private final static String REDIS_BOX_FLOW_HEADER ="service:box:box-userid:%s:flow-auth-header";
+    protected final static String REDIS_BOX_CREDENTIALS = "service:box:user:%s:credentials";
+    protected final static String REDIS_BOX_TOKEN_AS_A_KEY = "service:box:user:token:%s";
+    protected final static String REDIS_BOX_FLOW_HEADER ="service:box:box-userid:%s:flow-auth-header";
 
     private JedisPool jedisPool;
     private ObjectMapper objectMapper;
