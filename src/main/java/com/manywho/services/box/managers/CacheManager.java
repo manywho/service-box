@@ -21,7 +21,7 @@ import java.util.List;
 public class CacheManager implements CacheManagerInterface{
     private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
     protected final static String REDIS_BOX_LISTENER_REQUEST =                 "service:box:listener-request:webhook:%s:trigger:%s:state:%s";
-    protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:state*";
+    protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:state:*";
     protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH =          "service:box:listener-request:webhook:%s:*";
 
     protected final static String REDIS_BOX_AUTHENTICATEDWHO = "service:box:autenticatedwho:webhook:%s:state:%s";
