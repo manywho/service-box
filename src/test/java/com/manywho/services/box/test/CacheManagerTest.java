@@ -6,12 +6,18 @@ import com.manywho.services.box.managers.CacheManager;
 import org.apache.commons.lang3.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Some methods are not supported by jedis moc (like scan method) so I have created this class to do the same
+ * functionality (less efficient) in a way that can be supported by the mock jedis
+ */
 public class CacheManagerTest extends CacheManager {
     private JedisPool jedisPool;
     private ObjectMapper objectMapper;
@@ -66,9 +72,17 @@ public class CacheManagerTest extends CacheManager {
             String pattern = String.format("service:box:listener-request:webhook:%s:trigger:%s:state*", webhookId, trigger);
             Set<String> keys = jedis.keys(pattern);
 
-            for (String key:keys) {
+            for (String key : keys) {
                 jedis.del(key);
             }
+        }
+    }
+
+    public Boolean areAnyListenerServiceRequestForThisWebhook(String webhookId) throws Exception {
+        try (Jedis jedis = jedisPool.getResource()) {
+            String pattern = String.format("service:box:listener-request:webhook:%s:*", webhookId);
+            Set<String> keys = jedis.keys(pattern);
+            return keys.size()>0;
         }
     }
 }
