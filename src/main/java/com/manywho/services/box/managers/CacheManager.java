@@ -6,6 +6,9 @@ import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.ScanParams;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CacheManager implements CacheManagerInterface{
+    private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
     protected final static String REDIS_BOX_LISTENER_REQUEST =                 "service:box:listener-request:webhook:%s:trigger:%s:state:%s";
     protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:state*";
     protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH =          "service:box:listener-request:webhook:%s:*";
@@ -173,6 +177,9 @@ public class CacheManager implements CacheManagerInterface{
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.set(key, objectMapper.writeValueAsString(listenerServiceRequest));
         }
+
+        LOGGER.debug("saveListenerServiceRequest : " + key );
+        LOGGER.debug(objectMapper.writeValueAsString(listenerServiceRequest));
     }
 
     public void deleteListenerServiceRequest(String webhookId, String trigger) {
@@ -191,10 +198,11 @@ public class CacheManager implements CacheManagerInterface{
     public List<ListenerServiceRequest> getListenerServiceRequest(String webhookId, String trigger) throws Exception {
 
         List<ListenerServiceRequest> listenerServiceRequest = new ArrayList<>();
+        String pattern = String.format(REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS, webhookId, trigger);
 
         try (Jedis jedis = jedisPool.getResource()) {
             ScanParams params = new ScanParams();
-            params.match(String.format(REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS, webhookId, trigger));
+            params.match(pattern);
             ScanResult<String> scanResult = jedis.scan("0", params);
             List<String> keys = scanResult.getResult();
 
@@ -206,6 +214,8 @@ public class CacheManager implements CacheManagerInterface{
                 }
             }
         }
+        LOGGER.debug("getListenerServiceRequest : " + pattern );
+        LOGGER.debug(objectMapper.writeValueAsString(listenerServiceRequest));
 
         return listenerServiceRequest;
     }
