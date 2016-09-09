@@ -173,10 +173,10 @@ public class CacheManager implements CacheManagerInterface{
 
     public void saveListenerServiceRequest(String webhookId, String trigger, String stateId, ListenerServiceRequest listenerServiceRequest) throws Exception {
         String key = String.format(REDIS_BOX_LISTENER_REQUEST, webhookId, trigger, stateId);
-
+        LOGGER.debug("saveListenerServiceRequest : " + key );
+        LOGGER.debug(objectMapper.writeValueAsString(listenerServiceRequest));
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.set(key, objectMapper.writeValueAsString(listenerServiceRequest));
-            LOGGER.debug("saveListenerServiceRequest : " + key );
             LOGGER.debug(jedis.get(key));
             LOGGER.debug("end saveListenerServiceRequest " );
         }
