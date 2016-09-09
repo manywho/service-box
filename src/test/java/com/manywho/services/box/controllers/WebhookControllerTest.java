@@ -171,11 +171,11 @@ public class WebhookControllerTest extends BoxServiceFunctionalTest {
         assertSame(1, httpClientMock.getResponsesHistory().size());
 
         //check database status
-        assertNull(mockJedis.get(webhookKey));
+        assertNotNull(mockJedis.get(webhookKey));
         assertNotNull(mockJedis.get(listenerRequestPreviewKey));
-        assertNotNull(mockJedis.get(authenticatedWhoKey));
         assertNotNull(mockJedis.get(userkey));
 
+        assertNull(mockJedis.get(authenticatedWhoKey));
         assertNull(mockJedis.get(listenerRequestDownloadKey));
     }
 
