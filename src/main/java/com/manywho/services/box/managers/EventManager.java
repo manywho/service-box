@@ -1,15 +1,22 @@
 package com.manywho.services.box.managers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.sdk.RunService;
 import com.manywho.sdk.entities.run.EngineValue;
 import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
 import com.manywho.sdk.entities.run.elements.config.ListenerServiceResponse;
 import com.manywho.sdk.entities.run.elements.type.MObject;
 import com.manywho.sdk.enums.ContentType;
+import com.manywho.sdk.enums.InvokeType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 
 import javax.inject.Inject;
 
 public class EventManager {
+    private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
+
     @Inject
     private WebhookManager webhookManager;
 
@@ -18,6 +25,9 @@ public class EventManager {
 
     @Inject
     private CacheManagerInterface cacheManager;
+
+    @Inject
+    private ObjectMapper objectMapper;
 
     public void sendEvent(ListenerServiceRequest listenerServiceRequest, MObject object, String name) throws Exception {
         ListenerServiceResponse listenerServiceResponse = new ListenerServiceResponse();
@@ -28,7 +38,8 @@ public class EventManager {
         listenerServiceResponse.setCulture(listenerServiceRequest.getCulture());
         listenerServiceResponse.setTenantId(listenerServiceRequest.getTenantId());
 
-        runService.sendEvent(null, null, listenerServiceRequest.getTenantId(), listenerServiceRequest.getCallbackUri(), listenerServiceResponse);
+        InvokeType invokeType = runService.sendEvent(null, null, listenerServiceRequest.getTenantId(), listenerServiceRequest.getCallbackUri(), listenerServiceResponse);
+        LOGGER.debug(objectMapper.writeValueAsString(invokeType));
     }
 
     public void cleanEvent(String userToken, String webhookId, String targetType, String targetId, String triggerType, String stateId, String sourceTriggerId) throws Exception {
