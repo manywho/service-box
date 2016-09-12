@@ -6,6 +6,7 @@ import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.box.services.WebhookTriggersService;
 
 import javax.inject.Inject;
+import java.util.Set;
 
 public class ListenerManager {
     private WebhookManager webhookManager;
@@ -26,8 +27,8 @@ public class ListenerManager {
         if (webhookId != null) {
             webhookInfo = webhookManager.getWebhookInfo(authenticatedWho.getToken(), listenerServiceRequest.getToken(), webhookId);
             if ( !webhookTriggersService.haveTrigger(webhookInfo, triggerType)) {
-                webhookTriggersService.addTriggerToWebhookInfo(webhookInfo, triggerType);
-                webhookManager.updateWebhookInfo(authenticatedWho.getToken(), webhookId, webhookInfo);
+                Set<BoxWebHook.Trigger> triggerList = webhookTriggersService.listOfTriggerForWebhook(webhookInfo, triggerType);
+                webhookManager.updateWebhookInfoTriggers(authenticatedWho.getToken(), webhookId, triggerList);
             }
         } else {
             webhookInfo = webhookManager.createWebhook(authenticatedWho.getToken(),

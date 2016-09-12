@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class WebhookTriggersService {
 
-    public void addTriggerToWebhookInfo(BoxWebHook.Info webhook, BoxWebHook.Trigger newTrigger) {
+    public Set<BoxWebHook.Trigger> listOfTriggerForWebhook(BoxWebHook.Info webhook, BoxWebHook.Trigger newTrigger) {
         Set<BoxWebHook.Trigger> currentTriggers = webhook.getTriggers();
         boolean found = false;
 
@@ -20,6 +20,8 @@ public class WebhookTriggersService {
         if(!found) {
             currentTriggers.add(newTrigger);
         }
+
+        return currentTriggers;
     }
 
     // workaround bug in library

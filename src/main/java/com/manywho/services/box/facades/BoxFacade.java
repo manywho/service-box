@@ -221,9 +221,10 @@ public class BoxFacade {
         updateCredentials(boxAPIConnection, accessToken);
     }
 
-    public void updateWebhook(String accessToken, String webhookId, BoxWebHook.Info info) {
+    public void updateWebhookTriggers(String accessToken, String webhookId, Set<BoxWebHook.Trigger> triggers) {
         BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
-        BoxWebHook boxWebHook = new BoxWebHook(createApiConnection(accessToken), webhookId);
+        BoxWebHook boxWebHook = new BoxWebHook(boxAPIConnection, webhookId);
+        BoxWebHook.Info info = boxWebHook.new Info().setTriggers(triggers);
         boxWebHook.updateInfo(info);
         updateCredentials(boxAPIConnection, accessToken);
     }

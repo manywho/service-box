@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 
 public class AssignFlowWebhookCreate {
     @Property("Flow Id")
-    @NotNull(message = "A name is required when assigning a flow")
+    @NotNull(message = "A Flow Id is required when assigning a flow")
     private String flowId;
 
     @Property("Flow Version Id")

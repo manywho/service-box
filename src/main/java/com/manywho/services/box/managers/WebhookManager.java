@@ -49,15 +49,15 @@ public class WebhookManager {
 
     public void addTriggerToWebhookInfo(String accessToken, BoxWebHook.Info info, String trigger)
     {
-        webhookTriggersService.addTriggerToWebhookInfo(info, BoxWebHook.Trigger.fromValue(trigger));
-        updateWebhookInfo(accessToken, info.getResource().getID(), info);
+        Set<BoxWebHook.Trigger> triggerSets = webhookTriggersService.listOfTriggerForWebhook(info, BoxWebHook.Trigger.fromValue(trigger));
+        updateWebhookInfoTriggers(accessToken, info.getResource().getID(), triggerSets);
     }
 
     public void deleteWebhook(String userToken, String id) {
         boxFacade.deleteWebhook(userToken, id);
     }
 
-    public void updateWebhookInfo(String token, String webhookId, BoxWebHook.Info info) {
-        boxFacade.updateWebhook(token, webhookId, info);
+    public void updateWebhookInfoTriggers(String token, String webhookId, Set<BoxWebHook.Trigger> triggerSet) {
+        boxFacade.updateWebhookTriggers(token, webhookId, triggerSet);
     }
 }
