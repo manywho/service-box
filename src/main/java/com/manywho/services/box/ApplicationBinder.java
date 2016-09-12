@@ -42,7 +42,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(TaskService.class).to(TaskService.class);
         bind(WebhookManager.class).to(WebhookManager.class);
         bind(WebhookTriggersService.class).to(WebhookTriggersService.class);
-        bind(CacheManagerWithoutScan.class).to(CacheManagerInterface.class);
+        bind(CacheManager.class).to(CacheManagerInterface.class);
         bind(EventManager.class).to(EventManager.class);
         bind(CallbackWebhookManager.class).to(CallbackWebhookManager.class);
         bind(ListenerManager.class).to(ListenerManager.class);

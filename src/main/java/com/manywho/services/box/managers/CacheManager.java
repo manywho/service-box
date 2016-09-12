@@ -5,6 +5,7 @@ import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
+import com.manywho.services.box.utilities.ScanIterator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -203,19 +204,20 @@ public class CacheManager implements CacheManagerInterface{
         try (Jedis jedis = jedisPool.getResource()) {
             ScanParams params = new ScanParams();
             params.match(pattern);
-            ScanResult<String> scanResult = jedis.scan("0", params);
-            List<String> keys = scanResult.getResult();
 
-            for (String key:keys) {
-                String json = jedis.get(key);
+            ScanIterator iterator = new ScanIterator(jedis, params);
+            while (iterator.hasNext()) {
+                List<String> keys = iterator.next();
 
-                if (StringUtils.isNotEmpty(json)) {
-                    listenerServiceRequest.add(objectMapper.readValue(json, ListenerServiceRequest.class));
+                for (String key : keys) {
+                    String json = jedis.get(key);
+
+                    if (StringUtils.isNotEmpty(json)) {
+                        listenerServiceRequest.add(objectMapper.readValue(json, ListenerServiceRequest.class));
+                    }
                 }
             }
         }
-        LOGGER.debug("getListenerServiceRequest : " + pattern );
-        LOGGER.debug(objectMapper.writeValueAsString(listenerServiceRequest));
 
         return listenerServiceRequest;
     }
@@ -225,9 +227,17 @@ public class CacheManager implements CacheManagerInterface{
         try (Jedis jedis = jedisPool.getResource()) {
             ScanParams params = new ScanParams();
             params.match(String.format(REDIS_BOX_LISTENER_REQUEST_SEARCH, webhookId));
-            ScanResult<String> scanResult = jedis.scan("0", params);
 
-            return scanResult.getResult().size() > 0;
+            ScanIterator iterator = new ScanIterator(jedis, params);
+            while (iterator.hasNext()) {
+                List<String> keys = iterator.next();
+                if (keys!= null && !keys.isEmpty()) {
+
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 
