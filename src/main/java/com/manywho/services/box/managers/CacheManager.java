@@ -13,7 +13,6 @@ import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.ScanParams;
-import redis.clients.jedis.ScanResult;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -21,9 +20,9 @@ import java.util.List;
 
 public class CacheManager implements CacheManagerInterface{
     private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
-    protected final static String REDIS_BOX_LISTENER_REQUEST =                 "service:box:listener-request:webhook:%s:trigger:%s:state:%s";
+    protected final static String REDIS_BOX_LISTENER_REQUEST = "service:box:listener-request:webhook:%s:trigger:%s:state:%s";
     protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:state:*";
-    protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH =          "service:box:listener-request:webhook:%s:*";
+    protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH = "service:box:listener-request:webhook:%s:*";
 
     protected final static String REDIS_BOX_AUTHENTICATEDWHO = "service:box:autenticatedwho:webhook:%s:state:%s";
 
@@ -34,9 +33,11 @@ public class CacheManager implements CacheManagerInterface{
     protected final static String REDIS_BOX_CREDENTIALS = "service:box:user:%s:credentials";
     protected final static String REDIS_BOX_TOKEN_AS_A_KEY = "service:box:user:token:%s";
     protected final static String REDIS_BOX_FLOW_HEADER ="service:box:box-userid:%s:flow-auth-header";
+    protected final static Integer REDIS_SCAN_COUNT = 1000;
 
     private JedisPool jedisPool;
     private ObjectMapper objectMapper;
+
 
     @Inject
     public CacheManager(JedisPool jedisPool, ObjectMapper objectMapper) {
@@ -186,12 +187,16 @@ public class CacheManager implements CacheManagerInterface{
     public void deleteListenerServiceRequest(String webhookId, String trigger) {
         try (Jedis jedis = jedisPool.getResource()) {
             ScanParams params = new ScanParams();
+            params.count(REDIS_SCAN_COUNT);
             params.match(String.format(REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS, webhookId, trigger));
-            ScanResult<String> scanResult = jedis.scan("0", params);
-            List<String> keys = scanResult.getResult();
+            ScanIterator iterator = new ScanIterator(jedis, params);
 
-            for (String key:keys) {
-                jedis.del(key);
+            while (iterator.hasNext()) {
+                List<String> keys = iterator.next();
+
+                for (String key : keys) {
+                    jedis.del(key);
+                }
             }
         }
     }
@@ -204,8 +209,9 @@ public class CacheManager implements CacheManagerInterface{
         try (Jedis jedis = jedisPool.getResource()) {
             ScanParams params = new ScanParams();
             params.match(pattern);
-
+            params.count(REDIS_SCAN_COUNT);
             ScanIterator iterator = new ScanIterator(jedis, params);
+
             while (iterator.hasNext()) {
                 List<String> keys = iterator.next();
 
@@ -226,6 +232,7 @@ public class CacheManager implements CacheManagerInterface{
 
         try (Jedis jedis = jedisPool.getResource()) {
             ScanParams params = new ScanParams();
+            params.count(REDIS_SCAN_COUNT);
             params.match(String.format(REDIS_BOX_LISTENER_REQUEST_SEARCH, webhookId));
 
             ScanIterator iterator = new ScanIterator(jedis, params);

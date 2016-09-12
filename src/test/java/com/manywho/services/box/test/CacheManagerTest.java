@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Some methods are not supported by jedis moc (like scan method) so I have created this class to do the same
+ * Some methods are not supported by jedis mock (like scan method) so I have created this class to do the same
  * functionality (less efficient) in a way that can be supported by the mock jedis
  */
 public class CacheManagerTest extends CacheManager {

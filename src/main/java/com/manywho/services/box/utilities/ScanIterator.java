@@ -40,7 +40,7 @@ public class ScanIterator implements Iterator<List<String>> {
         List<String> result = scanResult.getResult();
 
         // Fetch the next set of results using the cursor
-        scanResult = jedis.scan(scanResult.getStringCursor());
+        scanResult = jedis.scan(scanResult.getStringCursor(), scanParams);
 
         return result;
     }
