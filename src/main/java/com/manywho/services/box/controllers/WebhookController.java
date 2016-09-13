@@ -40,10 +40,8 @@ public class WebhookController {
         String createdByUserId = (String) webhookReturn.getCreatedBy().get("id");
         try {
             LOGGER.debug(objectMapper.writeValueAsString(webhookReturn));
-
             webhookHandlerManager.handleWebhook(webhookReturn, webhookId, targetId, targetType, createdByUserId);
         }catch (Exception ex) {
-            LOGGER.debug(ex.getMessage());
             LOGGER.info(objectMapper.writeValueAsString(ex));
             throw ex;
         }

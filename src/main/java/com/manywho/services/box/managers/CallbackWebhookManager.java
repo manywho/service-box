@@ -32,7 +32,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CallbackWebhookManager {
-    private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
     @Inject
     private CacheManagerInterface cacheManager;
 
@@ -51,27 +50,19 @@ public class CallbackWebhookManager {
     public void processEventFile(String webhookId, String targetId, String triggerType) throws Exception {
         AuthenticatedWho authenticatedWho;
         MObject object;
-        LOGGER.debug("processEventFile");
         List<ListenerServiceRequest> requests = cacheManager.getListenerServiceRequest(webhookId, triggerType);
-        LOGGER.debug("requests : " + requests.size());
-        LOGGER.debug(objectMapper.writeValueAsString(requests));
 
         for (ListenerServiceRequest request:requests) {
-            LOGGER.debug(objectMapper.writeValueAsString(request));
             authenticatedWho = cacheManager.getAuthenticatedWhoForWebhook(webhookId, request.getStateId());
 
             if(Objects.equals(request.getValueForListening().getTypeElementDeveloperName(), "Folder")) {
-                LOGGER.debug("webhook in folder");
                 object = databaseLoadService.loadFolder(authenticatedWho.getToken(),
                         request.getValueForListening().getObjectData().get(0).getExternalId());
 
-                LOGGER.debug(objectMapper.writeValueAsString(object));
                 eventManager.sendEvent(request, object, Folder.NAME);
                 eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FOLDER", targetId, triggerType, request.getStateId(), getFolderIdFromRequest(request));
             } else {
-                LOGGER.debug("webhook in file");
                 object = databaseLoadService.loadFile(authenticatedWho.getToken(), targetId);
-                LOGGER.debug(objectMapper.writeValueAsString(object));
                 eventManager.sendEvent(request, object, File.NAME);
                 eventManager.cleanEvent(authenticatedWho.getToken(), webhookId, "FILE", targetId, triggerType, request.getStateId(), null);
             }

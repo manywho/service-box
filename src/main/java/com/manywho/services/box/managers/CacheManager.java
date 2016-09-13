@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CacheManager implements CacheManagerInterface{
-    private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
     protected final static String REDIS_BOX_LISTENER_REQUEST = "service:box:listener-request:webhook:%s:trigger:%s:state:%s";
     protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS = "service:box:listener-request:webhook:%s:trigger:%s:state:*";
     protected final static String REDIS_BOX_LISTENER_REQUEST_SEARCH = "service:box:listener-request:webhook:%s:*";
@@ -175,12 +174,8 @@ public class CacheManager implements CacheManagerInterface{
 
     public void saveListenerServiceRequest(String webhookId, String trigger, String stateId, ListenerServiceRequest listenerServiceRequest) throws Exception {
         String key = String.format(REDIS_BOX_LISTENER_REQUEST, webhookId, trigger, stateId);
-        LOGGER.debug("saveListenerServiceRequest : " + key );
-        LOGGER.debug(objectMapper.writeValueAsString(listenerServiceRequest));
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.set(key, objectMapper.writeValueAsString(listenerServiceRequest));
-            LOGGER.debug(jedis.get(key));
-            LOGGER.debug("end saveListenerServiceRequest " );
         }
     }
 

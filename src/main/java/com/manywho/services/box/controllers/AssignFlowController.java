@@ -8,9 +8,6 @@ import com.manywho.sdk.services.annotations.AuthorizationRequired;
 import com.manywho.sdk.services.controllers.AbstractController;
 import com.manywho.services.box.entities.requests.AssignFlowWebhookCreate;
 import com.manywho.services.box.managers.AssignFlowManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -23,7 +20,6 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AssignFlowController extends AbstractController{
-    private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
     private PropertyCollectionParser propertyParser;
     private AssignFlowManager assignFlowManager;
 

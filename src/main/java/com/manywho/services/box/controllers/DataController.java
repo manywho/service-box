@@ -9,7 +9,6 @@ import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
 import com.manywho.services.box.types.Task;
 import com.manywho.services.box.types.TaskAssignment;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
