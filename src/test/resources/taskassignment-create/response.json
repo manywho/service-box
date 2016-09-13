@@ -1,0 +1,95 @@
+{
+  "token": "eae63f26-1e3b-44d7-bca0-fa65f0844abb",
+  "tenantId": null,
+  "culture": null,
+  "annotations": null,
+  "invokeType": "FORWARD",
+  "waitMessage": null,
+  "outputs": [{
+    "valueElementId": null,
+    "typeElementId": null,
+    "typeElementPropertyId": null,
+    "developerName": "TaskAssignment",
+    "typeElementDeveloperName": "TaskAssignment",
+    "typeElementPropertyDeveloperName": null,
+    "contentValue": null,
+    "contentType": "ContentObject",
+    "objectData": [{
+      "internalId": null,
+      "externalId": "19515738",
+      "developerName": "TaskAssignment",
+      "typeElementId": null,
+      "order": 0,
+      "properties": [{
+        "typeElementPropertyId": null,
+        "developerName": "ID",
+        "contentType": null,
+        "contentValue": "19515738",
+        "contentFormat": null,
+        "objectData": null
+      }, {
+        "typeElementPropertyId": null,
+        "developerName": "Assignee Email",
+        "contentType": null,
+        "contentValue": "jose.collazzi@manywho.com",
+        "contentFormat": null,
+        "objectData": null
+      }, {
+        "typeElementPropertyId": null,
+        "developerName": "File",
+        "contentType": null,
+        "contentValue": null,
+        "contentFormat": null,
+        "objectData": [{
+          "internalId": null,
+          "externalId": "94761962967",
+          "developerName": "File",
+          "typeElementId": null,
+          "order": 0,
+          "properties": [{
+            "typeElementPropertyId": null,
+            "developerName": "ID",
+            "contentType": null,
+            "contentValue": "94761962967",
+            "contentFormat": null,
+            "objectData": null
+          }, {
+            "typeElementPropertyId": null,
+            "developerName": "Name",
+            "contentType": null,
+            "contentValue": "dog.jpg",
+            "contentFormat": null,
+            "objectData": null
+          }, {
+            "typeElementPropertyId": null,
+            "developerName": "Description",
+            "contentType": null,
+            "contentValue": null,
+            "contentFormat": null,
+            "objectData": null
+          }, {
+            "typeElementPropertyId": null,
+            "developerName": "Created At",
+            "contentType": null,
+            "contentValue": "",
+            "contentFormat": null,
+            "objectData": null
+          }, {
+            "typeElementPropertyId": null,
+            "developerName": "Modified At",
+            "contentType": null,
+            "contentValue": "",
+            "contentFormat": null,
+            "objectData": null
+          }],
+          "isSelected": false
+        }]
+      }],
+      "isSelected": false
+    }]
+  }],
+  "selectedOutcomeId": null,
+  "rootFaults": null,
+  "valueFaults": null,
+  "mode": null
+}

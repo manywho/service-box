@@ -1,0 +1,91 @@
+{
+  "culture": null,
+  "objectData": [
+    {
+      "internalId": null,
+      "externalId": "19514630",
+      "developerName": "TaskAssignment",
+      "typeElementId": null,
+      "order": 0,
+      "properties": [
+        {
+          "typeElementPropertyId": null,
+          "developerName": "ID",
+          "contentType": null,
+          "contentValue": "19514630",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Assignee Email",
+          "contentType": null,
+          "contentValue": "jose.collazzi@manywho.com",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "File",
+          "contentType": null,
+          "contentValue": null,
+          "contentFormat": null,
+          "objectData": [
+            {
+              "internalId": null,
+              "externalId": "94761962967",
+              "developerName": "File",
+              "typeElementId": null,
+              "order": 0,
+              "properties": [
+                {
+                  "typeElementPropertyId": null,
+                  "developerName": "ID",
+                  "contentType": null,
+                  "contentValue": "94761962967",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": null,
+                  "developerName": "Name",
+                  "contentType": null,
+                  "contentValue": "dog.jpg",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": null,
+                  "developerName": "Description",
+                  "contentType": null,
+                  "contentValue": null,
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": null,
+                  "developerName": "Created At",
+                  "contentType": null,
+                  "contentValue": "",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": null,
+                  "developerName": "Modified At",
+                  "contentType": null,
+                  "contentValue": "",
+                  "contentFormat": null,
+                  "objectData": null
+                }
+              ],
+              "isSelected": false
+            }
+          ]
+        }
+      ],
+      "isSelected": false
+    }
+  ],
+  "hasMoreResults": false
+}

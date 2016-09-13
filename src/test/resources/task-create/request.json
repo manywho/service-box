@@ -1,0 +1,294 @@
+{
+  "joinPlayerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?join=9e2a9155-388d-43b8-957c-a5539e6d9dc7",
+  "playerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?flow-id=0413b804-06e6-42c4-8d6d-8e935222807e",
+  "uri": "https://manywho-box-local.ngrok.io/api/box/3/task/create",
+  "inputs": [
+    {
+      "valueElementId": "13e96983-d489-4461-abbb-23f024e279b3",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "File",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "objectData": [
+        {
+          "internalId": "d0320726-5ef2-4e9f-ab21-bffd5f8f7e07",
+          "externalId": "94761962967",
+          "developerName": "File",
+          "typeElementId": "65facdbc-c13e-485d-9ca7-f6fed04c8a82",
+          "order": 0,
+          "properties": [
+            {
+              "typeElementPropertyId": "2846abdf-2afd-4fdc-a951-91368723e79a",
+              "developerName": "ID",
+              "contentValue": "94761962967",
+              "contentType": "ContentString",
+              "contentFormat": null,
+              "objectData": null
+            },
+            {
+              "typeElementPropertyId": "89279758-25bc-4c0d-8410-350bb62dfd03",
+              "developerName": "Name",
+              "contentValue": "dog.jpg",
+              "contentType": "ContentString",
+              "contentFormat": null,
+              "objectData": null
+            },
+            {
+              "typeElementPropertyId": "29f03261-df70-46a4-84d0-7a919fe8e2aa",
+              "developerName": "Description",
+              "contentValue": "",
+              "contentType": "ContentString",
+              "contentFormat": null,
+              "objectData": null
+            },
+            {
+              "typeElementPropertyId": "07ca2e66-4247-46da-a371-ab45194a2b4e",
+              "developerName": "Content",
+              "contentValue": "",
+              "contentType": "ContentString",
+              "contentFormat": null,
+              "objectData": null
+            },
+            {
+              "typeElementPropertyId": "268d5512-f2b8-4213-b2b5-b65ef279f924",
+              "developerName": "Parent Folder",
+              "contentValue": null,
+              "contentType": "ContentObject",
+              "contentFormat": null,
+              "objectData": [
+                {
+                  "internalId": "6214a18d-5989-41b2-af47-58a5749db387",
+                  "externalId": "0",
+                  "developerName": "Folder",
+                  "typeElementId": "72a90cab-175c-48d1-abe9-b7393aee1ad8",
+                  "order": 0,
+                  "properties": [
+                    {
+                      "typeElementPropertyId": "5bb85cfd-c2b5-4439-9058-1350b16f62af",
+                      "developerName": "ID",
+                      "contentValue": "0",
+                      "contentType": "ContentString",
+                      "contentFormat": null,
+                      "objectData": null
+                    },
+                    {
+                      "typeElementPropertyId": "e3bdba39-28bd-4bc1-aa46-fbbd0be8f095",
+                      "developerName": "Name",
+                      "contentValue": "All Files",
+                      "contentType": "ContentString",
+                      "contentFormat": null,
+                      "objectData": null
+                    },
+                    {
+                      "typeElementPropertyId": "d05cf5d8-88f6-4ec2-9dd9-8365d4be0f4b",
+                      "developerName": "Description",
+                      "contentValue": "",
+                      "contentType": "ContentString",
+                      "contentFormat": null,
+                      "objectData": null
+                    },
+                    {
+                      "typeElementPropertyId": "fce7d595-8167-4b14-a01a-c36f9a466a05",
+                      "developerName": "Files",
+                      "contentValue": null,
+                      "contentType": "ContentList",
+                      "contentFormat": null,
+                      "objectData": [
+                        {
+                          "internalId": "7202ff5b-1192-43c7-ab4a-53ad1098077d",
+                          "externalId": "94761962967",
+                          "developerName": "File",
+                          "typeElementId": "65facdbc-c13e-485d-9ca7-f6fed04c8a82",
+                          "order": 0,
+                          "properties": [
+                            {
+                              "typeElementPropertyId": "2846abdf-2afd-4fdc-a951-91368723e79a",
+                              "developerName": "ID",
+                              "contentValue": "94761962967",
+                              "contentType": "ContentString",
+                              "contentFormat": null,
+                              "objectData": null
+                            },
+                            {
+                              "typeElementPropertyId": "89279758-25bc-4c0d-8410-350bb62dfd03",
+                              "developerName": "Name",
+                              "contentValue": "dog.jpg",
+                              "contentType": "ContentString",
+                              "contentFormat": null,
+                              "objectData": null
+                            },
+                            {
+                              "typeElementPropertyId": "29f03261-df70-46a4-84d0-7a919fe8e2aa",
+                              "developerName": "Description",
+                              "contentValue": "",
+                              "contentType": "ContentString",
+                              "contentFormat": null,
+                              "objectData": null
+                            },
+                            {
+                              "typeElementPropertyId": "07ca2e66-4247-46da-a371-ab45194a2b4e",
+                              "developerName": "Content",
+                              "contentValue": "",
+                              "contentType": "ContentString",
+                              "contentFormat": null,
+                              "objectData": null
+                            },
+                            {
+                              "typeElementPropertyId": "268d5512-f2b8-4213-b2b5-b65ef279f924",
+                              "developerName": "Parent Folder",
+                              "contentValue": null,
+                              "contentType": "ContentObject",
+                              "contentFormat": null,
+                              "objectData": null
+                            },
+                            {
+                              "typeElementPropertyId": "10c81faf-c933-43d4-9eb1-a0757860be27",
+                              "developerName": "Comments",
+                              "contentValue": null,
+                              "contentType": "ContentList",
+                              "contentFormat": null,
+                              "objectData": null
+                            },
+                            {
+                              "typeElementPropertyId": "425dc8bd-53dd-4c81-bb53-60aba5b3ee90",
+                              "developerName": "Created At",
+                              "contentValue": "",
+                              "contentType": "ContentDateTime",
+                              "contentFormat": null,
+                              "objectData": null
+                            },
+                            {
+                              "typeElementPropertyId": "ae123fac-9443-4694-86d5-dac7d36ac593",
+                              "developerName": "Modified At",
+                              "contentValue": "",
+                              "contentType": "ContentDateTime",
+                              "contentFormat": null,
+                              "objectData": null
+                            }
+                          ],
+                          "isSelected": false
+                        }
+                      ]
+                    },
+                    {
+                      "typeElementPropertyId": "9fbd1723-ca2e-4375-a117-4a24f770adea",
+                      "developerName": "Created At",
+                      "contentValue": "",
+                      "contentType": "ContentDateTime",
+                      "contentFormat": null,
+                      "objectData": null
+                    },
+                    {
+                      "typeElementPropertyId": "53f59b81-652d-4016-8d37-18b52e84ac68",
+                      "developerName": "Modified At",
+                      "contentValue": "",
+                      "contentType": "ContentDateTime",
+                      "contentFormat": null,
+                      "objectData": null
+                    }
+                  ],
+                  "isSelected": false
+                }
+              ]
+            },
+            {
+              "typeElementPropertyId": "10c81faf-c933-43d4-9eb1-a0757860be27",
+              "developerName": "Comments",
+              "contentValue": null,
+              "contentType": "ContentList",
+              "contentFormat": null,
+              "objectData": null
+            },
+            {
+              "typeElementPropertyId": "425dc8bd-53dd-4c81-bb53-60aba5b3ee90",
+              "developerName": "Created At",
+              "contentValue": "2016-09-13T14:08:25.000+01:00",
+              "contentType": "ContentDateTime",
+              "contentFormat": null,
+              "objectData": null
+            },
+            {
+              "typeElementPropertyId": "ae123fac-9443-4694-86d5-dac7d36ac593",
+              "developerName": "Modified At",
+              "contentValue": "2016-09-13T14:08:25.000+01:00",
+              "contentType": "ContentDateTime",
+              "contentFormat": null,
+              "objectData": null
+            }
+          ],
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "valueElementId": "6f3265d0-d067-4065-9bb3-2e763485e124",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Message",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "94761962967",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": "00000000-0000-0000-0000-000000000000",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Due At",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": null,
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "48615a74-e180-468f-a63b-340e7b3f3b7d",
+      "developerName": "go",
+      "label": "",
+      "order": 0
+    }
+  ],
+  "executionMode": "",
+  "token": "53242472-9c8b-4a81-bdc6-3ca52a85fafc",
+  "tenantId": "67204d5c-6022-474d-8f80-0d576b43d02d",
+  "stateId": "9e2a9155-388d-43b8-957c-a5539e6d9dc7",
+  "callbackUri": "https://flow.manywho.com/api/run/1/response",
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "2516780",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "authorization": {
+    "serviceElementId": "803ab3e1-062c-478e-8754-e100485f84f2",
+    "globalAuthenticationType": "ALL_USERS",
+    "streamBehaviourType": "NONE",
+    "groups": null,
+    "users": null,
+    "locations": null
+  },
+  "annotations": null,
+  "attributes": null
+}

@@ -1,0 +1,32 @@
+{
+  "type": "task",
+  "id": "14627330",
+  "item": {
+    "type": "file",
+    "id": "94761962967",
+    "file_version": {
+      "type": "file_version",
+      "id": "101790952151",
+      "sha1": "5ebe626ee671c4d131d2993cb8868dbcd37f00e9"
+    },
+    "sequence_id": "0",
+    "etag": "0",
+    "sha1": "5ebe626ee671c4d131d2993cb8868dbcd37f00e9",
+    "name": "dog.jpg"
+  },
+  "due_at": null,
+  "action": "review",
+  "message": "94761962967",
+  "task_assignment_collection": {
+    "total_count": 0,
+    "entries": []
+  },
+  "is_completed": false,
+  "created_by": {
+    "type": "user",
+    "id": "328136111",
+    "name": "jose",
+    "login": "jose.collazzi@manywho.com"
+  },
+  "created_at": "2016-09-13T06:20:24-07:00"
+}

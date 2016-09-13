@@ -10,26 +10,25 @@ import javax.ws.rs.core.Response;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class FolderControllerTest extends BoxServiceFunctionalTest{
+public class TaskAssignmentControllerTest extends BoxServiceFunctionalTest {
     @Test
-    public void testCreateFolder() throws Exception {
+    public void testCreateTaskAssignment() throws Exception {
 
         MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("folder-create/box-response/create-folder-response.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("folder-create/box-response/items/items-for-folder.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("taskassignment-create/box-response/taskassignment-created.json", 200));
 
-        Response responseMsg = target("/folder/create").request()
+        Response responseMsg = target("/task/addassignment").request()
                 .headers(headers)
-                .post(getServerRequestFromFile("folder-create/request.json"));
+                .post(getServerRequestFromFile("taskassignment-create/request.json"));
 
         //check the response is right
         assertJsonSame(
-                getJsonFormatFileContent("folder-create/response.json"),
+                getJsonFormatFileContent("taskassignment-create/response.json"),
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertEquals(2, requestIntersectorTests.executedCalls());
+        assertEquals(1, requestIntersectorTests.executedCalls());
     }
 }
