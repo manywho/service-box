@@ -12,7 +12,6 @@ import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
 import com.manywho.sdk.services.providers.ObjectMapperProvider;
 import com.manywho.sdk.test.FunctionalTest;
 import com.manywho.sdk.test.MockFactory;
-import com.manywho.services.box.clients.ExtendedRawRunClient;
 import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.entities.WebhookReturn;
 import com.manywho.services.box.managers.CacheManagerInterface;
@@ -22,7 +21,6 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.test.TestProperties;
 import org.json.JSONException;
 import redis.clients.jedis.JedisPool;
-import org.apache.http.client.HttpClient;
 
 import javax.inject.Singleton;
 import javax.ws.rs.client.Entity;
