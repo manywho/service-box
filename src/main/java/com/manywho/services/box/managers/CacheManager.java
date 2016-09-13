@@ -28,7 +28,7 @@ public class CacheManager implements CacheManagerInterface{
 
     protected final static String REDIS_BOX_WEBHOOK = "service:box:webhook:targettype:%s:targetid:%s";
 
-    protected final static String REDIS_BOX_FLOW_LISTENING = "service:box:listen:targettype:%s:targetid:%s:trigger:%s";
+    protected final static String REDIS_BOX_FLOW_LISTENING = "service:box:flow-listener-request:targettype:%s:targetid:%s:trigger:%s";
 
     protected final static String REDIS_BOX_CREDENTIALS = "service:box:user:%s:credentials";
     protected final static String REDIS_BOX_TOKEN_AS_A_KEY = "service:box:user:token:%s";

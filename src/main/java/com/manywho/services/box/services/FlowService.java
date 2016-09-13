@@ -1,27 +1,28 @@
 package com.manywho.services.box.services;
 
+import com.manywho.sdk.client.raw.RawRunClient;
 import com.manywho.sdk.entities.draw.flow.FlowId;
 import com.manywho.sdk.entities.run.*;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
+import com.manywho.sdk.entities.security.AuthenticationCredentials;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.enums.FlowMode;
-import com.manywho.services.box.clients.ExtendedRawRunClient;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
-import com.manywho.services.box.entities.InitializationRequest;
 
 import javax.inject.Inject;
 import java.util.UUID;
 
 public class FlowService {
-    final private ExtendedRawRunClient runClient;
+    final private RawRunClient runClient;
 
     @Inject
-    public FlowService(ExtendedRawRunClient runClient) {
+    public FlowService(RawRunClient runClient) {
         this.runClient = runClient;
     }
 
     public String getFlowAuthenticationCode(String stateId, String tenantId, AuthenticatedWho authenticatedWho, String password, String sessionToken, String sessionUrl, String loginUrl ) {
-        InitializationRequest initializationRequest = new InitializationRequest();
+        AuthenticationCredentials initializationRequest = new AuthenticationCredentials();
+
         initializationRequest.setUsername(authenticatedWho.getUsername());
         initializationRequest.setLoginUrl(loginUrl);
         initializationRequest.setPassword(password);
@@ -29,8 +30,7 @@ public class FlowService {
         initializationRequest.setToken(authenticatedWho.getToken());
         initializationRequest.setSessionUrl(sessionUrl);
 
-
-        return runClient.authentication(UUID.fromString(stateId), UUID.fromString(tenantId), initializationRequest);
+        return runClient.authenticationCredentials(UUID.fromString(stateId), UUID.fromString(tenantId), initializationRequest);
     }
 
     public EngineInitializationResponse startFlow(String tenantId, FlowId flowId, ExecutionFlowMetadata executionFlowMetadata, String targetType, String targetId, String auth) throws Exception {

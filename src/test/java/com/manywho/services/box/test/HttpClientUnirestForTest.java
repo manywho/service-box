@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class HttpClientForTest extends CloseableHttpClient{
+public class HttpClientUnirestForTest extends CloseableHttpClient{
 
     private ArrayList <CloseableHttpResponse> responses;
     private ArrayList <CloseableHttpResponse> responsesHistory;
     protected ArrayList <HttpRequest> requestsHistory;
 
-    public HttpClientForTest() {
+    public HttpClientUnirestForTest() {
         responses = new ArrayList<>();
         responsesHistory = new ArrayList<>();
         requestsHistory = new ArrayList<>();

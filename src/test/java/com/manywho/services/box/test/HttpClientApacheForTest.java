@@ -12,8 +12,28 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class HttpClientMock implements HttpClient {
+public class HttpClientApacheForTest implements HttpClient {
+    private ArrayList<Object> responses;
+    private ArrayList <Object> responsesHistory;
+    protected ArrayList <HttpUriRequest> requestsHistory;
+
+    public HttpClientApacheForTest() {
+        responses = new ArrayList<>();
+        responsesHistory = new ArrayList<>();
+        requestsHistory = new ArrayList<>();
+    }
+
+    public void addResponse(Object response)
+    {
+        responses.add(response);
+    }
+
+    public ArrayList<Object> getResponsesHistory() {
+        return responsesHistory;
+    }
+
     @Override
     public HttpParams getParams() {
         return null;
@@ -46,7 +66,12 @@ public class HttpClientMock implements HttpClient {
 
     @Override
     public <T> T execute(HttpUriRequest request, ResponseHandler<? extends T> responseHandler) throws IOException, ClientProtocolException {
-        return null;
+        Object response = responses.get(0);
+        responses.remove(0);
+        responsesHistory.add(response);
+        requestsHistory.add(request);
+
+        return (T)response;
     }
 
     @Override

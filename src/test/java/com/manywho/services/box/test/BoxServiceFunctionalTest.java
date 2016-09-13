@@ -12,6 +12,7 @@ import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
 import com.manywho.sdk.services.providers.ObjectMapperProvider;
 import com.manywho.sdk.test.FunctionalTest;
 import com.manywho.sdk.test.MockFactory;
+import com.manywho.services.box.clients.ExtendedRawRunClient;
 import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.entities.WebhookReturn;
 import com.manywho.services.box.managers.CacheManagerInterface;
@@ -21,6 +22,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.test.TestProperties;
 import org.json.JSONException;
 import redis.clients.jedis.JedisPool;
+import org.apache.http.client.HttpClient;
 
 import javax.inject.Singleton;
 import javax.ws.rs.client.Entity;
@@ -42,8 +44,9 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
     protected SecurityConfiguration mockSecurityConfiguration;
     protected RequestIntersectorTestsImpl requestIntersectorTests;
     protected TokenCacheService mockTokenCacheService;
-    protected HttpClientForTest httpClientForTest;
+    protected HttpClientUnirestForTest httpClientUnirestForTest;
     protected RawRunClient rawRunClient;
+    protected HttpClientApacheForTest httpClientApacheForTest;
 
     @Override
     protected javax.ws.rs.core.Application configure(){
@@ -58,8 +61,10 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
         mockTokenCache();
         requestIntersectorTests = new RequestIntersectorTestsImpl();
 
-        httpClientForTest = new HttpClientForTest();
-        rawRunClient = new RawRunClient();
+        httpClientUnirestForTest = new HttpClientUnirestForTest();
+        httpClientApacheForTest = new HttpClientApacheForTest();
+
+        rawRunClient = new RawRunClient(httpClientApacheForTest);
 
         CacheManagerInterface cacheManager = new CacheManagerTest(mockJedisPool, new ObjectMapper());
 
@@ -72,6 +77,7 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
                 bindFactory(new MockFactory<SecurityConfiguration>(mockSecurityConfiguration)).to(SecurityConfiguration.class).in(Singleton.class).ranked(1);
                 bindFactory(new MockFactory<TokenCacheService>(mockTokenCacheService)).to(TokenCacheService.class).ranked(1);
                 bindFactory(new MockFactory<CacheManagerInterface>(cacheManager)).to(CacheManagerInterface.class).ranked(1);
+                bindFactory(new MockFactory<RawRunClient>(rawRunClient)).to(RawRunClient.class).ranked(1);
             }
         });
     }
