@@ -24,8 +24,7 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load/box-response/folder.json", 200));
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load/box-response/items-in-folder.json", 200));
 
-        Response responseMsg = target("/data").request()
-                .headers(headers)
+        Response responseMsg = target("/data").request().headers(headers)
                 .post(getObjectDataRequestFromFile("data-load/folder-load/request.json"));
 
         //check the response is right
@@ -38,8 +37,28 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
     }
 
     @Test
-    public void testLoadFile() throws Exception {
+    public void testLoadFolderWithFilters() throws IOException, URISyntaxException, JSONException {
+        MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
+        headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load-filter/box-response/folders.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load-filter/box-response/folder-items.json", 200));
+
+        Response responseMsg = target("/data").request()
+                .headers(headers)
+                .post(getObjectDataRequestFromFile("data-load/folder-load-filter/request.json"));
+
+        //check the response is right
+        assertJsonSame(
+                getJsonFormatFileContent("data-load/folder-load-filter/response.json"),
+                getJsonFormatResponse(responseMsg)
+        );
+
+        assertEquals(2, requestIntersectorTests.executedCalls());
+    }
+
+    @Test
+    public void testLoadFile() throws Exception {
         MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
@@ -60,8 +79,49 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
     }
 
     @Test
-    public void testLoadTask() throws Exception {
+    public void testLoadFileSystem() throws Exception {
+        MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
+        headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/file-system-load/box-response/file.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/file-system-load/box-response/parent-folder-of-file.json", 200));
+
+        Response responseMsg = target("/data").request()
+                .headers(headers)
+                .post(getObjectDataRequestFromFile("data-load/file-system-load/request.json"));
+
+        assertJsonSame(
+                getJsonFormatFileContent("data-load/file-system-load/response.json"),
+                getJsonFormatResponse(responseMsg)
+        );
+
+        assertSame(2,requestIntersectorTests.executedCalls());
+    }
+
+
+    @Test
+    public void testLoadMetadata() throws Exception {
+        MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
+        headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
+
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/metadata-load/box-response/metadata-file-search.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/metadata-load/box-response/contract.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/metadata-load/box-response/metadata.json", 200));
+
+        Response responseMsg = target("/data").request()
+                .headers(headers)
+                .post(getObjectDataRequestFromFile("data-load/metadata-load/request.json"));
+
+        assertJsonSame(
+                getJsonFormatFileContent("data-load/metadata-load/response.json"),
+                getJsonFormatResponse(responseMsg)
+        );
+
+        assertSame(3,requestIntersectorTests.executedCalls());
+    }
+
+    @Test
+    public void testLoadTask() throws Exception {
         MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
@@ -81,6 +141,7 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
 
     @Test
     public void testLoadTaskAssignment() throws Exception {
+
 
         MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));

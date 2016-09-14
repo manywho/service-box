@@ -1,0 +1,19 @@
+{
+  "total_count": 1,
+  "entries": [{
+    "type": "folder",
+    "id": "11288893877",
+    "sequence_id": "0",
+    "etag": "0",
+    "name": "test"
+  }],
+  "offset": 0,
+  "limit": 1000,
+  "order": [{
+    "by": "type",
+    "direction": "ASC"
+  }, {
+    "by": "name",
+    "direction": "ASC"
+  }]
+}

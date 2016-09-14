@@ -1,0 +1,75 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": {
+    "users": null,
+    "groups": null,
+    "runningAuthenticationId": null,
+    "globalAuthenticationType": "ALL_USERS"
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "2516780",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": {
+    "id": null,
+    "filterByProvidedObjects": false,
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": "",
+    "orderBy": null,
+    "limit": 0,
+    "offset": 0,
+    "search": null,
+    "searchCriteria": null,
+    "comparisonType": "AND",
+    "where": [
+      {
+        "columnName": "status",
+        "criteriaType": "EQUAL",
+        "value": "Signed",
+        "contentValue": "Signed",
+        "objectData": null
+      }
+    ],
+    "listFilters": null
+  },
+  "objectDataType": {
+    "typeElementId": "c6103375-20dd-41bf-b0fb-afcfd009a783",
+    "developerName": "contract",
+    "properties": [
+      {
+        "developerName": "status",
+        "list": null
+      },
+      {
+        "developerName": "___file",
+        "list": null
+      },
+      {
+        "developerName": "___folder",
+        "list": null
+      }
+    ]
+  },
+  "objectData": null
+}
