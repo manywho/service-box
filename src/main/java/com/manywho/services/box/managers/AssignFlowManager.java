@@ -33,6 +33,5 @@ public class AssignFlowManager {
         cacheManager.saveUserIdByTokenKey(authenticatedWho.getToken(), authenticatedWho.getUserId());
         listenerService.createFlowListener(assignFlow.getTargetId(), authenticatedWho.getToken() , executionFlowMetadata);
         cacheManager.saveFlowHeaderByUser(authenticatedWho.getUserId(), authorizationHeader);
-
     }
 }

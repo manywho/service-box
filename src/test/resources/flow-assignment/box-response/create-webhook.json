@@ -1,0 +1,17 @@
+{
+  "id": "200757",
+  "type": "webhook",
+  "target": {
+    "id": "94873577569",
+    "type": "file"
+  },
+  "created_by": {
+    "type": "user",
+    "id": "328136111",
+    "name": "jose",
+    "login": "jose.collazzi@manywho.com"
+  },
+  "created_at": "2016-09-14T06:11:59-07:00",
+  "address": "https://manywho-box-local.ngrok.io/api/box/3/webhook/callback",
+  "triggers": ["FILE.DOWNLOADED"]
+}
