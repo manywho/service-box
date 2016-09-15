@@ -112,7 +112,7 @@ public class BoxFacade {
         return taskAssignment;
     }
 
-    public BoxAPIConnection getValidBoxApiConnection(String accessToken, String refreshToken) {
+    public BoxAPIConnection getValidBoxApiConnection(String accessToken) {
         BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
         BoxUser.getCurrentUser(boxAPIConnection);
         updateCredentials(boxAPIConnection, accessToken);
@@ -162,9 +162,10 @@ public class BoxFacade {
     }
 
     public void copyFile(String accessToken, String fileId, String folderId, String newName) {
-        BoxAPIConnection apiConnection = createApiConnection(accessToken);
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
 
-        new BoxFile(apiConnection, fileId).copy(new BoxFolder(apiConnection, folderId), newName);
+        new BoxFile(boxAPIConnection, fileId).copy(new BoxFolder(boxAPIConnection, folderId), newName);
+        updateCredentials(boxAPIConnection, accessToken);
     }
 
     public void moveFile(String accessToken, String fileId, String folderId, String newName) {

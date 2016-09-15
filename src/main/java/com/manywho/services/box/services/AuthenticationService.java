@@ -53,8 +53,7 @@ public class AuthenticationService {
         Credentials credentials = cacheManager.getCredentials(boxUserId);
 
         if(credentials!=  null) {
-            BoxAPIConnection boxAPIConnection = boxFacade.getValidBoxApiConnection(credentials.getAccessToken(),
-                    credentials.getRefreshToken());
+            BoxAPIConnection boxAPIConnection = boxFacade.getValidBoxApiConnection(credentials.getAccessToken());
             credentials.setAccessToken(boxAPIConnection.getAccessToken());
 
             if (boxAPIConnection.getRefreshToken() != null && !boxAPIConnection.getRefreshToken().isEmpty()) {

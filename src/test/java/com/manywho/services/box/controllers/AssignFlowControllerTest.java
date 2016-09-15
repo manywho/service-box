@@ -3,6 +3,7 @@ package com.manywho.services.box.controllers;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.utils.AuthorizationUtils;
 import com.manywho.services.box.test.BoxServiceFunctionalTest;
+import org.junit.Ignore;
 import org.junit.Test;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
@@ -22,7 +23,7 @@ public class AssignFlowControllerTest extends BoxServiceFunctionalTest {
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("flow-assignment/box-response/create-webhook.json", 200));
         String userCredentials = "service:box:user:123456789:credentials";
-        String userTokenKey = "service:box:user:token:NONE";
+        String userTokenKey = "service:box:user:token:12345678";
         String flowHeaderKey = "service:box:box-userid:123456789:flow-auth-header";
 
         mockJedis.set(userCredentials, getJsonFormatFileContent("flow-assignment/db/credentials.json"));
@@ -40,10 +41,11 @@ public class AssignFlowControllerTest extends BoxServiceFunctionalTest {
         assertEquals("\"123456789\"", mockJedis.get(userTokenKey));
         assertJsonSame(getJsonFormatFileContent("flow-assignment/db/credentials-after-action.json"),
                 mockJedis.get(userCredentials));
-        //assertEquals("", );
+        
         assertEquals(1, requestIntersectorTests.executedCalls());
         assertNotNull(mockJedis.get(flowHeaderKey));
     }
+
 
     protected static AuthenticatedWho getAuthenticatedWho() {
         AuthenticatedWho authenticatedWho = new AuthenticatedWho();
@@ -55,7 +57,7 @@ public class AssignFlowControllerTest extends BoxServiceFunctionalTest {
         authenticatedWho.setEmail("admin@manywho.com");
         authenticatedWho.setIdentityProvider("NONE");
         authenticatedWho.setTenantName("UNKNOWN");
-        authenticatedWho.setToken("NONE");
+        authenticatedWho.setToken("12345678");
         authenticatedWho.setUsername("");
         authenticatedWho.setUserId("123456789");
         authenticatedWho.setFirstName("");
