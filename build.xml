@@ -8,6 +8,8 @@
             <entry key="oauth2.developerEdition.clientSecret" value="${oauth2.developerEdition.clientSecret}"/>
             <entry key="secure.privateKeyLocation" value="${secure.privateKeyLocation}"/>
             <entry key="secure.privateKeyPassword" value="${secure.privateKeyPassword}"/>
+            <entry key="webhook.signature.primary.key" value="${webhook.signature.primary.key}"/>
+            <entry key="webhook.signature.secondary.key" value="${webhook.signature.secondary.key}"/>
             <entry key="assignment.flowId" value="${assignment.flowId}"/>
             <entry key="assignment.flowVersionId" value="${assignment.flowVersionId}"/>
             <entry key="assignment.tenantId" value="${assignment.tenantId}"/>
