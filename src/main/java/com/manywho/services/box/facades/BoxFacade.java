@@ -8,6 +8,8 @@ import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.managers.CacheManagerInterface;
 import com.manywho.services.box.services.TokenCacheService;
+import com.manywho.services.box.services.box.WebhookSingatureValidator;
+
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -24,19 +26,29 @@ public class BoxFacade {
     private com.box.sdk.RequestInterceptor requestInterceptor;
     private TokenCacheService tokenCacheService;
     private CacheManagerInterface cacheManager;
+    private WebhookSingatureValidator webhookSingatureValidator;
 
     @Inject
     public BoxFacade(SecurityConfiguration securityConfiguration, RequestInterceptor requestInterceptor,
-                     TokenCacheService tokenCacheService, CacheManagerInterface cacheManager) {
+                     TokenCacheService tokenCacheService, CacheManagerInterface cacheManager,
+                     WebhookSingatureValidator webhookSingatureValidator) {
 
         this.securityConfiguration = securityConfiguration;
         this.requestInterceptor = requestInterceptor;
         this.tokenCacheService = tokenCacheService;
         this.cacheManager = cacheManager;
+        this.webhookSingatureValidator = webhookSingatureValidator;
     }
 
     public BoxAPIConnection authenticateUser(String clientId, String clientSecret, String authorizationCode) {
         return createApiConnection(clientId, clientSecret, authorizationCode);
+    }
+
+    public Boolean validateWebhookSignature(String signatureVersion, String algorithm, String signaturePrimary,
+                                            String signatureSecondary, String payload, String deliveryTimestamp ) {
+
+        return webhookSingatureValidator.validateWebhookSignature(signatureVersion, algorithm, signaturePrimary,
+                 signatureSecondary, payload, deliveryTimestamp);
     }
 
     public BoxAPIConnection confirmUserAuthentication(String accessToken) {

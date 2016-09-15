@@ -41,7 +41,7 @@ public class AssignFlowControllerTest extends BoxServiceFunctionalTest {
         assertEquals("\"123456789\"", mockJedis.get(userTokenKey));
         assertJsonSame(getJsonFormatFileContent("flow-assignment/db/credentials-after-action.json"),
                 mockJedis.get(userCredentials));
-        
+
         assertEquals(1, requestIntersectorTests.executedCalls());
         assertNotNull(mockJedis.get(flowHeaderKey));
     }

@@ -17,7 +17,8 @@ import java.net.URISyntaxException;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 public class WebhookControllerTest extends BoxServiceFunctionalTest {
 
@@ -83,8 +84,12 @@ public class WebhookControllerTest extends BoxServiceFunctionalTest {
         FlowResponseMock httpResponse = new FlowResponseMock();
         httpClientMock.addResponse(httpResponse);
 
+        when(verifier.verify(any(), any(),any(), any(), any(), any())).thenReturn(true);
+
         Response responseMsg = target("/webhook/callback").request()
                 .post(getWebhookFromFile("webhooks/file-downloaded/payload/payload.json"));
+
+        verify(verifier, times(1)).verify(any(),any(),any(),any(),any(), any());
 
         // how many box calls
         assertSame(5, requestIntersectorTests.executedCalls());
@@ -165,8 +170,13 @@ public class WebhookControllerTest extends BoxServiceFunctionalTest {
         FlowResponseMock httpResponse = new FlowResponseMock();
         httpClientMock.addResponse(httpResponse);
 
+
+        when(verifier.verify(any(), any(),any(), any(), any(), any())).thenReturn(true);
+
         Response responseMsg = target("/webhook/callback").request()
                 .post(getWebhookFromFile("webhooks/file-downloaded/payload/payload.json"));
+
+        verify(verifier, times(1)).verify(any(),any(),any(),any(),any(), any());
 
         // how many box calls
         assertSame(4, requestIntersectorTests.executedCalls());
@@ -247,8 +257,12 @@ public class WebhookControllerTest extends BoxServiceFunctionalTest {
         EngineInvokeResponse engineInvokeResponse = mock(EngineInvokeResponse.class);
         httpClientApacheForTest.addResponse(engineInvokeResponse);
 
+        when(verifier.verify(any(), any(),any(), any(), any(), any())).thenReturn(true);
+
         Response responseMsg = target("/webhook/callback").request()
                 .post(getWebhookFromFile("webhooks/file-downloaded/payload/payload-preview.json"));
+
+        verify(verifier, times(1)).verify(any(),any(),any(),any(),any(), any());
 
         // how many box calls
         assertSame(1, requestIntersectorTests.executedCalls());

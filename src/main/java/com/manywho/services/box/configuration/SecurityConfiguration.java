@@ -35,4 +35,8 @@ public class SecurityConfiguration extends ServiceConfigurationDefault {
     public String getPrivateKeyPassword() {
         return this.get("secure.privateKeyPassword");
     }
+
+    public String getWebhookSignaturePrimaryKey() {return this.get("webhook.signature.primary.key");}
+
+    public String getWebhookSignatureSecondaryKey() {return this.get("webhook.signature.secondary.key");}
 }

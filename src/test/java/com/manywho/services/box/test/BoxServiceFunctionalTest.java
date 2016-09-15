@@ -1,6 +1,7 @@
 package com.manywho.services.box.test;
 
 import com.box.sdk.BoxJSONResponse;
+import com.box.sdk.BoxWebHookSignatureVerifier;
 import com.box.sdk.InMemoryLRUAccessTokenCache;
 import com.box.sdk.RequestInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +17,7 @@ import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.entities.WebhookReturn;
 import com.manywho.services.box.managers.CacheManagerInterface;
 import com.manywho.services.box.services.TokenCacheService;
+import com.manywho.services.box.services.box.WebhookSingatureValidator;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.test.TestProperties;
@@ -32,6 +34,7 @@ import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -45,6 +48,8 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
     protected HttpClientUnirestForTest httpClientUnirestForTest;
     protected RawRunClient rawRunClient;
     protected HttpClientApacheForTest httpClientApacheForTest;
+    protected WebhookSingatureValidator validaor;
+    protected BoxWebHookSignatureVerifier verifier;
 
     @Override
     protected javax.ws.rs.core.Application configure(){
@@ -57,7 +62,10 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
         mockSecurityConfigurationResponses();
         mockTokenCacheService = mock(TokenCacheService.class);
         mockTokenCache();
+        verifier = mock(BoxWebHookSignatureVerifier.class);
+
         requestIntersectorTests = new RequestIntersectorTestsImpl();
+        validaor = new WebhookSingatureValidator(mockSecurityConfiguration, verifier);
 
         httpClientUnirestForTest = new HttpClientUnirestForTest();
         httpClientApacheForTest = new HttpClientApacheForTest();
@@ -76,6 +84,7 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
                 bindFactory(new MockFactory<TokenCacheService>(mockTokenCacheService)).to(TokenCacheService.class).ranked(1);
                 bindFactory(new MockFactory<CacheManagerInterface>(cacheManager)).to(CacheManagerInterface.class).ranked(1);
                 bindFactory(new MockFactory<RawRunClient>(rawRunClient)).to(RawRunClient.class).ranked(1);
+                bindFactory(new MockFactory<WebhookSingatureValidator>(validaor)).to(WebhookSingatureValidator.class).ranked(1);
             }
         });
     }
