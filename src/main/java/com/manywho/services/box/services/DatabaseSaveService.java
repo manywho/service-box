@@ -7,18 +7,18 @@ import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
 import com.manywho.sdk.enums.ContentType;
-import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.client.BoxClient;
 import org.apache.commons.collections4.CollectionUtils;
 
 import javax.inject.Inject;
 import java.util.List;
 
 public class DatabaseSaveService {
-    private BoxFacade boxFacade;
+    private BoxClient boxFacade;
     private ObjectMapperService objectMapperService;
 
     @Inject
-    public DatabaseSaveService(BoxFacade boxFacade, ObjectMapperService objectMapperService) {
+    public DatabaseSaveService(BoxClient boxFacade, ObjectMapperService objectMapperService) {
         this.boxFacade = boxFacade;
         this.objectMapperService = objectMapperService;
     }

@@ -2,7 +2,7 @@ package com.manywho.services.box.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.services.box.entities.WebhookReturn;
-import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.client.BoxClient;
 import com.manywho.services.box.managers.WebhookHandlerManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +20,7 @@ public class WebhookController {
     private WebhookHandlerManager webhookHandlerManager;
 
     @Inject
-    private BoxFacade boxFacade;
+    private BoxClient boxClient;
 
     private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
 
@@ -49,7 +49,7 @@ public class WebhookController {
         String targetType = webhookReturn.getSource().getType();
         String createdByUserId = (String) webhookReturn.getCreatedBy().get("id");
 
-        if(!boxFacade.validateWebhookSignature(signatureVersion, algorithm, signaturePrimary, signatureSecondary,
+        if(!boxClient.validateWebhookSignature(signatureVersion, algorithm, signaturePrimary, signatureSecondary,
                 payload, deliveryTimestamp)) {
 
             LOGGER.debug(objectMapper.writeValueAsString(webhookReturn));

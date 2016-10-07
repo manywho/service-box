@@ -1,7 +1,7 @@
 package com.manywho.services.box.managers;
 
 import com.box.sdk.BoxWebHook;
-import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.client.BoxClient;
 import com.manywho.services.box.services.WebhookTriggersService;
 import javax.inject.Inject;
 import javax.ws.rs.core.UriInfo;
@@ -11,11 +11,11 @@ import java.util.Set;
 public class WebhookManager {
     private WebhookTriggersService webhookTriggersService;
     private CacheManagerInterface cacheManager;
-    private BoxFacade boxFacade;
+    private BoxClient boxFacade;
     private UriInfo uriInfo;
 
     @Inject
-    public WebhookManager(WebhookTriggersService webhookTriggersService, CacheManagerInterface cacheManager, UriInfo uriInfo, BoxFacade boxFacade) {
+    public WebhookManager(WebhookTriggersService webhookTriggersService, CacheManagerInterface cacheManager, UriInfo uriInfo, BoxClient boxFacade) {
         this.webhookTriggersService = webhookTriggersService;
         this.cacheManager = cacheManager;
         this.uriInfo = uriInfo;

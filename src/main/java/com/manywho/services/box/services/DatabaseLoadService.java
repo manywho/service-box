@@ -6,29 +6,27 @@ import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
 import com.manywho.sdk.utils.StreamUtils;
 import com.manywho.services.box.entities.MetadataSearch;
-import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.client.BoxClient;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatabaseLoadService {
     private static final int MAX_FILE_SIZE_FOR_LOADING_CONTENT = 100000;
-    private BoxFacade boxFacade;
+    private BoxClient boxClient;
     private ObjectMapperService objectMapperService;
 
     @Inject
-    public DatabaseLoadService(BoxFacade boxFacade, ObjectMapperService objectMapperService){
-        this.boxFacade = boxFacade;
+    public DatabaseLoadService(BoxClient boxClient, ObjectMapperService objectMapperService){
+        this.boxClient = boxClient;
         this.objectMapperService = objectMapperService;
     }
 
     public Object loadFile(String token, String id) throws Exception {
-        BoxFile file = boxFacade.getFile(token, id);
+        BoxFile file = boxClient.getFile(token, id);
         if (file != null) {
             BoxFile.Info info = file.getInfo(BoxFile.ALL_FIELDS);
 
@@ -39,7 +37,7 @@ public class DatabaseLoadService {
     }
 
     public Object loadTask(String token, String id) throws Exception {
-        BoxTask task = boxFacade.getTask(token, id);
+        BoxTask task = boxClient.getTask(token, id);
         if (task != null) {
             BoxTask.Info info = task.getInfo();
 
@@ -50,7 +48,7 @@ public class DatabaseLoadService {
     }
 
     public Object loadTaskAssignment(String token, String id) throws Exception {
-        BoxTaskAssignment task = boxFacade.getTaskAssignment(token, id);
+        BoxTaskAssignment task = boxClient.getTaskAssignment(token, id);
         if (task != null) {
             BoxTaskAssignment.Info info = task.getInfo();
 
@@ -62,7 +60,7 @@ public class DatabaseLoadService {
 
 
     public Object loadFolder(String token, String id) throws Exception {
-        BoxFolder folder = boxFacade.getFolder(token, id);
+        BoxFolder folder = boxClient.getFolder(token, id);
         if (folder != null) {
             return objectMapperService.convertBoxFolder(folder.getInfo());
         }
@@ -71,7 +69,7 @@ public class DatabaseLoadService {
     }
 
     public ObjectCollection loadFolder(String token, BoxSearchParameters boxSearchParameters) {
-        PartialCollection<BoxItem.Info> folder = boxFacade.getFolders(token, boxSearchParameters);
+        PartialCollection<BoxItem.Info> folder = boxClient.getFolders(token, boxSearchParameters);
 
         ObjectCollection objectList= new ObjectCollection();
         for (BoxItem.Info boxIem: folder) {
@@ -84,7 +82,7 @@ public class DatabaseLoadService {
     }
 
     public ObjectCollection loadMetadata(String token, ObjectDataType objectDataType, MetadataSearch metadataSearch) {
-        Iterable<BoxItem.Info> files = boxFacade.searchByMetadata(token, objectDataType.getDeveloperName(), metadataSearch);
+        Iterable<BoxItem.Info> files = boxClient.searchByMetadata(token, objectDataType.getDeveloperName(), metadataSearch);
 
         // Create an object based on the given metadata type for all the result, using the objectDataType passed in
         return StreamUtils.asStream(files.iterator())
@@ -95,7 +93,7 @@ public class DatabaseLoadService {
 
     public ObjectCollection loadSingleMetadata(String token, ObjectDataType objectDataType, String id) throws Exception {
         // Load the file given in the filter from Box
-        BoxFile file = boxFacade.getFile(token, id);
+        BoxFile file = boxClient.getFile(token, id);
         if (file == null) {
             throw new Exception("A file could not be found for with the ID " + id);
         }
@@ -105,7 +103,7 @@ public class DatabaseLoadService {
     }
 
     public ObjectCollection loadFiles(String token, String folderId) throws Exception {
-        BoxFolder folder = boxFacade.getFolder(token, folderId);
+        BoxFolder folder = boxClient.getFolder(token, folderId);
         if (folder == null) {
             throw new Exception("A folder could not be found with the ID " + folderId);
         }

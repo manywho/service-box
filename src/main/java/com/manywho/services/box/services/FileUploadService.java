@@ -2,7 +2,7 @@ package com.manywho.services.box.services;
 
 import com.box.sdk.BoxFile;
 import com.manywho.sdk.entities.run.elements.type.FileDataRequest;
-import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.client.BoxClient;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.BodyPartEntity;
@@ -14,11 +14,11 @@ import java.io.InputStream;
 import java.util.Optional;
 
 public class FileUploadService {
-    private BoxFacade boxFacade;
+    private BoxClient boxClient;
 
     @Inject
-    public FileUploadService(BoxFacade boxFacade){
-        this.boxFacade = boxFacade;
+    public FileUploadService(BoxClient boxClient){
+        this.boxClient = boxClient;
     }
 
     public BodyPart getFilePart(FormDataMultiPart formDataMultiPart) throws Exception {
@@ -40,7 +40,7 @@ public class FileUploadService {
 
         // Get the incoming file as a stream, then upload it to Box into the specified folder
         try (InputStream inputStream = filePart.getEntityAs(BodyPartEntity.class).getInputStream()) {
-            return boxFacade.getFolder(token, uploadPath)
+            return boxClient.getFolder(token, uploadPath)
                     .uploadFile(inputStream, filePart.getContentDisposition().getFileName());
         }
     }

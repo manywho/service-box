@@ -16,7 +16,7 @@ public class WebhookHandlerManager {
     }
 
     public void handleWebhook(WebhookReturn webhookReturn, String webhookId, String targetId, String targetType, String createdByUserId) throws Exception {
-        if(authenticationService.updateCredentials(createdByUserId) == null) {
+        if (authenticationService.updateCredentials(createdByUserId) == null) {
             return;
         }
 

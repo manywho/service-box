@@ -5,27 +5,27 @@ import com.box.sdk.BoxUser;
 import com.manywho.sdk.entities.security.AuthenticatedWhoResult;
 import com.manywho.sdk.enums.AuthenticationStatus;
 import com.manywho.services.box.entities.Credentials;
-import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.client.BoxClient;
 import com.manywho.services.box.managers.CacheManagerInterface;
 
 import javax.inject.Inject;
 
 public class AuthenticationService {
-    private BoxFacade boxFacade;
+    private BoxClient boxClient;
     private CacheManagerInterface cacheManager;
 
     @Inject
-    public AuthenticationService(BoxFacade boxFacade, CacheManagerInterface cacheManager) {
-        this.boxFacade = boxFacade;
+    public AuthenticationService(BoxClient boxClient, CacheManagerInterface cacheManager) {
+        this.boxClient = boxClient;
         this.cacheManager = cacheManager;
     }
 
     public BoxAPIConnection confirmUserAuthenticationWithBox(String accessToken) {
-        return boxFacade.confirmUserAuthentication(accessToken);
+        return boxClient.confirmUserAuthentication(accessToken);
     }
 
     public BoxAPIConnection authenticateUserWithBox(String clientId, String clientSecret, String code) {
-        return boxFacade.authenticateUser(clientId, clientSecret, code);
+        return boxClient.authenticateUser(clientId, clientSecret, code);
     }
 
     public AuthenticatedWhoResult buildAuthenticatedWhoResult(String providerName, String email, String name, String clientId, String id, String accessToken) {
@@ -46,14 +46,14 @@ public class AuthenticationService {
     }
 
     public BoxUser.Info getCurrentBoxUser(String accessToken) {
-        return boxFacade.getCurrentUser(accessToken);
+        return boxClient.getCurrentUser(accessToken);
     }
 
     public Credentials updateCredentials(String boxUserId) throws Exception {
         Credentials credentials = cacheManager.getCredentials(boxUserId);
 
         if(credentials!=  null) {
-            BoxAPIConnection boxAPIConnection = boxFacade.getValidBoxApiConnection(credentials.getAccessToken());
+            BoxAPIConnection boxAPIConnection = boxClient.getValidBoxApiConnection(credentials);
             credentials.setAccessToken(boxAPIConnection.getAccessToken());
 
             if (boxAPIConnection.getRefreshToken() != null && !boxAPIConnection.getRefreshToken().isEmpty()) {

@@ -1,6 +1,5 @@
 package com.manywho.services.box.managers;
 
-import com.box.sdk.BoxAPIConnection;
 import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
 import com.box.sdk.BoxItem;
@@ -12,7 +11,7 @@ import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.PropertyCollectionParser;
 import com.manywho.services.box.entities.requests.FileCopy;
 import com.manywho.services.box.entities.requests.FileMove;
-import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.client.BoxClient;
 import com.manywho.services.box.services.FileService;
 import com.manywho.services.box.services.FileUploadService;
 import org.glassfish.jersey.media.multipart.BodyPart;
@@ -31,7 +30,7 @@ public class FileManager {
     private PropertyCollectionParser propertyParser;
 
     @Inject
-    private BoxFacade boxFacade;
+    private BoxClient boxClient;
 
     public ObjectDataResponse uploadFile(AuthenticatedWho authenticatedWho, FileDataRequest fileDataRequest, FormDataMultiPart formDataMultiPart) throws Exception {
         BodyPart bodyPart = fileUploadService.getFilePart(formDataMultiPart);
@@ -46,7 +45,7 @@ public class FileManager {
     }
 
     public ObjectCollection loadFiles(AuthenticatedWho authenticatedWho, String resourcePath) {
-        BoxFolder folder = boxFacade.getFolder(authenticatedWho.getToken(), resourcePath);
+        BoxFolder folder = boxClient.getFolder(authenticatedWho.getToken(), resourcePath);
 
         ObjectCollection files = new ObjectCollection();
 
@@ -60,7 +59,7 @@ public class FileManager {
 
 
     public ObjectCollection loadManyWhoFile(AuthenticatedWho authenticatedWho, String fileId) {
-        BoxFile file = boxFacade.getFile(authenticatedWho.getToken(), fileId);
+        BoxFile file = boxClient.getFile(authenticatedWho.getToken(), fileId);
 
         ObjectCollection files = new ObjectCollection();
         files.add(fileService.buildManyWhoFileObject(file.getInfo(), file));

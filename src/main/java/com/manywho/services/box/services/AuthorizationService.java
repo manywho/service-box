@@ -12,7 +12,7 @@ import com.manywho.sdk.entities.run.elements.type.Property;
 import com.manywho.sdk.entities.run.elements.type.PropertyCollection;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.utils.StreamUtils;
-import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.client.BoxClient;
 import org.apache.commons.collections4.CollectionUtils;
 
 import javax.inject.Inject;
@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AuthorizationService {
-    private BoxFacade boxFacade;
+    private BoxClient boxClient;
     private ObjectMapperService objectMapperService;
 
     @Inject
-    public AuthorizationService(BoxFacade boxFacade, ObjectMapperService objectMapperService) {
-        this.boxFacade = boxFacade;
+    public AuthorizationService(BoxClient boxClient, ObjectMapperService objectMapperService) {
+        this.boxClient = boxClient;
         this.objectMapperService = objectMapperService;
     }
 
@@ -42,7 +42,7 @@ public class AuthorizationService {
                 }
             case Specified:
                 if (!user.getUserId().equalsIgnoreCase("PUBLIC_USER")) {
-                    BoxUser.Info boxUser = boxFacade.getCurrentUser(user.getToken());
+                    BoxUser.Info boxUser = boxClient.getCurrentUser(user.getToken());
 
                     // Check if group access is being used
                     if (CollectionUtils.isNotEmpty(authorization.getGroups())) {
@@ -62,9 +62,9 @@ public class AuthorizationService {
     }
 
     public ObjectCollection loadGroups(String enterpriseId) throws IOException {
-        BoxDeveloperEditionAPIConnection apiConnection = boxFacade.createDeveloperApiConnection(enterpriseId);
+        BoxDeveloperEditionAPIConnection apiConnection = boxClient.createDeveloperApiConnection(enterpriseId);
 
-        Iterable<BoxGroup.Info> groups = boxFacade.loadGroups(apiConnection.getAccessToken());
+        Iterable<BoxGroup.Info> groups = boxClient.loadGroups(apiConnection.getAccessToken());
 
         return StreamUtils.asStream(groups.iterator())
                 .map(objectMapperService::convertGroupObjectToManyWhoGroup)
@@ -85,9 +85,9 @@ public class AuthorizationService {
     }
 
     public ObjectCollection loadUsers(String enterpriseId) throws IOException {
-        BoxDeveloperEditionAPIConnection apiConnection = boxFacade.createDeveloperApiConnection(enterpriseId);
+        BoxDeveloperEditionAPIConnection apiConnection = boxClient.createDeveloperApiConnection(enterpriseId);
 
-        Iterable<BoxUser.Info> users = boxFacade.loadUsers(apiConnection.getAccessToken());
+        Iterable<BoxUser.Info> users = boxClient.loadUsers(apiConnection.getAccessToken());
 
         return StreamUtils.asStream(users.iterator())
                 .map(objectMapperService::convertUserObjectToManyWhoUser)

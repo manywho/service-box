@@ -3,7 +3,7 @@ package com.manywho.services.box.services;
 import com.box.sdk.BoxFile;
 import com.box.sdk.BoxTask;
 import com.box.sdk.BoxTaskAssignment;
-import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.client.BoxClient;
 import org.joda.time.DateTime;
 
 import javax.inject.Inject;
@@ -12,16 +12,16 @@ import java.util.Date;
 //import com.box.sdk.BoxTask;
 
 public class TaskService {
-    private BoxFacade boxFacade;
+    private BoxClient boxClient;
 
     @Inject
-    public TaskService(BoxFacade boxFacade) {
-        this.boxFacade = boxFacade;
+    public TaskService(BoxClient boxClient) {
+        this.boxClient = boxClient;
     }
 
     public BoxTask.Info addTaskToFile(String token, String fileId, String message, DateTime dueAt) throws Exception {
         // Load the requested file from Box so we can add a new task to it
-        BoxFile file = boxFacade.getFile(token, fileId);
+        BoxFile file = boxClient.getFile(token, fileId);
         if (file != null) {
             Date date = null;
             if(dueAt != null) {
@@ -36,6 +36,6 @@ public class TaskService {
     }
 
     public BoxTaskAssignment.Info addAssignmentToTask(String token, String id, String assigneeEmail) {
-        return boxFacade.getTask(token, id).addAssignment(assigneeEmail);
+        return boxClient.getTask(token, id).addAssignment(assigneeEmail);
     }
 }
