@@ -27,4 +27,11 @@ public class ParseUrlUtilityTest {
         String tenantId = ParseUrlUtility.getFlowVersionId("https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?flow-id=16e5dbdf-dab6-45ad-83b3-9b4d9e7f6cfc&flow-version-id=ca20d743-af5d-4c93-9d40-2d2aca14fa94");
         assertEquals("ca20d743-af5d-4c93-9d40-2d2aca14fa94", tenantId);
     }
+
+    @Test
+    public void testGetFlowVersionIdPublished() throws URISyntaxException {
+        String tenantId = ParseUrlUtility.getFlowVersionId("https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?flow-id=16e5dbdf-dab6-45ad-83b3-9b4d9e7f6cfc");
+        assertEquals(null, tenantId);
+    }
+
 }

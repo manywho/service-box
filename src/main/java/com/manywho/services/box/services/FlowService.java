@@ -10,6 +10,7 @@ import com.manywho.sdk.enums.FlowMode;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
 
 import javax.inject.Inject;
+import java.util.Objects;
 import java.util.UUID;
 
 public class FlowService {
@@ -56,7 +57,7 @@ public class FlowService {
         EngineInitializationRequest engineInitializationRequest = new EngineInitializationRequest();
         engineInitializationRequest.setMode(FlowMode.Default.toString());
 
-        if(executionFlowMetadata.getFlowVersionId() == null) {
+        if(executionFlowMetadata.getFlowVersionId() == null || Objects.equals(executionFlowMetadata.getFlowVersionId(), "")) {
             engineInitializationRequest.setFlowId(new FlowId(executionFlowMetadata.getFlowId()));
         } else {
             engineInitializationRequest.setFlowId(new FlowId(executionFlowMetadata.getFlowId(), executionFlowMetadata.getFlowVersionId()));

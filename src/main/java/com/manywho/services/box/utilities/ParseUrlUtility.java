@@ -21,6 +21,10 @@ public class ParseUrlUtility {
 
     public static String getFlowVersionId(String s) throws URISyntaxException {
         List<NameValuePair> params = URLEncodedUtils.parse(new URI(s), "UTF-8");
-        return params.get(1).getValue();
+        if(params.size()>1) {
+            return params.get(1).getValue();
+        } else {
+            return null;
+        }
     }
 }

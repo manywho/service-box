@@ -109,7 +109,12 @@ public class LaunchFlowCreatorController {
 
     private String getRedirectUri(@QueryParam("file_id") String fileId, ExecutionFlowMetadata executionFlowMetadata) throws Exception {
 
-        FlowId flowId = new FlowId(flowConfiguration.getAssignmentFlowId(), flowConfiguration.getAssignmentFlowVersionId());
+        FlowId flowId;
+        if (flowConfiguration.getAssignmentFlowVersionId() != null) {
+            flowId = new FlowId(flowConfiguration.getAssignmentFlowId(), flowConfiguration.getAssignmentFlowVersionId());
+        } else {
+            flowId = new FlowId(flowConfiguration.getAssignmentFlowId());
+        }
 
         EngineInitializationResponse response = flowService.startFlow(flowConfiguration.getAssignmentTenantId(), flowId,
                 executionFlowMetadata, "file", fileId, null);

@@ -1,5 +1,7 @@
 package com.manywho.services.box.entities;
 
+import java.util.Objects;
+
 public class ExecutionFlowMetadata {
     private String keyTemplate;
     private String flowId;
@@ -39,6 +41,10 @@ public class ExecutionFlowMetadata {
     }
 
     public void setFlowVersionId(String flowVersionId) {
+        if (Objects.equals(flowVersionId, "")) {
+            flowVersionId = null;
+        }
+
         this.flowVersionId = flowVersionId;
     }
 

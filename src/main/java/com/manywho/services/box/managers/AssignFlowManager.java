@@ -5,6 +5,7 @@ import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import com.manywho.services.box.entities.requests.AssignFlowWebhookCreate;
 import com.manywho.services.box.services.ListenerService;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 
@@ -23,7 +24,12 @@ public class AssignFlowManager {
         ExecutionFlowMetadata executionFlowMetadata = new ExecutionFlowMetadata();
         executionFlowMetadata.setTrigger(assignFlow.getTrigger());
         executionFlowMetadata.setFlowId(assignFlow.getFlowId());
-        executionFlowMetadata.setFlowVersionId(assignFlow.getFlowVersionId());
+        if (StringUtils.isEmpty(assignFlow.getFlowVersionId()) || "null".equalsIgnoreCase(assignFlow.getFlowVersionId())) {
+            executionFlowMetadata.setFlowVersionId(null);
+        } else {
+            executionFlowMetadata.setFlowVersionId(assignFlow.getFlowVersionId());
+        }
+
         executionFlowMetadata.setTenantId(assignFlow.getTenantId());
 
         Credentials credentials = cacheManager.getCredentials(authenticatedWho.getUserId());
