@@ -21,11 +21,11 @@ public class FolderManager {
         Folder folder = propertyParser.parse(objectDataRequest.getObjectData().get(0).getProperties(), Folder.class);
 
         if (folder == null) {
-            throw new Exception("Unable to parse the incoming FolderCreate request");
+            throw new Exception("Unable to parse Folder save request");
         }
 
         if (StringUtils.isEmpty(folder.getParentFolder().getId())) {
-            throw new Exception("The Parent Folder id can not be empty");
+            throw new Exception("The Parent Folder ID can not be empty");
         }
 
         return folderService.createFolder(user.getToken(), folder.getParentFolder().getId(), folder.getName());
