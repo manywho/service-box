@@ -76,16 +76,10 @@ public class ObjectMapperService {
     }
 
     public Object convertBoxFolderInternal(BoxFolder.Info info, Boolean emptyParentFolder) {
-        ObjectCollection files = StreamUtils.asStream(info.getResource().iterator())
-                .filter(item -> item instanceof BoxFile.Info)
-                .map(file -> convertBoxFileBasic((BoxFile.Info) file))
-                .collect(Collectors.toCollection(ObjectCollection::new));
-
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("ID", info.getID()));
         properties.add(new Property("Name", info.getName()));
         properties.add(new Property("Description", info.getDescription()));
-        properties.add(new Property("Files", files));
         properties.add(new Property("Created At", info.getCreatedAt()));
         properties.add(new Property("Modified At", info.getModifiedAt()));
 

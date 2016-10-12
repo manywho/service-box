@@ -18,8 +18,6 @@ public class FolderControllerTest extends BoxServiceFunctionalTest{
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("folder-create/box-response/create-folder-response.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("folder-create/box-response/items/items-for-folder.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("folder-create/box-response/items/items-for-parent-folder.json", 200));
 
         Response responseMsg = target("/folder/create").request()
                 .headers(headers)
@@ -31,6 +29,6 @@ public class FolderControllerTest extends BoxServiceFunctionalTest{
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertEquals(3, requestIntersectorTests.executedCalls());
+        assertEquals(1, requestIntersectorTests.executedCalls());
     }
 }

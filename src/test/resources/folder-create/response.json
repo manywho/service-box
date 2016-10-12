@@ -49,14 +49,6 @@
             },
             {
               "typeElementPropertyId": null,
-              "developerName": "Files",
-              "contentType": null,
-              "contentValue": null,
-              "contentFormat": null,
-              "objectData": []
-            },
-            {
-              "typeElementPropertyId": null,
               "developerName": "Created At",
               "contentType": null,
               "contentValue": "2016-08-05T13:41:01.000Z",
@@ -108,14 +100,6 @@
                       "contentValue": null,
                       "contentFormat": null,
                       "objectData": null
-                    },
-                    {
-                      "typeElementPropertyId": null,
-                      "developerName": "Files",
-                      "contentType": null,
-                      "contentValue": null,
-                      "contentFormat": null,
-                      "objectData": []
                     },
                     {
                       "typeElementPropertyId": null,

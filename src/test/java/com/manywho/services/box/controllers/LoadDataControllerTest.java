@@ -22,7 +22,6 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load/box-response/folder.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load/box-response/items-in-folder.json", 200));
 
         Response responseMsg = target("/data").request().headers(headers)
                 .post(getObjectDataRequestFromFile("data-load/folder-load/request.json"));
@@ -33,7 +32,7 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertEquals(2, requestIntersectorTests.executedCalls());
+        assertEquals(1, requestIntersectorTests.executedCalls());
     }
 
     @Test
@@ -56,7 +55,7 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertEquals(3, requestIntersectorTests.executedCalls());
+        assertEquals(1, requestIntersectorTests.executedCalls());
     }
 
     @Test
@@ -65,7 +64,6 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/file-load/box-response/file.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/file-load/box-response/parent-folder-of-file.json", 200));
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/file-load/box-response/comments-of-file.json", 200));
 
         Response responseMsg = target("/data").request()
@@ -77,7 +75,7 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertSame(3,requestIntersectorTests.executedCalls());
+        assertSame(2,requestIntersectorTests.executedCalls());
     }
 
     @Test
