@@ -7,15 +7,15 @@ import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
 import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
+import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.PropertyCollectionParser;
 import com.manywho.services.box.entities.requests.TaskAddAssignment;
-import com.manywho.services.box.entities.requests.TaskCreate;
+import com.manywho.services.box.property.Task;
 import com.manywho.services.box.services.ObjectMapperService;
 import com.manywho.services.box.services.TaskService;
-import com.manywho.services.box.types.Task;
 import com.manywho.services.box.types.TaskAssignment;
 
 import javax.inject.Inject;
@@ -30,9 +30,12 @@ public class TaskManager {
     @Inject
     private ObjectMapperService objectMapperService;
 
-    public ServiceResponse createTask(AuthenticatedWho user, ServiceRequest serviceRequest) throws Exception {
-        // Parse the received ManyWho objects into POJOs
-        TaskCreate taskCreate = propertyCollectionParser.parse(serviceRequest.getInputs(), TaskCreate.class);
+    @Inject
+    private PropertyCollectionParser propertyParser;
+
+    public Object createTask(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
+        Task taskCreate = propertyParser.parse(objectDataRequest.getObjectData().get(0).getProperties(), Task.class);
+
         if (taskCreate != null) {
             // Add a new task to the requested file on Box
             BoxTask.Info taskInfo = taskService.addTaskToFile(
@@ -42,14 +45,8 @@ public class TaskManager {
                     taskCreate.getDueAt()
             );
 
-            // Convert the newly created BoxTask object into a ManyWho object
-            Object taskObject = objectMapperService.convertBoxTask(taskInfo);
+            return objectMapperService.convertBoxTask(taskInfo);
 
-            return new ServiceResponse(
-                    InvokeType.Forward,
-                    new EngineValue("Task", ContentType.Object, Task.NAME, new ObjectCollection(taskObject)),
-                    serviceRequest.getToken()
-            );
         }
 
         throw new Exception("An invalid task creation request was given");

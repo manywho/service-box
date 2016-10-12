@@ -20,13 +20,6 @@ public class  TaskController extends AbstractController {
     @Inject
     private TaskManager taskManager;
 
-    @Path("/create")
-    @POST
-    @AuthorizationRequired
-    public ServiceResponse createTask(ServiceRequest serviceRequest) throws Exception {
-        return taskManager.createTask(getAuthenticatedWho(), serviceRequest);
-    }
-
     @Path("/addassignment")
     @POST
     @AuthorizationRequired

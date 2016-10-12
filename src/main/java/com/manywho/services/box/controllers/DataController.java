@@ -5,6 +5,8 @@ import com.manywho.sdk.entities.run.elements.type.ObjectDataResponse;
 import com.manywho.sdk.services.annotations.AuthorizationRequired;
 import com.manywho.sdk.services.controllers.AbstractDataController;
 import com.manywho.services.box.managers.DataManager;
+import com.manywho.services.box.managers.FolderManager;
+import com.manywho.services.box.managers.TaskManager;
 import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
 import com.manywho.services.box.types.Task;
@@ -21,6 +23,12 @@ public class DataController extends AbstractDataController {
 
     @Inject
     private DataManager dataManager;
+
+    @Inject
+    private FolderManager folderManager;
+
+    @Inject
+    private TaskManager taskManager;
 
     @Override
     public ObjectDataResponse delete(ObjectDataRequest objectDataRequest) throws Exception {
@@ -53,8 +61,11 @@ public class DataController extends AbstractDataController {
     @AuthorizationRequired
     public ObjectDataResponse save(ObjectDataRequest objectDataRequest) throws Exception {
         switch (objectDataRequest.getObjectDataType().getDeveloperName()) {
+            case Folder.NAME:
+                return new ObjectDataResponse(folderManager.createFolder(getAuthenticatedWho(), objectDataRequest));
+            case Task.NAME:
+                return new ObjectDataResponse(taskManager.createTask(getAuthenticatedWho(), objectDataRequest));
             default:
-                // Assume the type represents Metadata
                 return new ObjectDataResponse(dataManager.saveMetadataType(getAuthenticatedWho(), objectDataRequest));
         }
     }

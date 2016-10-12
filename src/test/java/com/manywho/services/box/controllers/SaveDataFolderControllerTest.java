@@ -10,22 +10,22 @@ import javax.ws.rs.core.Response;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class FolderControllerTest extends BoxServiceFunctionalTest{
+public class SaveDataFolderControllerTest extends BoxServiceFunctionalTest{
     @Test
     public void testCreateFolder() throws Exception {
 
         MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("folder-create/box-response/create-folder-response.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-save/folder/box-response/create-folder-response.json", 200));
 
-        Response responseMsg = target("/folder/create").request()
+        Response responseMsg = target("/data").request()
                 .headers(headers)
-                .post(getServerRequestFromFile("folder-create/request.json"));
+                .put(getObjectDataRequestFromFile("data-save/folder/request.json"));
 
         //check the response is right
         assertJsonSame(
-                getJsonFormatFileContent("folder-create/response.json"),
+                getJsonFormatFileContent("data-save/folder/response.json"),
                 getJsonFormatResponse(responseMsg)
         );
 

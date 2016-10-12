@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class TaskControllerTest extends BoxServiceFunctionalTest{
+public class SaveDataTaskControllerTest extends BoxServiceFunctionalTest{
 
     @Test
     public void testCreateTask() throws Exception {
@@ -18,15 +18,15 @@ public class TaskControllerTest extends BoxServiceFunctionalTest{
         MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("task-create/box-response/task-created.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-save/task/box-response/task-created.json", 200));
 
-        Response responseMsg = target("/task/create").request()
+        Response responseMsg = target("/data").request()
                 .headers(headers)
-                .post(getServerRequestFromFile("task-create/request.json"));
+                .put(getObjectDataRequestFromFile("data-save/task/request.json"));
 
         //check the response is right
         assertJsonSame(
-                getJsonFormatFileContent("task-create/response.json"),
+                getJsonFormatFileContent("data-save/task/response.json"),
                 getJsonFormatResponse(responseMsg)
         );
 
