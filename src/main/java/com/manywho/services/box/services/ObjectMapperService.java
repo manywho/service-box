@@ -6,7 +6,9 @@ import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.utils.StreamUtils;
 import com.manywho.services.box.types.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ObjectMapperService {
@@ -54,7 +56,7 @@ public class ObjectMapperService {
         if(fileInfo.getParent() == null) {
             properties.add(new Property("Parent Folder"));
         } else {
-            properties.add(new Property("Parent Folder", convertBoxFolder(fileInfo.getParent())));
+            properties.add(new Property("Parent Folder", convertBoxFolderInternal(fileInfo.getParent(), false)));
         }
 
         properties.add(new Property("Comments", convertBoxComments(fileInfo.getResource().getComments())));
@@ -70,6 +72,10 @@ public class ObjectMapperService {
     }
 
     public Object convertBoxFolder(BoxFolder.Info info) {
+        return convertBoxFolderInternal(info, false);
+    }
+
+    public Object convertBoxFolderInternal(BoxFolder.Info info, Boolean emptyParentFolder) {
         ObjectCollection files = StreamUtils.asStream(info.getResource().iterator())
                 .filter(item -> item instanceof BoxFile.Info)
                 .map(file -> convertBoxFileBasic((BoxFile.Info) file))
@@ -82,6 +88,12 @@ public class ObjectMapperService {
         properties.add(new Property("Files", files));
         properties.add(new Property("Created At", info.getCreatedAt()));
         properties.add(new Property("Modified At", info.getModifiedAt()));
+
+        if (emptyParentFolder || Objects.equals(info.getID(), "0")) {
+            properties.add(new Property("Parent Folder", new ObjectCollection()));
+        } else {
+            properties.add(new Property("Parent Folder", convertBoxFolderInternal(info.getParent(), true)));
+        }
 
         Object object = new Object();
         object.setDeveloperName(Folder.NAME);

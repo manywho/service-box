@@ -25,6 +25,7 @@ public class Folder extends AbstractType {
                 add(new TypeElementPropertyBinding("Name", "Name"));
                 add(new TypeElementPropertyBinding("Description", "Description"));
                 add(new TypeElementPropertyBinding("Files", "Files"));
+                add(new TypeElementPropertyBinding("Parent Folder", "Parent Folder"));
                 add(new TypeElementPropertyBinding("Created At", "Created At"));
                 add(new TypeElementPropertyBinding("Modified At", "Modified At"));
             }}));
@@ -38,6 +39,7 @@ public class Folder extends AbstractType {
             add(new TypeElementProperty("Name", ContentType.String));
             add(new TypeElementProperty("Description", ContentType.String));
             add(new TypeElementProperty("Files", ContentType.List, File.NAME));
+            add(new TypeElementProperty("Parent Folder", ContentType.Object, Folder.NAME));
             add(new TypeElementProperty("Created At", ContentType.DateTime));
             add(new TypeElementProperty("Modified At", ContentType.DateTime));
         }};

@@ -43,6 +43,8 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load-filter/box-response/folders.json", 200));
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load-filter/box-response/folder-items.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load-filter/box-response/folders.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load-filter/box-response/folder-items.json", 200));
 
         Response responseMsg = target("/data").request()
                 .headers(headers)
@@ -54,11 +56,11 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertEquals(2, requestIntersectorTests.executedCalls());
+        assertEquals(3, requestIntersectorTests.executedCalls());
     }
 
     @Test
-    public void testLoadFile() throws Exception {
+    public void testLoadFileInRootFolder() throws Exception {
         MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
