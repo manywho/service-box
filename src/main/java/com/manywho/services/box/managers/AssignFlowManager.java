@@ -3,7 +3,7 @@ package com.manywho.services.box.managers;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
-import com.manywho.services.box.entities.requests.AssignFlowWebhookCreate;
+import com.manywho.services.box.entities.actions.AssignFlowWebhookCreate;
 import com.manywho.services.box.services.ListenerService;
 import org.apache.commons.lang3.StringUtils;
 

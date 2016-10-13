@@ -1,9 +1,11 @@
-package com.manywho.services.box.entities;
+package com.manywho.services.box.entities.types;
 
 import com.manywho.sdk.services.annotations.Id;
 import com.manywho.sdk.services.annotations.Property;
 import com.manywho.sdk.services.annotations.Type;
 import org.joda.time.DateTime;
+
+import javax.validation.constraints.NotNull;
 
 @Type(com.manywho.services.box.types.Task.NAME)
 public class Task {
@@ -11,17 +13,21 @@ public class Task {
     @Property("ID")
     private String id;
 
-    @Property("Due At")
+    @Property(value = "Modified At")
     private DateTime dueAt;
 
-    @Property("Message")
+    @Property(value = "Message")
     private String message;
 
-    @Property("Is Completed?")
-    private boolean completed;
+    @Property(value = "Is Completed?")
+    private Boolean completed;
 
-    @Property("Created At")
+    @Property(value = "Created At")
     private DateTime createdAt;
+
+    @Property(value = "File", isObject = true)
+    @NotNull(message = "The File can not be empty")
+    private File file;
 
     public String getId() {
         return id;
@@ -35,11 +41,15 @@ public class Task {
         return message;
     }
 
-    public boolean isCompleted() {
+    public Boolean getCompleted() {
         return completed;
     }
 
     public DateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public File getFile() {
+        return file;
     }
 }

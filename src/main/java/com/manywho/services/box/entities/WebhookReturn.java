@@ -6,8 +6,6 @@ import com.manywho.services.box.entities.webhook.Source;
 import java.util.HashMap;
 
 public class WebhookReturn {
-
-
     @JsonProperty("webhook")
     private HashMap<String, Object> webhook;
 

@@ -6,7 +6,7 @@ import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.PropertyCollectionParser;
 import com.manywho.sdk.services.annotations.AuthorizationRequired;
 import com.manywho.sdk.services.controllers.AbstractController;
-import com.manywho.services.box.entities.requests.AssignFlowWebhookCreate;
+import com.manywho.services.box.entities.actions.AssignFlowWebhookCreate;
 import com.manywho.services.box.managers.AssignFlowManager;
 
 import javax.inject.Inject;

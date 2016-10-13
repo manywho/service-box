@@ -4,7 +4,7 @@ import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.services.PropertyCollectionParser;
-import com.manywho.services.box.property.Folder;
+import com.manywho.services.box.entities.types.Folder;
 import com.manywho.services.box.services.FolderService;
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,4 +1,4 @@
-package com.manywho.services.box.entities.requests;
+package com.manywho.services.box.entities.actions;
 
 import com.manywho.sdk.services.annotations.Property;
 import javax.validation.constraints.NotNull;

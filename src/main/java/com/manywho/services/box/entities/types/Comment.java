@@ -1,4 +1,4 @@
-package com.manywho.services.box.property;
+package com.manywho.services.box.entities.types;
 
 import com.manywho.sdk.services.annotations.Id;
 import com.manywho.sdk.services.annotations.Property;

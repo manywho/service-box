@@ -12,8 +12,8 @@ import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.PropertyCollectionParser;
-import com.manywho.services.box.entities.requests.TaskAddAssignment;
-import com.manywho.services.box.property.Task;
+import com.manywho.services.box.entities.actions.TaskAddAssignment;
+import com.manywho.services.box.entities.types.Task;
 import com.manywho.services.box.services.ObjectMapperService;
 import com.manywho.services.box.services.TaskService;
 import com.manywho.services.box.types.TaskAssignment;
@@ -46,7 +46,6 @@ public class TaskManager {
             );
 
             return objectMapperService.convertBoxTask(taskInfo);
-
         }
 
         throw new Exception("An invalid task creation request was given");
@@ -65,7 +64,6 @@ public class TaskManager {
                     serviceRequest.getToken()
             );
         }
-
 
         throw new Exception("An invalid task assignment creation request was given");
     }

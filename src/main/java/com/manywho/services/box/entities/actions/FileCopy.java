@@ -1,8 +1,8 @@
-package com.manywho.services.box.entities.requests;
+package com.manywho.services.box.entities.actions;
 
 import com.manywho.sdk.services.annotations.Property;
-import com.manywho.services.box.entities.File;
-import com.manywho.services.box.entities.Folder;
+import com.manywho.services.box.entities.types.File;
+import com.manywho.services.box.entities.types.Folder;
 
 import javax.validation.constraints.NotNull;
 
