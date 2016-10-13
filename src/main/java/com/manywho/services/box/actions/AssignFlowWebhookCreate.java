@@ -18,7 +18,7 @@ public class AssignFlowWebhookCreate extends AbstractAction {
 
     @Override
     public String getDeveloperSummary() {
-        return "Assign Webhook to Flow";
+        return "Assign a Webhook to a Flow";
     }
 
     @Override
