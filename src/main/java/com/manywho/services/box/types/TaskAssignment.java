@@ -5,7 +5,7 @@ import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.services.describe.types.AbstractType;
 
 public class TaskAssignment extends AbstractType {
-    public final static String NAME = "TaskAssignment";
+    public final static String NAME = "Task Assignment";
 
     @Override
     public String getDeveloperName() {

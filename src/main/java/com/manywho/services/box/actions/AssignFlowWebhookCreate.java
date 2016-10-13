@@ -13,22 +13,22 @@ public class AssignFlowWebhookCreate extends AbstractAction {
 
     @Override
     public String getDeveloperName() {
-        return "Assign Webwhook to Flow";
+        return "Assign Webhook to Flow";
     }
 
     @Override
     public String getDeveloperSummary() {
-        return "Assign a Webhook to a Flow";
+        return "Assign Webhook to Flow";
     }
 
     @Override
     public DescribeValueCollection getServiceInputs() {
         return new DescribeValueCollection() {{
-            add(new DescribeValue("Flow Id", ContentType.String, false));
-            add(new DescribeValue("Flow Version Id", ContentType.String, false));
-            add(new DescribeValue("Tenant Id", ContentType.String, false));
-            add(new DescribeValue("Target Type", ContentType.String, false));
-            add(new DescribeValue("Target Id", ContentType.String, false));
+            add(new DescribeValue("Flow ID", ContentType.String, false));
+            add(new DescribeValue("Flow Version ID", ContentType.String, false));
+            add(new DescribeValue("Tenant ID", ContentType.String, false));
+            add(new DescribeValue("Box Target Item Type", ContentType.String, false));
+            add(new DescribeValue("Box Target Item ID", ContentType.String, false));
             add(new DescribeValue("Trigger", ContentType.String, false));
         }};
     }

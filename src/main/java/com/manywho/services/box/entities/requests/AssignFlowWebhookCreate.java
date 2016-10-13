@@ -4,23 +4,23 @@ import com.manywho.sdk.services.annotations.Property;
 import javax.validation.constraints.NotNull;
 
 public class AssignFlowWebhookCreate {
-    @Property("Flow Id")
-    @NotNull(message = "A Flow Id is required when assigning a flow")
+    @Property("Flow ID")
+    @NotNull(message = "A Flow ID is required when assigning a flow")
     private String flowId;
 
-    @Property("Flow Version Id")
+    @Property("Flow Version ID")
     private String flowVersionId;
 
-    @Property("Tenant Id")
-    @NotNull(message = "A Tenant Id is required when assigning a flow")
+    @Property("Tenant ID")
+    @NotNull(message = "A Tenant ID is required when assigning a flow")
     private String tenantId;
 
-    @Property("Target Type")
-    @NotNull(message = "A Target Type is required when assigning a flow")
+    @Property("Box Target Item Type")
+    @NotNull(message = "A Box Target Item Type is required when assigning a flow")
     private String targetType;
 
-    @Property("Target Id")
-    @NotNull(message = "A Target Type is required when assigning a flow")
+    @Property("Box Target Item ID")
+    @NotNull(message = "A Box Target Item ID is required when assigning a flow")
     private String targetId;
 
     @Property("Trigger")

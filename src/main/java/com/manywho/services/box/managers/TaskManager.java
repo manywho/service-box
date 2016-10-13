@@ -61,7 +61,7 @@ public class TaskManager {
 
             return new ServiceResponse(
                     InvokeType.Forward,
-                    new EngineValue("TaskAssignment", ContentType.Object, TaskAssignment.NAME, new ObjectCollection(taskObject)),
+                    new EngineValue("Task Assignment", ContentType.Object, TaskAssignment.NAME, new ObjectCollection(taskObject)),
                     serviceRequest.getToken()
             );
         }

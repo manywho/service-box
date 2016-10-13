@@ -34,7 +34,7 @@ public class TaskAddAssignment extends AbstractAction {
     @Override
     public DescribeValueCollection getServiceOutputs() {
         return new DescribeValueCollection() {{
-            add(new DescribeValue("TaskAssignment", ContentType.Object, false, null, TaskAssignment.NAME));
+            add(new DescribeValue("Task Assignment", ContentType.Object, false, null, TaskAssignment.NAME));
         }};
     }
 }

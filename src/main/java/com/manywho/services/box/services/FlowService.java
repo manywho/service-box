@@ -40,12 +40,12 @@ public class FlowService {
 
         EngineValueCollection engineValues = new EngineValueCollection();
 
-        engineValues.add(new EngineValue("webhook-flow-id", ContentType.String, executionFlowMetadata.getFlowId()));
-        engineValues.add(new EngineValue("webhook-flow-version-id", ContentType.String, executionFlowMetadata.getFlowVersionId()));
-        engineValues.add(new EngineValue("webhook-tenant-id", ContentType.String, executionFlowMetadata.getTenantId()));
-        engineValues.add(new EngineValue("webhook-trigger", ContentType.String, executionFlowMetadata.getTrigger()));
-        engineValues.add(new EngineValue("webhook-target-id", ContentType.String, targetId));
-        engineValues.add(new EngineValue("webhook-target-type", ContentType.String, targetType));
+        engineValues.add(new EngineValue("Flow ID", ContentType.String, executionFlowMetadata.getFlowId()));
+        engineValues.add(new EngineValue("Flow Version ID", ContentType.String, executionFlowMetadata.getFlowVersionId()));
+        engineValues.add(new EngineValue("Tenant ID", ContentType.String, executionFlowMetadata.getTenantId()));
+        engineValues.add(new EngineValue("Trigger", ContentType.String, executionFlowMetadata.getTrigger()));
+        engineValues.add(new EngineValue("Box Target Item ID", ContentType.String, targetId));
+        engineValues.add(new EngineValue("Box Target Item Type", ContentType.String, targetType));
 
         engineInitializationRequest.setInputs(engineValues);
 
@@ -80,8 +80,8 @@ public class FlowService {
         }
 
         EngineValueCollection engineValues = new EngineValueCollection();
-        engineValues.add(new EngineValue("webhook-target-id", ContentType.String, targetId));
-        engineValues.add(new EngineValue("webhook-target-type", ContentType.String, targetType));
+        engineValues.add(new EngineValue("Box Target Item ID", ContentType.String, targetId));
+        engineValues.add(new EngineValue("Box Target Item Type", ContentType.String, targetType));
         engineInitializationRequest.setInputs(engineValues);
 
         return runClient.initialize(UUID.fromString(tenantId), header, engineInitializationRequest);

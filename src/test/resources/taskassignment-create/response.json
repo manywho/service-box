@@ -9,15 +9,15 @@
     "valueElementId": null,
     "typeElementId": null,
     "typeElementPropertyId": null,
-    "developerName": "TaskAssignment",
-    "typeElementDeveloperName": "TaskAssignment",
+    "developerName": "Task Assignment",
+    "typeElementDeveloperName": "Task Assignment",
     "typeElementPropertyDeveloperName": null,
     "contentValue": null,
     "contentType": "ContentObject",
     "objectData": [{
       "internalId": null,
       "externalId": "19515738",
-      "developerName": "TaskAssignment",
+      "developerName": "Task Assignment",
       "typeElementId": null,
       "order": 0,
       "properties": [{

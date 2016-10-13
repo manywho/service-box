@@ -47,7 +47,7 @@
   },
   "objectDataType": {
     "typeElementId": "6a61d999-9898-4199-925f-7cfa942a7d59",
-    "developerName": "TaskAssignment",
+    "developerName": "Task Assignment",
     "properties": [
       {
         "developerName": "ID",
@@ -67,7 +67,7 @@
     {
       "internalId": "e18b414b-8c85-4ab6-b9a7-bd45ba5cb4b8",
       "externalId": "19514630",
-      "developerName": "TaskAssignment",
+      "developerName": "Task Assignment",
       "typeElementId": "6a61d999-9898-4199-925f-7cfa942a7d59",
       "order": 0,
       "properties": [
