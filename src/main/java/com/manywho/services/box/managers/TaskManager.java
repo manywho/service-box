@@ -12,6 +12,7 @@ import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.PropertyCollectionParser;
+import com.manywho.services.box.client.BoxClient;
 import com.manywho.services.box.entities.actions.TaskAddAssignment;
 import com.manywho.services.box.entities.types.Task;
 import com.manywho.services.box.services.ObjectMapperService;
@@ -26,6 +27,9 @@ public class TaskManager {
 
     @Inject
     private TaskService taskService;
+
+    @Inject
+    private BoxClient boxClient;
 
     @Inject
     private ObjectMapperService objectMapperService;
@@ -45,7 +49,8 @@ public class TaskManager {
                     taskCreate.getDueAt()
             );
 
-            return objectMapperService.convertBoxTask(taskInfo);
+            return objectMapperService.convertBoxTask(taskInfo, boxClient.getFile(user.getToken(),
+                    taskCreate.getFile().getId()).getInfo());
         }
 
         throw new Exception("An invalid task creation request was given");
@@ -56,7 +61,9 @@ public class TaskManager {
         TaskAddAssignment assignment = propertyCollectionParser.parse(serviceRequest.getInputs(), TaskAddAssignment.class);
         if (assignment != null) {
             BoxTaskAssignment.Info taskInfo = taskService.addAssignmentToTask(user.getToken(), assignment.getTask().getId(), assignment.getAssigneeEmail());
-            Object taskObject = objectMapperService.convertBoxTaskAssignment(taskInfo);
+
+            Object taskObject = objectMapperService.convertBoxTaskAssignment(taskInfo,
+                    boxClient.getFile(user.getToken(), taskInfo.getItem().getID()).getInfo());
 
             return new ServiceResponse(
                     InvokeType.Forward,

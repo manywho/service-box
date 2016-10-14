@@ -40,8 +40,7 @@ public class DatabaseLoadService {
         BoxTask task = boxClient.getTask(token, id);
         if (task != null) {
             BoxTask.Info info = task.getInfo();
-
-            return objectMapperService.convertBoxTask(info);
+            return objectMapperService.convertBoxTask(info, boxClient.getFile(token, info.getItem().getID()).getInfo());
         }
 
         throw new Exception("Unable to load task with ID " + id + " from Box");
@@ -52,7 +51,7 @@ public class DatabaseLoadService {
         if (task != null) {
             BoxTaskAssignment.Info info = task.getInfo();
 
-            return objectMapperService.convertBoxTaskAssignment(info);
+            return objectMapperService.convertBoxTaskAssignment(info, boxClient.getFile(token, info.getItem().getID()).getInfo());
         }
 
         throw new Exception("Unable to load task with ID " + id + " from Box");
@@ -111,7 +110,7 @@ public class DatabaseLoadService {
         // Loop over all the files in the loaded folder, and convert them to ManyWho objects
         return StreamUtils.asStream(folder.getChildren(BoxFile.ALL_FIELDS).iterator())
                 .filter(i -> i instanceof BoxFile.Info)
-                .map(f -> objectMapperService.convertBoxFileBasic((BoxFile.Info) f))
+                .map(f -> objectMapperService.convertBoxFile((BoxFile.Info) f, null))
                 .collect(Collectors.toCollection(ObjectCollection::new));
     }
 

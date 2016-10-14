@@ -19,6 +19,8 @@ public class SaveDataTaskControllerTest extends BoxServiceFunctionalTest{
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-save/task/box-response/task-created.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-save/task/box-response/file.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-save/task/box-response/comments-of-file.json", 200));
 
         Response responseMsg = target("/data").request()
                 .headers(headers)
@@ -30,6 +32,6 @@ public class SaveDataTaskControllerTest extends BoxServiceFunctionalTest{
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertEquals(1, requestIntersectorTests.executedCalls());
+        assertEquals(3, requestIntersectorTests.executedCalls());
     }
 }

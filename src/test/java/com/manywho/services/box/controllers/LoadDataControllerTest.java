@@ -107,6 +107,7 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/metadata-load/box-response/metadata-file-search.json", 200));
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/metadata-load/box-response/contract.json", 200));
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/metadata-load/box-response/metadata.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/metadata-load/box-response/comments-of-file.json", 200));
 
         Response responseMsg = target("/data").request()
                 .headers(headers)
@@ -117,7 +118,7 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertSame(3,requestIntersectorTests.executedCalls());
+        assertSame(4,requestIntersectorTests.executedCalls());
     }
 
     @Test
@@ -126,6 +127,8 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/task-load/box-response/task.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/task-load/box-response/file.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/task-load/box-response/comments-of-file.json", 200));
 
         Response responseMsg = target("/data").request()
                 .headers(headers)
@@ -136,7 +139,7 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertSame(1, requestIntersectorTests.executedCalls());
+        assertSame(3, requestIntersectorTests.executedCalls());
     }
 
     @Test
@@ -147,6 +150,8 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/taskassignment-load/box-response/taskassignment.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/taskassignment-load/box-response/file.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/taskassignment-load/box-response/comments-of-file.json", 200));
 
         Response responseMsg = target("/data").request()
                 .headers(headers)
@@ -157,6 +162,6 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertSame(1, requestIntersectorTests.executedCalls());
+        assertSame(3, requestIntersectorTests.executedCalls());
     }
 }

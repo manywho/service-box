@@ -64,21 +64,92 @@
             "typeElementPropertyId": null,
             "developerName": "Description",
             "contentType": null,
+            "contentValue": "",
+            "contentFormat": null,
+            "objectData": null
+          }, {
+            "typeElementPropertyId": null,
+            "developerName": "Content",
+            "contentType": null,
             "contentValue": null,
             "contentFormat": null,
             "objectData": null
           }, {
             "typeElementPropertyId": null,
+            "developerName": "Parent Folder",
+            "contentType": null,
+            "contentValue": null,
+            "contentFormat": null,
+            "objectData": [{
+              "internalId": null,
+              "externalId": "0",
+              "developerName": "Folder",
+              "typeElementId": null,
+              "order": 0,
+              "properties": [{
+                "typeElementPropertyId": null,
+                "developerName": "ID",
+                "contentType": null,
+                "contentValue": "0",
+                "contentFormat": null,
+                "objectData": null
+              }, {
+                "typeElementPropertyId": null,
+                "developerName": "Name",
+                "contentType": null,
+                "contentValue": "All Files",
+                "contentFormat": null,
+                "objectData": null
+              }, {
+                "typeElementPropertyId": null,
+                "developerName": "Description",
+                "contentType": null,
+                "contentValue": null,
+                "contentFormat": null,
+                "objectData": null
+              }, {
+                "typeElementPropertyId": null,
+                "developerName": "Created At",
+                "contentType": null,
+                "contentValue": "",
+                "contentFormat": null,
+                "objectData": null
+              }, {
+                "typeElementPropertyId": null,
+                "developerName": "Modified At",
+                "contentType": null,
+                "contentValue": "",
+                "contentFormat": null,
+                "objectData": null
+              }, {
+                "typeElementPropertyId": null,
+                "developerName": "Parent Folder",
+                "contentType": null,
+                "contentValue": null,
+                "contentFormat": null,
+                "objectData": []
+              }],
+              "isSelected": false
+            }]
+          }, {
+            "typeElementPropertyId": null,
+            "developerName": "Comments",
+            "contentType": null,
+            "contentValue": null,
+            "contentFormat": null,
+            "objectData": []
+          }, {
+            "typeElementPropertyId": null,
             "developerName": "Created At",
             "contentType": null,
-            "contentValue": "",
+            "contentValue": "2016-08-02T10:26:37.000Z",
             "contentFormat": null,
             "objectData": null
           }, {
             "typeElementPropertyId": null,
             "developerName": "Modified At",
             "contentType": null,
-            "contentValue": "",
+            "contentValue": "2016-08-02T10:26:37.000Z",
             "contentFormat": null,
             "objectData": null
           }],
