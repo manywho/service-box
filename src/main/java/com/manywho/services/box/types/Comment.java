@@ -15,9 +15,10 @@ public class Comment extends AbstractType {
 
     @Override
     public TypeElementPropertyCollection getProperties() {
-        return new TypeElementPropertyCollection() {{
-            add(new TypeElementProperty("ID", ContentType.String));
-            add(new TypeElementProperty("Message", ContentType.String));
-        }};
+        TypeElementPropertyCollection typeElementProperties = new TypeElementPropertyCollection();
+        typeElementProperties.add(new TypeElementProperty("ID", ContentType.String));
+        typeElementProperties.add(new TypeElementProperty("Message", ContentType.String));
+
+        return typeElementProperties;
     }
 }

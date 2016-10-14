@@ -14,21 +14,23 @@ public class TaskAssignment extends AbstractType {
 
     @Override
     public TypeElementBindingCollection getBindings() {
-        return new TypeElementBindingCollection() {{
-            add(new TypeElementBinding(NAME, "Details about a Task Assignment", NAME, new TypeElementPropertyBindingCollection() {{
-                add(new TypeElementPropertyBinding("ID", "ID"));
-                add(new TypeElementPropertyBinding("Assignee Email", "Assignee Email"));
-                add(new TypeElementPropertyBinding("File", "File"));
-            }}));
-        }};
+        TypeElementPropertyBindingCollection typeElementPropertyBindings = new TypeElementPropertyBindingCollection();
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("ID", "ID"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Assignee Email", "Assignee Email"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("File", "File"));
+        TypeElementBindingCollection typeElementBindings = new TypeElementBindingCollection();
+        typeElementBindings.add(new TypeElementBinding(NAME, "Details about a Task Assignment", NAME, typeElementPropertyBindings));
+
+        return typeElementBindings;
     }
 
     @Override
     public TypeElementPropertyCollection getProperties() {
-        return new TypeElementPropertyCollection() {{
-            add(new TypeElementProperty("ID", ContentType.String));
-            add(new TypeElementProperty("Assignee Email", ContentType.String));
-            add(new TypeElementProperty("File", ContentType.Object, File.NAME));
-        }};
+        TypeElementPropertyCollection typeElementProperties = new TypeElementPropertyCollection();
+        typeElementProperties.add(new TypeElementProperty("ID", ContentType.String));
+        typeElementProperties.add(new TypeElementProperty("Assignee Email", ContentType.String));
+        typeElementProperties.add(new TypeElementProperty("File", ContentType.Object, File.NAME));
+
+        return typeElementProperties;
     }
 }

@@ -33,15 +33,16 @@ public class DescribeManager {
             }
         }
 
+        DescribeValueCollection describeValues = new DescribeValueCollection();
+        describeValues.add(new DescribeValue("Enterprise ID", ContentType.String, false));
+
         return new DescribeServiceBuilder()
                 .setProvidesIdentity(true)
                 .setProvidesDatabase(true)
                 .setProvidesFiles(true)
                 .setProvidesLogic(true)
                 .setCulture(new Culture("EN", "US"))
-                .setConfigurationValues(new DescribeValueCollection() {{
-                    add(new DescribeValue("Enterprise ID", ContentType.String, false));
-                }})
+                .setConfigurationValues(describeValues)
                 .setTypes(describeService.buildTypeElementsFromMetadataTemplates(accessToken))
                 .createDescribeService()
                 .createResponse();

@@ -25,11 +25,12 @@ public class FileMove extends AbstractAction {
 
     @Override
     public DescribeValueCollection getServiceInputs() {
-        return new DescribeValueCollection() {{
-            add(new DescribeValue("Source File", ContentType.Object, true, null, File.NAME));
-            add(new DescribeValue("Destination Folder", ContentType.Object, true, null, Folder.NAME));
-            add(new DescribeValue("Name", ContentType.String, false));
-        }};
+        DescribeValueCollection describeValues = new DescribeValueCollection();
+        describeValues.add(new DescribeValue("Source File", ContentType.Object, true, null, File.NAME));
+        describeValues.add(new DescribeValue("Destination Folder", ContentType.Object, true, null, Folder.NAME));
+        describeValues.add(new DescribeValue("Name", ContentType.String, false));
+
+        return describeValues;
     }
 
     @Override

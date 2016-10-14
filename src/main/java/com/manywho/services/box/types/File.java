@@ -14,31 +14,34 @@ public class File extends AbstractType {
 
     @Override
     public TypeElementBindingCollection getBindings() {
-        return new TypeElementBindingCollection() {{
-            add(new TypeElementBinding(NAME, "Details about a file", NAME, new TypeElementPropertyBindingCollection() {{
-                add(new TypeElementPropertyBinding("ID", "ID"));
-                add(new TypeElementPropertyBinding("Name", "Name"));
-                add(new TypeElementPropertyBinding("Description", "Description"));
-                add(new TypeElementPropertyBinding("Content", "Content"));
-                add(new TypeElementPropertyBinding("Parent Folder", "Parent Folder"));
-                add(new TypeElementPropertyBinding("Comments", "Comments"));
-                add(new TypeElementPropertyBinding("Created At", "Created At"));
-                add(new TypeElementPropertyBinding("Modified At", "Modified At"));
-            }}));
-        }};
+        TypeElementPropertyBindingCollection typeElementPropertyBindings = new TypeElementPropertyBindingCollection();
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("ID", "ID"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Name", "Name"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Description", "Description"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Content", "Content"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Parent Folder", "Parent Folder"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Comments", "Comments"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Created At", "Created At"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Modified At", "Modified At"));
+
+        TypeElementBindingCollection typeElementBindings = new TypeElementBindingCollection();
+        typeElementBindings.add(new TypeElementBinding(NAME, "Details about a file", NAME, typeElementPropertyBindings));
+
+        return typeElementBindings;
     }
 
     @Override
     public TypeElementPropertyCollection getProperties() {
-        return new TypeElementPropertyCollection() {{
-            add(new TypeElementProperty("ID", ContentType.String));
-            add(new TypeElementProperty("Name", ContentType.String));
-            add(new TypeElementProperty("Description", ContentType.String));
-            add(new TypeElementProperty("Content", ContentType.String));
-            add(new TypeElementProperty("Parent Folder", ContentType.Object, Folder.NAME));
-            add(new TypeElementProperty("Comments", ContentType.List, Comment.NAME));
-            add(new TypeElementProperty("Created At", ContentType.DateTime));
-            add(new TypeElementProperty("Modified At", ContentType.DateTime));
-        }};
+        TypeElementPropertyCollection typeElementProperties = new TypeElementPropertyCollection();
+        typeElementProperties.add(new TypeElementProperty("ID", ContentType.String));
+        typeElementProperties.add(new TypeElementProperty("Name", ContentType.String));
+        typeElementProperties.add(new TypeElementProperty("Description", ContentType.String));
+        typeElementProperties.add(new TypeElementProperty("Content", ContentType.String));
+        typeElementProperties.add(new TypeElementProperty("Parent Folder", ContentType.Object, Folder.NAME));
+        typeElementProperties.add(new TypeElementProperty("Comments", ContentType.List, Comment.NAME));
+        typeElementProperties.add(new TypeElementProperty("Created At", ContentType.DateTime));
+        typeElementProperties.add(new TypeElementProperty("Modified At", ContentType.DateTime));
+
+        return typeElementProperties;
     }
 }

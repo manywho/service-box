@@ -15,27 +15,30 @@ public class Task extends AbstractType {
 
     @Override
     public TypeElementBindingCollection getBindings() {
-        return new TypeElementBindingCollection() {{
-            add(new TypeElementBinding(NAME, "Details about a Task", NAME, new TypeElementPropertyBindingCollection() {{
-                add(new TypeElementPropertyBinding("ID", "ID"));
-                add(new TypeElementPropertyBinding("Due At", "Due At"));
-                add(new TypeElementPropertyBinding("Message", "Message"));
-                add(new TypeElementPropertyBinding("Is Completed?", "Is Completed?"));
-                add(new TypeElementPropertyBinding("Created At", "Created At"));
-                add(new TypeElementPropertyBinding("File", "File"));
-            }}));
-        }};
+        TypeElementPropertyBindingCollection typeElementPropertyBindings = new TypeElementPropertyBindingCollection();
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("ID", "ID"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Due At", "Due At"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Message", "Message"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Is Completed?", "Is Completed?"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Created At", "Created At"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("File", "File"));
+
+        TypeElementBindingCollection typeElementBindings = new TypeElementBindingCollection();
+        typeElementBindings.add(new TypeElementBinding(NAME, "Details about a Task", NAME, typeElementPropertyBindings));
+
+        return typeElementBindings;
     }
 
     @Override
     public TypeElementPropertyCollection getProperties() {
-        return new TypeElementPropertyCollection() {{
-            add(new TypeElementProperty("ID", ContentType.String));
-            add(new TypeElementProperty("Due At", ContentType.DateTime));
-            add(new TypeElementProperty("Message", ContentType.String));
-            add(new TypeElementProperty("Is Completed?", ContentType.Boolean));
-            add(new TypeElementProperty("Created At", ContentType.DateTime));
-            add(new TypeElementProperty("File", ContentType.Object, File.NAME));
-        }};
+        TypeElementPropertyCollection typeElementProperties = new TypeElementPropertyCollection();
+        typeElementProperties.add(new TypeElementProperty("ID", ContentType.String));
+        typeElementProperties.add(new TypeElementProperty("Due At", ContentType.DateTime));
+        typeElementProperties.add(new TypeElementProperty("Message", ContentType.String));
+        typeElementProperties.add(new TypeElementProperty("Is Completed?", ContentType.Boolean));
+        typeElementProperties.add(new TypeElementProperty("Created At", ContentType.DateTime));
+        typeElementProperties.add(new TypeElementProperty("File", ContentType.Object, File.NAME));
+
+        return typeElementProperties;
     }
 }

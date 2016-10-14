@@ -23,19 +23,19 @@ public class AssignFlowWebhookCreate extends AbstractAction {
 
     @Override
     public DescribeValueCollection getServiceInputs() {
-        return new DescribeValueCollection() {{
-            add(new DescribeValue("Flow ID", ContentType.String, false));
-            add(new DescribeValue("Flow Version ID", ContentType.String, false));
-            add(new DescribeValue("Tenant ID", ContentType.String, false));
-            add(new DescribeValue("Box Target Item Type", ContentType.String, false));
-            add(new DescribeValue("Box Target Item ID", ContentType.String, false));
-            add(new DescribeValue("Trigger", ContentType.String, false));
-        }};
+        DescribeValueCollection describeValues = new DescribeValueCollection();
+        describeValues.add(new DescribeValue("Flow ID", ContentType.String, false));
+        describeValues.add(new DescribeValue("Flow Version ID", ContentType.String, false));
+        describeValues.add(new DescribeValue("Tenant ID", ContentType.String, false));
+        describeValues.add(new DescribeValue("Box Target Item Type", ContentType.String, false));
+        describeValues.add(new DescribeValue("Box Target Item ID", ContentType.String, false));
+        describeValues.add(new DescribeValue("Trigger", ContentType.String, false));
+
+        return describeValues;
     }
 
     @Override
     public DescribeValueCollection getServiceOutputs() {
-        return new DescribeValueCollection() {{
-        }};
+        return new DescribeValueCollection();
     }
 }
