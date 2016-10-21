@@ -2,33 +2,33 @@
   "culture": null,
   "objectData": [{
     "internalId": null,
-    "externalId": "66cd7009-17b4-4015-9983-5d6fdf63d6b7",
-    "developerName": "contract",
+    "externalId": "123456",
+    "developerName": "Comment",
     "typeElementId": null,
     "order": 0,
     "properties": [{
       "typeElementPropertyId": null,
-      "developerName": "status",
+      "developerName": "ID",
       "contentType": null,
-      "contentValue": "Signed",
+      "contentValue": "123456",
       "contentFormat": null,
       "objectData": null
     }, {
       "typeElementPropertyId": null,
-      "developerName": "___folder",
+      "developerName": "Message",
       "contentType": null,
-      "contentValue": null,
+      "contentValue": "hello",
       "contentFormat": null,
       "objectData": null
     }, {
       "typeElementPropertyId": null,
-      "developerName": "___file",
+      "developerName": "File",
       "contentType": null,
       "contentValue": null,
       "contentFormat": null,
       "objectData": [{
         "internalId": null,
-        "externalId": "94761962967",
+        "externalId": "98041338416",
         "developerName": "File",
         "typeElementId": null,
         "order": 0,
@@ -36,7 +36,7 @@
           "typeElementPropertyId": null,
           "developerName": "ID",
           "contentType": null,
-          "contentValue": "94761962967",
+          "contentValue": "98041338416",
           "contentFormat": null,
           "objectData": null
         }, {
@@ -121,14 +121,14 @@
           "typeElementPropertyId": null,
           "developerName": "Created At",
           "contentType": null,
-          "contentValue": "2016-09-13T13:08:25.000Z",
+          "contentValue": "2016-08-02T10:26:37.000Z",
           "contentFormat": null,
           "objectData": null
         }, {
           "typeElementPropertyId": null,
           "developerName": "Modified At",
           "contentType": null,
-          "contentValue": "2016-09-13T13:08:25.000Z",
+          "contentValue": "2016-08-02T10:26:37.000Z",
           "contentFormat": null,
           "objectData": null
         }],

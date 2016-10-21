@@ -36,6 +36,17 @@ public class DatabaseLoadService {
         throw new Exception("Unable to load file with ID " + id + " from Box");
     }
 
+    public Object loadComment(String token, String id) throws Exception {
+        BoxComment boxComment = boxClient.getComment(token, id);
+        if (boxComment != null) {
+            BoxComment.Info info = boxComment.getInfo();
+
+            return objectMapperService.convertBoxComment(info, (BoxFile.Info) info.getItem());
+        }
+
+        throw new Exception("Unable to load comment with ID " + id + " from Box");
+    }
+
     public Object loadTask(String token, String id) throws Exception {
         BoxTask task = boxClient.getTask(token, id);
         if (task != null) {
@@ -126,5 +137,18 @@ public class DatabaseLoadService {
         }
 
         return null;
+    }
+
+    public ObjectCollection loadComments(String token, String fileId) throws Exception {
+        BoxFile file = boxClient.getFile(token, fileId);
+        if (file == null) {
+            throw new Exception("A file could not be found with the ID " + fileId);
+        }
+
+        // Loop over all the files in the loaded folder, and convert them to ManyWho objects
+        return StreamUtils.asStream(file.getComments().iterator())
+                .filter(i -> i != null)
+                .map(comment -> objectMapperService.convertBoxComment(comment, file.getInfo()))
+                .collect(Collectors.toCollection(ObjectCollection::new));
     }
 }

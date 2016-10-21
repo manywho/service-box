@@ -7,10 +7,7 @@ import com.manywho.sdk.services.controllers.AbstractDataController;
 import com.manywho.services.box.managers.DataManager;
 import com.manywho.services.box.managers.FolderManager;
 import com.manywho.services.box.managers.TaskManager;
-import com.manywho.services.box.types.File;
-import com.manywho.services.box.types.Folder;
-import com.manywho.services.box.types.Task;
-import com.manywho.services.box.types.TaskAssignment;
+import com.manywho.services.box.types.*;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -50,6 +47,8 @@ public class DataController extends AbstractDataController {
                 return new ObjectDataResponse(dataManager.loadTaskAssignment(getAuthenticatedWho(), objectDataRequest));
             case "$File":
                 return new ObjectDataResponse(dataManager.loadFileSystem(getAuthenticatedWho(), objectDataRequest));
+            case Comment.NAME:
+                return new ObjectDataResponse(dataManager.loadComments(getAuthenticatedWho(), objectDataRequest));
             default:
                 // Assume the type represents Metadata
                 return new ObjectDataResponse(dataManager.loadMetadataType(getAuthenticatedWho(), objectDataRequest));

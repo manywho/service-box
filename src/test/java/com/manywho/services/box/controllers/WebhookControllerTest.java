@@ -68,9 +68,6 @@ public class WebhookControllerTest extends BoxServiceFunctionalTest {
         //get triggered file https://api.box.com/2.0/files/94205724383?fields=type%2Cid%2Csequence_id%2Cetag%2Csha1%2Cname%2Cdescription%2Csize%2Cpath_collection%2Ccreated_at%2Cmodified_at%2Ctrashed_at%2Cpurged_at%2Ccontent_created_at%2Ccontent_modified_at%2Ccreated_by%2Cmodified_by%2Cowned_by%2Cshared_link%2Cparent%2Citem_status%2Cversion_number%2Ccomment_count%2Cpermissions%2Ctags%2Clock%2Cextension%2Cis_package%2Cfile_version
         requestIntersectorTests.addApiResponse(createBoxApiResponse("webhooks/file-downloaded/box-request/file.json", 200));
 
-        //get comments for file https://api.box.com/2.0/files/94205724383/comments
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("webhooks/file-downloaded/box-request/comments.json", 200));
-
         //DELETE webhook https://api.box.com/2.0/webhooks/177326
         requestIntersectorTests.addApiResponse(createBoxApiResponse("webhooks/file-downloaded/box-request/delete.json", 200));
 
@@ -89,7 +86,7 @@ public class WebhookControllerTest extends BoxServiceFunctionalTest {
         verify(boxSignatureVerifier, times(1)).verify(any(),any(),any(),any(),any(), any());
 
         // how many box calls
-        assertSame(4, requestIntersectorTests.executedCalls());
+        assertSame(3, requestIntersectorTests.executedCalls());
 
         // how many engine calls
         assertSame(1, httpClientMock.getResponsesHistory().size());
@@ -154,9 +151,6 @@ public class WebhookControllerTest extends BoxServiceFunctionalTest {
         //get triggered file https://api.box.com/2.0/files/94205724383?fields=type%2Cid%2Csequence_id%2Cetag%2Csha1%2Cname%2Cdescription%2Csize%2Cpath_collection%2Ccreated_at%2Cmodified_at%2Ctrashed_at%2Cpurged_at%2Ccontent_created_at%2Ccontent_modified_at%2Ccreated_by%2Cmodified_by%2Cowned_by%2Cshared_link%2Cparent%2Citem_status%2Cversion_number%2Ccomment_count%2Cpermissions%2Ctags%2Clock%2Cextension%2Cis_package%2Cfile_version
         requestIntersectorTests.addApiResponse(createBoxApiResponse("webhooks/file-downloaded/box-request/file.json", 200));
 
-        //get comments for file https://api.box.com/2.0/files/94205724383/comments
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("webhooks/file-downloaded/box-request/comments.json", 200));
-
         HttpClientUnirestForTest httpClientMock = new HttpClientUnirestForTest();
         Unirest.setHttpClient(httpClientMock);
 
@@ -173,7 +167,7 @@ public class WebhookControllerTest extends BoxServiceFunctionalTest {
         verify(boxSignatureVerifier, times(1)).verify(any(), any(), any(), any() ,any(), any());
 
         // how many box calls
-        assertSame(3, requestIntersectorTests.executedCalls());
+        assertSame(2, requestIntersectorTests.executedCalls());
 
         // how many engine calls
         assertSame(1, httpClientMock.getResponsesHistory().size());

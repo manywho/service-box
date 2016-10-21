@@ -10,15 +10,11 @@ import java.util.stream.Collectors;
 
 public class ObjectMapperService {
 
-    public ObjectCollection convertBoxComments(List<BoxComment.Info> comments) {
-        return comments.stream().map(this::convertBoxComment)
-                .collect(Collectors.toCollection(ObjectCollection::new));
-    }
-
-    public Object convertBoxComment(BoxComment.Info comment) {
+    public Object convertBoxComment(BoxComment.Info comment, BoxFile.Info fileInfo) {
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("ID", comment.getID()));
         properties.add(new Property("Message", comment.getMessage()));
+        properties.add(new Property("File", convertBoxFile(fileInfo, null)));
 
         Object object = new Object();
         object.setDeveloperName(Comment.NAME);
@@ -35,7 +31,6 @@ public class ObjectMapperService {
         properties.add(new Property("Description", fileInfo.getDescription()));
         properties.add(new Property("Content", content));
         properties.add(new Property("Parent Folder", convertBoxFolder(fileInfo.getParent())));
-        properties.add(new Property("Comments", convertBoxComments(fileInfo.getResource().getComments())));
         properties.add(new Property("Created At", fileInfo.getCreatedAt()));
         properties.add(new Property("Modified At", fileInfo.getModifiedAt()));
 

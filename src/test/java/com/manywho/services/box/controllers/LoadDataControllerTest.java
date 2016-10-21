@@ -64,7 +64,6 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/file-load/box-response/file.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/file-load/box-response/comments-of-file.json", 200));
 
         Response responseMsg = target("/data").request()
                 .headers(headers)
@@ -75,7 +74,7 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertSame(2,requestIntersectorTests.executedCalls());
+        assertSame(1,requestIntersectorTests.executedCalls());
     }
 
     @Test
@@ -107,7 +106,6 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/metadata-load/box-response/metadata-file-search.json", 200));
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/metadata-load/box-response/contract.json", 200));
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/metadata-load/box-response/metadata.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/metadata-load/box-response/comments-of-file.json", 200));
 
         Response responseMsg = target("/data").request()
                 .headers(headers)
@@ -118,7 +116,7 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertSame(4,requestIntersectorTests.executedCalls());
+        assertSame(3,requestIntersectorTests.executedCalls());
     }
 
     @Test
@@ -128,7 +126,6 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/task-load/box-response/task.json", 200));
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/task-load/box-response/file.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/task-load/box-response/comments-of-file.json", 200));
 
         Response responseMsg = target("/data").request()
                 .headers(headers)
@@ -139,7 +136,7 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertSame(3, requestIntersectorTests.executedCalls());
+        assertSame(2, requestIntersectorTests.executedCalls());
     }
 
     @Test
@@ -151,7 +148,6 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/taskassignment-load/box-response/taskassignment.json", 200));
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/taskassignment-load/box-response/file.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/taskassignment-load/box-response/comments-of-file.json", 200));
 
         Response responseMsg = target("/data").request()
                 .headers(headers)
@@ -162,6 +158,26 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertSame(3, requestIntersectorTests.executedCalls());
+        assertSame(2, requestIntersectorTests.executedCalls());
+    }
+
+    @Test
+    public void testLoadComment() throws Exception {
+        MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
+        headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
+
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/comment-load/box-response/comments-of-file.json", 200));
+        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/comment-load/box-response/file.json", 200));
+
+        Response responseMsg = target("/data").request()
+                .headers(headers)
+                .post(getObjectDataRequestFromFile("data-load/comment-load/request.json"));
+
+        assertJsonSame(
+                getJsonFormatFileContent("data-load/comment-load/response.json"),
+                getJsonFormatResponse(responseMsg)
+        );
+
+        assertSame(2,requestIntersectorTests.executedCalls());
     }
 }

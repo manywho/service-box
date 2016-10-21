@@ -119,13 +119,6 @@
           }]
         }, {
           "typeElementPropertyId": null,
-          "developerName": "Comments",
-          "contentType": null,
-          "contentValue": null,
-          "contentFormat": null,
-          "objectData": []
-        }, {
-          "typeElementPropertyId": null,
           "developerName": "Created At",
           "contentType": null,
           "contentValue": "2016-08-02T10:26:37.000Z",

@@ -19,7 +19,6 @@ public class TaskAssignmentControllerTest extends BoxServiceFunctionalTest {
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("taskassignment-create/box-response/taskassignment-created.json", 200));
         requestIntersectorTests.addApiResponse(createBoxApiResponse("taskassignment-create/box-response/file.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("taskassignment-create/box-response/comments-of-file.json", 200));
 
         Response responseMsg = target("/task/addassignment").request()
                 .headers(headers)
@@ -31,6 +30,6 @@ public class TaskAssignmentControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertEquals(3, requestIntersectorTests.executedCalls());
+        assertEquals(2, requestIntersectorTests.executedCalls());
     }
 }

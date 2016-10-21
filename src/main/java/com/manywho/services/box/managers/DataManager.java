@@ -1,6 +1,5 @@
 package com.manywho.services.box.managers;
 
-import com.box.sdk.BoxMetadataFilter;
 import com.box.sdk.BoxSearchParameters;
 import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
@@ -173,5 +172,26 @@ public class DataManager {
                 objectDataRequest.getObjectDataType(),
                 objectDataRequest.getObjectData().get(0)
         );
+    }
+
+    public ObjectCollection loadComments(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
+        // Check if the load is for a single object with an identifier
+        if (objectDataRequest.getListFilter() != null && StringUtils.isNotEmpty(objectDataRequest.getListFilter().getId())) {
+            return new ObjectCollection(databaseLoadService.loadComment(user.getToken(), objectDataRequest.getListFilter().getId()));
+        }
+
+        // Try and get the folder to search in, if one was passed in as a filter otherwise use "0" (the root folder)
+        String file = "0";
+        if (objectDataRequest.getListFilter() != null && objectDataRequest.getListFilter().getWhere() != null) {
+            Optional<ListFilterWhere> fileFilter = objectDataRequest.getListFilter().getWhere().stream()
+                    .filter(w -> w.getColumnName().equals("File"))
+                    .findFirst();
+
+            if (fileFilter.isPresent()) {
+                file = fileFilter.get().getObjectData().get(0).getExternalId();
+            }
+        }
+
+        return databaseLoadService.loadComments(user.getToken(), file);
     }
 }

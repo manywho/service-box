@@ -339,4 +339,12 @@ public class BoxClient {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    public BoxComment getComment(String accessToken, String id) {
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        BoxComment boxComment = new BoxComment(boxAPIConnection, id);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return boxComment;
+    }
 }
