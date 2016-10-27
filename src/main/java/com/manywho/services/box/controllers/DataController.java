@@ -65,13 +65,13 @@ public class DataController extends AbstractDataController {
             case Task.NAME:
                 return new ObjectDataResponse(taskManager.createTask(getAuthenticatedWho(), objectDataRequest));
             case TaskAssignment.NAME:
-                throw new RuntimeException("The type Task Assignment doesn't support Save");
+                throw new RuntimeException("Saving the type Task Assignment isn't supported");
             case File.NAME:
-                throw new RuntimeException("The type File doesn't support Save");
+                throw new RuntimeException("Saving the type File isn't supported");
             case "$File":
-                throw new RuntimeException("The type $File doesn't support Save");
+                throw new RuntimeException("Saving the type $File isn't supported");
             case Comment.NAME:
-                throw new RuntimeException("The type Comment doesn't support Save");
+                throw new RuntimeException("Saving the type Comment isn't supported");
             default:
                 return new ObjectDataResponse(dataManager.saveMetadataType(getAuthenticatedWho(), objectDataRequest));
         }

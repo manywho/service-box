@@ -4,7 +4,7 @@
   "statusCode": 500,
   "responseBody": null,
   "responseHeaders": null,
-  "message": "The type File doesn't support Save",
+  "message": "Saving the type File isn't supported",
   "invokeType": null,
   "action": null
 }
