@@ -64,6 +64,14 @@ public class DataController extends AbstractDataController {
                 return new ObjectDataResponse(folderManager.createFolder(getAuthenticatedWho(), objectDataRequest));
             case Task.NAME:
                 return new ObjectDataResponse(taskManager.createTask(getAuthenticatedWho(), objectDataRequest));
+            case TaskAssignment.NAME:
+                throw new RuntimeException("The type Task Assignment doesn't support Save");
+            case File.NAME:
+                throw new RuntimeException("The type File doesn't support Save");
+            case "$File":
+                throw new RuntimeException("The type $File doesn't support Save");
+            case Comment.NAME:
+                throw new RuntimeException("The type Comment doesn't support Save");
             default:
                 return new ObjectDataResponse(dataManager.saveMetadataType(getAuthenticatedWho(), objectDataRequest));
         }

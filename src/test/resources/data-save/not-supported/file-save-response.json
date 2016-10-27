@@ -1,0 +1,10 @@
+{
+  "kind": "service",
+  "uri": "/data",
+  "statusCode": 500,
+  "responseBody": null,
+  "responseHeaders": null,
+  "message": "The type File doesn't support Save",
+  "invokeType": null,
+  "action": null
+}
