@@ -1,0 +1,228 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": {
+    "users": null,
+    "groups": null,
+    "runningAuthenticationId": "1234567",
+    "globalAuthenticationType": "ALL_USERS"
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": null,
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": {
+    "id": null,
+    "filterByProvidedObjects": false,
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": null,
+    "orderBy": null,
+    "limit": 0,
+    "offset": 0,
+    "search": null,
+    "searchCriteria": null,
+    "comparisonType": null,
+    "where": null,
+    "listFilters": null
+  },
+  "objectDataType": {
+    "typeElementId": "d1fff3fe-97ab-4976-a3b4-7ccc7381c560",
+    "developerName": "contract",
+    "properties": [
+      {
+        "developerName": "status",
+        "list": null
+      },
+      {
+        "developerName": "___file",
+        "list": null
+      },
+      {
+        "developerName": "___folder",
+        "list": null
+      }
+    ]
+  },
+  "objectData": [
+    {
+      "internalId": "0b0eee41-cdb9-477c-8a23-c7f5f3add911",
+      "externalId": "d84e3c74-f49a-47be-9da8-52d490686d28",
+      "developerName": "contract",
+      "typeElementId": "d1fff3fe-97ab-4976-a3b4-7ccc7381c560",
+      "order": 0,
+      "properties": [
+        {
+          "typeElementPropertyId": "c18ddbfa-d62c-47bd-9182-bf3ecd13f846",
+          "developerName": "status",
+          "contentValue": "Signed",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "82368c09-801f-4e38-a62a-a66fdae117b0",
+          "developerName": "___file",
+          "contentValue": null,
+          "contentType": "ContentObject",
+          "contentFormat": null,
+          "objectData": [
+            {
+              "internalId": "b2b59dba-e722-40bd-b752-fcf2d938df72",
+              "externalId": "98064366142",
+              "developerName": "File",
+              "typeElementId": "6a720d34-1324-4dd5-9a64-4be04833556f",
+              "order": 0,
+              "properties": [
+                {
+                  "typeElementPropertyId": "f5a19adc-519f-47c5-8b87-faa83f27188a",
+                  "developerName": "ID",
+                  "contentValue": "123456789",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "a322f6c3-61c3-48d5-9be9-52693f4eeeb7",
+                  "developerName": "Name",
+                  "contentValue": "pokemon.png",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "bbc87cac-a483-4874-9472-32b2c92d58cb",
+                  "developerName": "Description",
+                  "contentValue": "",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "9aaf047c-c8b3-4dfb-b552-5a79c15b3230",
+                  "developerName": "Content",
+                  "contentValue": "",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "25db89ab-7cd3-48b0-85c9-1e42e530ea50",
+                  "developerName": "Parent Folder",
+                  "contentValue": null,
+                  "contentType": "ContentObject",
+                  "contentFormat": null,
+                  "objectData": [
+                    {
+                      "internalId": "7e114ed2-3f3f-42f5-b491-9581d48bd48f",
+                      "externalId": "0",
+                      "developerName": "Folder",
+                      "typeElementId": "10f69c02-69a5-4e09-b957-d20d9e5351bf",
+                      "order": 0,
+                      "properties": [
+                        {
+                          "typeElementPropertyId": "f27449f7-66fe-4f37-99e1-32fa1fd56b9b",
+                          "developerName": "ID",
+                          "contentValue": "0",
+                          "contentType": "ContentString",
+                          "contentFormat": null,
+                          "objectData": null
+                        },
+                        {
+                          "typeElementPropertyId": "98e69bab-e2da-429b-a3ee-13458a2d18a0",
+                          "developerName": "Name",
+                          "contentValue": "All Files",
+                          "contentType": "ContentString",
+                          "contentFormat": null,
+                          "objectData": null
+                        },
+                        {
+                          "typeElementPropertyId": "611388a5-5d73-45ad-b43b-60d72df5617a",
+                          "developerName": "Description",
+                          "contentValue": "",
+                          "contentType": "ContentString",
+                          "contentFormat": null,
+                          "objectData": null
+                        },
+                        {
+                          "typeElementPropertyId": "8ddc7828-9b82-43dc-ab21-17605dc2d1c2",
+                          "developerName": "Parent Folder",
+                          "contentValue": null,
+                          "contentType": "ContentObject",
+                          "contentFormat": null,
+                          "objectData": null
+                        },
+                        {
+                          "typeElementPropertyId": "077d83e3-ea51-472f-bb61-1bae0c0079fe",
+                          "developerName": "Created At",
+                          "contentValue": "",
+                          "contentType": "ContentDateTime",
+                          "contentFormat": null,
+                          "objectData": null
+                        },
+                        {
+                          "typeElementPropertyId": "8ba52d32-2704-4726-bb99-cd5c6f994ab5",
+                          "developerName": "Modified At",
+                          "contentValue": "",
+                          "contentType": "ContentDateTime",
+                          "contentFormat": null,
+                          "objectData": null
+                        }
+                      ],
+                      "isSelected": false
+                    }
+                  ]
+                },
+                {
+                  "typeElementPropertyId": "3c429e30-6151-408a-9211-d50b4aa3c964",
+                  "developerName": "Created At",
+                  "contentValue": "2016-10-14T14:55:49.000+01:00",
+                  "contentType": "ContentDateTime",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "c8d635e2-9a15-4074-8754-774c1bc3c679",
+                  "developerName": "Modified At",
+                  "contentValue": "2016-10-14T14:55:49.000+01:00",
+                  "contentType": "ContentDateTime",
+                  "contentFormat": null,
+                  "objectData": null
+                }
+              ],
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "typeElementPropertyId": "c2f9ca5a-8071-4082-8756-fa5b0b9a66cf",
+          "developerName": "___folder",
+          "contentValue": null,
+          "contentType": "ContentObject",
+          "contentFormat": null,
+          "objectData": null
+        }
+      ],
+      "isSelected": false
+    }
+  ]
+}
