@@ -3,6 +3,7 @@ package com.manywho.services.box.managers;
 import com.box.sdk.BoxAPIConnection;
 import com.box.sdk.BoxUser;
 import com.manywho.sdk.entities.UserObject;
+import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataResponse;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
@@ -99,7 +100,9 @@ public class AuthManager {
     public ObjectDataResponse loadGroups(ObjectDataRequest objectDataRequest) throws Exception {
         Configuration configuration = propertyParser.parse(objectDataRequest.getConfigurationValues(), Configuration.class);
 
-        return new ObjectDataResponse(authorizationService.loadGroups(configuration.getEnterpriseId()));
+        return new ObjectDataResponse(new ObjectCollection());
+        //todo restore this line when we made the changes to be safe again
+        //return new ObjectDataResponse(authorizationService.loadGroups(configuration.getEnterpriseId()));
     }
 
     public ObjectDataResponse loadGroupAttributes() {
