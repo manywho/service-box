@@ -1,0 +1,120 @@
+{
+  "culture": null,
+  "objectData": [
+    {
+      "internalId": null,
+      "externalId": null,
+      "developerName": "$User",
+      "typeElementId": null,
+      "order": 0,
+      "properties": [
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Country",
+          "contentType": null,
+          "contentValue": null,
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Language",
+          "contentType": null,
+          "contentValue": null,
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Location",
+          "contentType": null,
+          "contentValue": null,
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Directory Id",
+          "contentType": null,
+          "contentValue": "Box",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Directory Name",
+          "contentType": null,
+          "contentValue": "Box",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "AuthenticationType",
+          "contentType": null,
+          "contentValue": "OAUTH2",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "User ID",
+          "contentType": null,
+          "contentValue": "PUBLIC_USER",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Username",
+          "contentType": null,
+          "contentValue": "PUBLIC_USER",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Email",
+          "contentType": null,
+          "contentValue": "PUBLIC_USER",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "First Name",
+          "contentType": null,
+          "contentValue": "PUBLIC_USER",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Last Name",
+          "contentType": null,
+          "contentValue": "PUBLIC_USER",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "LoginUrl",
+          "contentType": null,
+          "contentValue": "https://app.box.com/api/oauth2/authorize?response_type=code&approval_prompt=auto&client_id=xxx",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Status",
+          "contentType": null,
+          "contentValue": "200",
+          "contentFormat": null,
+          "objectData": null
+        }
+      ],
+      "isSelected": false
+    }
+  ],
+  "hasMoreResults": false
+}

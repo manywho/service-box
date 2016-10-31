@@ -1,0 +1,21 @@
+{
+  "total_count": 1,
+  "entries": [{
+    "type": "group_membership",
+    "id": "12345678",
+    "user": {
+      "type": "user",
+      "id": "123456789",
+      "name": "test",
+      "login": "test@manywho.com"
+    },
+    "group": {
+      "type": "group",
+      "id": "123",
+      "name": "group-cool"
+    },
+    "role": "member"
+  }],
+  "limit": 100,
+  "offset": 0
+}

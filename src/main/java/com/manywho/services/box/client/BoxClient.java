@@ -3,48 +3,39 @@ package com.manywho.services.box.client;
 import com.box.sdk.*;
 import com.box.sdk.BoxWebHook.Trigger;
 import com.google.common.collect.Lists;
-import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.facades.BoxFacadeInterface;
 import com.manywho.services.box.managers.CacheManagerInterface;
-import com.manywho.services.box.services.TokenCacheService;
 import com.manywho.services.box.services.box.WebhookSingatureValidator;
 
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
 public class BoxClient {
-    private final SecurityConfiguration securityConfiguration;
     private com.box.sdk.RequestInterceptor requestInterceptor;
-    private TokenCacheService tokenCacheService;
     private CacheManagerInterface cacheManager;
     private WebhookSingatureValidator webhookSingatureValidator;
     private BoxFacadeInterface boxFacade;
 
     @Inject
-    public BoxClient(SecurityConfiguration securityConfiguration, RequestInterceptor requestInterceptor,
-                     TokenCacheService tokenCacheService, CacheManagerInterface cacheManager,
+    public BoxClient(RequestInterceptor requestInterceptor, CacheManagerInterface cacheManager,
                      WebhookSingatureValidator webhookSingatureValidator, BoxFacadeInterface boxFacade) {
 
-        this.securityConfiguration = securityConfiguration;
         this.requestInterceptor = requestInterceptor;
-        this.tokenCacheService = tokenCacheService;
         this.cacheManager = cacheManager;
         this.webhookSingatureValidator = webhookSingatureValidator;
         this.boxFacade = boxFacade;
     }
 
     public BoxAPIConnection authenticateUser(String clientId, String clientSecret, String authorizationCode) {
-        return createApiConnection(clientId, clientSecret, authorizationCode);
+        return createApiConnectionByAuthCode(authorizationCode);
     }
 
     public Boolean validateWebhookSignature(String signatureVersion, String algorithm, String signaturePrimary,
@@ -59,20 +50,10 @@ public class BoxClient {
     }
 
     public BoxDeveloperEditionAPIConnection createDeveloperApiConnection(String enterpriseId) throws IOException {
-        String privateKey = new String(Files.readAllBytes(Paths.get(securityConfiguration.getPrivateKeyLocation())));
+        BoxDeveloperEditionAPIConnection appEnterpriseConnection =  boxFacade.createDeveloperApiConnection(enterpriseId);
+        appEnterpriseConnection.setRequestInterceptor(requestInterceptor);
 
-        JWTEncryptionPreferences encryptionPreferences = new JWTEncryptionPreferences();
-        encryptionPreferences.setEncryptionAlgorithm(EncryptionAlgorithm.RSA_SHA_256);
-        encryptionPreferences.setPrivateKey(privateKey);
-        encryptionPreferences.setPrivateKeyPassword(securityConfiguration.getPrivateKeyPassword());
-
-        return BoxDeveloperEditionAPIConnection.getAppEnterpriseConnection(
-                enterpriseId,
-                securityConfiguration.getOauth2DeveloperEditionClientId(),
-                securityConfiguration.getOauth2DeveloperEditionClientSecret(),
-                encryptionPreferences,
-                tokenCacheService.getAccessTokenCache()
-        );
+        return appEnterpriseConnection;
     }
 
     public BoxUser.Info getCurrentUser(String accessToken) {
@@ -252,8 +233,8 @@ public class BoxClient {
         return new BoxFile(createApiConnection(accessToken), id).createSharedLink(BoxSharedLink.Access.OPEN, null, permissions);
     }
 
-    private BoxAPIConnection createApiConnection(String clientId, String clientSecret, String authorizationCode) {
-        BoxAPIConnection boxAPIConnection = boxFacade.createApiConnection(clientId, clientSecret, authorizationCode);
+    private BoxAPIConnection createApiConnectionByAuthCode(String authorizationCode) {
+        BoxAPIConnection boxAPIConnection = boxFacade.createApiConnection(authorizationCode);
         boxAPIConnection.setRequestInterceptor(requestInterceptor);
 
         return boxAPIConnection;
@@ -263,8 +244,7 @@ public class BoxClient {
         Credentials credentials = getLastCredentials(accessToken);
 
         BoxAPIConnection boxAPIConnection;
-        boxAPIConnection = boxFacade.createApiConnection(securityConfiguration.getOauth2ContentApiClientId(),
-                    securityConfiguration.getOauth2ContentApiClientSecret(), credentials.getAccessToken(), credentials.getRefreshToken());
+        boxAPIConnection = boxFacade.createApiConnection(credentials.getAccessToken(), credentials.getRefreshToken());
 
          if(boxAPIConnection.getRefreshToken() != null && !Objects.equals(credentials.getRefreshToken(), boxAPIConnection.getRefreshToken())) {
             try {
@@ -282,8 +262,7 @@ public class BoxClient {
 
     private BoxAPIConnection createApiConnection(Credentials credentials) {
         BoxAPIConnection boxAPIConnection;
-        boxAPIConnection = boxFacade.createApiConnection(securityConfiguration.getOauth2ContentApiClientId(),
-                securityConfiguration.getOauth2ContentApiClientSecret(), credentials.getAccessToken(), credentials.getRefreshToken());
+        boxAPIConnection = boxFacade.createApiConnection(credentials.getAccessToken(), credentials.getRefreshToken());
 
         if (boxAPIConnection.getRefreshToken() != null && !Objects.equals(credentials.getRefreshToken(), boxAPIConnection.getRefreshToken())) {
             try {

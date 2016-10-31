@@ -2,6 +2,7 @@ package com.manywho.services.box.test;
 
 import com.box.sdk.BoxJSONResponse;
 import com.box.sdk.BoxWebHookSignatureVerifier;
+import com.box.sdk.IAccessTokenCache;
 import com.box.sdk.RequestInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiftyonred.mock_jedis.MockJedis;
@@ -17,6 +18,7 @@ import com.manywho.services.box.entities.WebhookReturn;
 import com.manywho.services.box.facades.BoxFacade;
 import com.manywho.services.box.facades.BoxFacadeInterface;
 import com.manywho.services.box.managers.CacheManagerInterface;
+import com.manywho.services.box.services.TokenCacheService;
 import com.manywho.services.box.services.box.WebhookSingatureValidator;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -33,6 +35,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -47,6 +51,7 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
     protected WebhookSingatureValidator validaor;
     protected BoxWebHookSignatureVerifier boxSignatureVerifier;
     protected BoxFacadeTest boxFacadeTest;
+    protected TokenCacheService tokenCacheServiceMock;
 
     @Override
     protected javax.ws.rs.core.Application configure(){
@@ -67,9 +72,15 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
         httpClientApacheForTest = new HttpClientApacheForTest();
 
         rawRunClient = new RawRunClient(httpClientApacheForTest);
+        tokenCacheServiceMock = mock(TokenCacheService.class);
 
         CacheManagerInterface cacheManager = new CacheManagerTest(mockJedisPool, new ObjectMapper());
-        boxFacadeTest = new BoxFacadeTest();
+        boxFacadeTest = new BoxFacadeTest(mockSecurityConfiguration, tokenCacheServiceMock, new SystemInteractionTest());
+
+        IAccessTokenCache tokenCache = mock(IAccessTokenCache.class);
+        when(tokenCacheServiceMock.getAccessTokenCache()).thenReturn(tokenCache);
+        when(tokenCache.get(any())).thenReturn("{\"accessToken\":\"aaa\", \"lastRefresh\":12345, \"expires\": 9999456796543}");
+
         return new com.manywho.services.box.Application().register(new AbstractBinder() {
 
             @Override
@@ -81,6 +92,7 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
                 bindFactory(new MockFactory<RawRunClient>(rawRunClient)).to(RawRunClient.class).ranked(1);
                 bindFactory(new MockFactory<WebhookSingatureValidator>(validaor)).to(WebhookSingatureValidator.class).ranked(1);
                 bindFactory(new MockFactory<BoxFacade>(boxFacadeTest)).to(BoxFacadeInterface.class).ranked(1);
+                bindFactory(new MockFactory<TokenCacheService>(tokenCacheServiceMock)).to(TokenCacheService.class).ranked(1);
             }
         });
     }

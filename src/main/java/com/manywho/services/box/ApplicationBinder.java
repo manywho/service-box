@@ -15,6 +15,8 @@ import com.manywho.services.box.managers.*;
 import com.manywho.services.box.oauth2.BoxProvider;
 import com.manywho.services.box.services.*;
 import com.manywho.services.box.services.box.WebhookSingatureValidator;
+import com.manywho.services.box.utilities.SystemInteractionInterface;
+import com.manywho.services.box.utilities.SystemInteraction;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import javax.inject.Singleton;
@@ -60,5 +62,6 @@ public class ApplicationBinder extends AbstractBinder {
         bind(WebhookHandlerManager.class).to(WebhookHandlerManager.class);
         bind(WebhookSingatureValidator.class).to(WebhookSingatureValidator.class);
         bind(BoxFacade.class).to(BoxFacadeInterface.class);
+        bind(SystemInteraction.class).to(SystemInteractionInterface.class);
     }
 }

@@ -30,9 +30,60 @@
   "providesViews": false,
   "providesVoting": false,
   "actions": [{
+    "developerName": "Assign Webhook to Flow",
+    "developerSummary": "Assign a Webhook to a Flow",
+    "serviceOutputs": [],
+    "uriPart": "trigger-assign/flow",
+    "serviceInputs": [{
+      "developerName": "Flow ID",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }, {
+      "developerName": "Flow Version ID",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }, {
+      "developerName": "Tenant ID",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }, {
+      "developerName": "Box Target Item Type",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }, {
+      "developerName": "Box Target Item ID",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }, {
+      "developerName": "Trigger",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }],
+    "serviceActionOutcomes": null,
+    "viewMessageAction": false
+  }, {
     "developerName": "File: Copy",
     "developerSummary": "Copy a file into another folder, with an optional new name",
     "serviceOutputs": [],
+    "uriPart": "file/copy",
     "serviceInputs": [{
       "developerName": "Source File",
       "contentValue": null,
@@ -55,13 +106,13 @@
       "ordinal": 0,
       "required": false
     }],
-    "uriPart": "file/copy",
     "serviceActionOutcomes": null,
     "viewMessageAction": false
   }, {
     "developerName": "File: Move",
     "developerSummary": "Move a file into another folder, with an optional new name",
     "serviceOutputs": [],
+    "uriPart": "file/move",
     "serviceInputs": [{
       "developerName": "Source File",
       "contentValue": null,
@@ -84,42 +135,20 @@
       "ordinal": 0,
       "required": false
     }],
-    "uriPart": "file/move",
-    "serviceActionOutcomes": null,
-    "viewMessageAction": false
-  }, {
-    "developerName": "Folder: Create",
-    "developerSummary": "Create a new folder",
-    "serviceOutputs": [{
-      "developerName": "Folder",
-      "contentValue": null,
-      "contentType": "ContentObject",
-      "typeElementDeveloperName": "Folder",
-      "ordinal": 0,
-      "required": true
-    }],
-    "serviceInputs": [{
-      "developerName": "Parent Folder",
-      "contentValue": null,
-      "contentType": "ContentObject",
-      "typeElementDeveloperName": "Folder",
-      "ordinal": 0,
-      "required": true
-    }, {
-      "developerName": "Name",
-      "contentValue": null,
-      "contentType": "ContentString",
-      "typeElementDeveloperName": null,
-      "ordinal": 0,
-      "required": false
-    }],
-    "uriPart": "folder/create",
     "serviceActionOutcomes": null,
     "viewMessageAction": false
   }, {
     "developerName": "Task: Add Assignment",
     "developerSummary": "Add an assignment to a task",
-    "serviceOutputs": [],
+    "serviceOutputs": [{
+      "developerName": "Task Assignment",
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "typeElementDeveloperName": "Task Assignment",
+      "ordinal": 0,
+      "required": false
+    }],
+    "uriPart": "task/addassignment",
     "serviceInputs": [{
       "developerName": "Task",
       "contentValue": null,
@@ -135,43 +164,6 @@
       "ordinal": 0,
       "required": true
     }],
-    "uriPart": "task/addassignment",
-    "serviceActionOutcomes": null,
-    "viewMessageAction": false
-  }, {
-    "developerName": "Task: Create",
-    "developerSummary": "Create a task for a file",
-    "serviceOutputs": [{
-      "developerName": "Task",
-      "contentValue": null,
-      "contentType": "ContentObject",
-      "typeElementDeveloperName": "Task",
-      "ordinal": 0,
-      "required": true
-    }],
-    "serviceInputs": [{
-      "developerName": "File",
-      "contentValue": null,
-      "contentType": "ContentObject",
-      "typeElementDeveloperName": "File",
-      "ordinal": 0,
-      "required": true
-    }, {
-      "developerName": "Message",
-      "contentValue": null,
-      "contentType": "ContentString",
-      "typeElementDeveloperName": null,
-      "ordinal": 0,
-      "required": false
-    }, {
-      "developerName": "Due At",
-      "contentValue": null,
-      "contentType": "ContentDateTime",
-      "typeElementDeveloperName": null,
-      "ordinal": 0,
-      "required": false
-    }],
-    "uriPart": "task/create",
     "serviceActionOutcomes": null,
     "viewMessageAction": false
   }],
@@ -196,8 +188,37 @@
         "contentType": "ContentString",
         "typeElementId": null,
         "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "File",
+        "contentFormat": null,
+        "contentType": "ContentObject",
+        "typeElementId": null,
+        "typeElementDeveloperName": "File"
       }],
-      "bindings": null,
+      "bindings": [{
+        "id": null,
+        "developerName": "Comment",
+        "developerSummary": "Details about a Comment",
+        "databaseTableName": "Comment",
+        "serviceElementId": null,
+        "propertyBindings": [{
+          "databaseFieldName": "ID",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "ID",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Message",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Message",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "File",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "File",
+          "databaseContentType": null
+        }]
+      }],
       "updateByName": false
     }, {
       "elementType": "TYPE",
@@ -240,13 +261,6 @@
         "contentType": "ContentObject",
         "typeElementId": null,
         "typeElementDeveloperName": "Folder"
-      }, {
-        "id": null,
-        "developerName": "Comments",
-        "contentFormat": null,
-        "contentType": "ContentList",
-        "typeElementId": null,
-        "typeElementDeveloperName": "Comment"
       }, {
         "id": null,
         "developerName": "Created At",
@@ -294,11 +308,6 @@
           "typeElementPropertyDeveloperName": "Parent Folder",
           "databaseContentType": null
         }, {
-          "databaseFieldName": "Comments",
-          "typeElementPropertyId": null,
-          "typeElementPropertyDeveloperName": "Comments",
-          "databaseContentType": null
-        }, {
           "databaseFieldName": "Created At",
           "typeElementPropertyId": null,
           "typeElementPropertyDeveloperName": "Created At",
@@ -340,11 +349,11 @@
         "typeElementDeveloperName": null
       }, {
         "id": null,
-        "developerName": "Files",
+        "developerName": "Parent Folder",
         "contentFormat": null,
-        "contentType": "ContentList",
+        "contentType": "ContentObject",
         "typeElementId": null,
-        "typeElementDeveloperName": "File"
+        "typeElementDeveloperName": "Folder"
       }, {
         "id": null,
         "developerName": "Created At",
@@ -382,9 +391,9 @@
           "typeElementPropertyDeveloperName": "Description",
           "databaseContentType": null
         }, {
-          "databaseFieldName": "Files",
+          "databaseFieldName": "Parent Folder",
           "typeElementPropertyId": null,
-          "typeElementPropertyDeveloperName": "Files",
+          "typeElementPropertyDeveloperName": "Parent Folder",
           "databaseContentType": null
         }, {
           "databaseFieldName": "Created At",
@@ -440,8 +449,104 @@
         "contentType": "ContentDateTime",
         "typeElementId": null,
         "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "File",
+        "contentFormat": null,
+        "contentType": "ContentObject",
+        "typeElementId": null,
+        "typeElementDeveloperName": "File"
       }],
-      "bindings": null,
+      "bindings": [{
+        "id": null,
+        "developerName": "Task",
+        "developerSummary": "Details about a Task",
+        "databaseTableName": "Task",
+        "serviceElementId": null,
+        "propertyBindings": [{
+          "databaseFieldName": "ID",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "ID",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Due At",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Due At",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Message",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Message",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Is Completed?",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Is Completed?",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Created At",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Created At",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "File",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "File",
+          "databaseContentType": null
+        }]
+      }],
+      "updateByName": false
+    }, {
+      "elementType": "TYPE",
+      "developerName": "Task Assignment",
+      "developerSummary": "The Task Assignment object structure",
+      "id": null,
+      "serviceElementId": null,
+      "properties": [{
+        "id": null,
+        "developerName": "ID",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "Assignee Email",
+        "contentFormat": null,
+        "contentType": "ContentString",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "File",
+        "contentFormat": null,
+        "contentType": "ContentObject",
+        "typeElementId": null,
+        "typeElementDeveloperName": "File"
+      }],
+      "bindings": [{
+        "id": null,
+        "developerName": "Task Assignment",
+        "developerSummary": "Details about a Task Assignment",
+        "databaseTableName": "Task Assignment",
+        "serviceElementId": null,
+        "propertyBindings": [{
+          "databaseFieldName": "ID",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "ID",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "Assignee Email",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "Assignee Email",
+          "databaseContentType": null
+        }, {
+          "databaseFieldName": "File",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "File",
+          "databaseContentType": null
+        }]
+      }],
       "updateByName": false
     }, {
       "elementType": "TYPE",
