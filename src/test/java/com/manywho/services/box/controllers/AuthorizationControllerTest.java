@@ -84,7 +84,7 @@ public class AuthorizationControllerTest extends BoxServiceFunctionalTest {
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertEquals(1, requestIntersectorTests.executedCalls());
+        assertEquals(0, requestIntersectorTests.executedCalls());
     }
 
 }
