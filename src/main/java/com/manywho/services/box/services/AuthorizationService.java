@@ -6,6 +6,7 @@ import com.box.sdk.BoxGroupMembership;
 import com.box.sdk.BoxUser;
 import com.manywho.sdk.entities.run.elements.config.Authorization;
 import com.manywho.sdk.entities.run.elements.config.Group;
+import com.manywho.sdk.entities.run.elements.config.User;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.Property;
@@ -17,6 +18,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -44,7 +46,16 @@ public class AuthorizationService {
                 if (!user.getUserId().equalsIgnoreCase("PUBLIC_USER")) {
                     BoxUser.Info boxUser = boxClient.getCurrentUser(user.getToken());
 
-                    // Check if group access is being used
+                    if (CollectionUtils.isNotEmpty(authorization.getUsers())) {
+                        for (User allowedUser:authorization.getUsers()) {
+                            if (allowedUser.getAttribute().equalsIgnoreCase("accountId")
+                                    && Objects.equals(allowedUser.getAuthenticationId(), boxUser.getID())) {
+
+                                return "200";
+                            }
+                        }
+                    }
+
                     if (CollectionUtils.isNotEmpty(authorization.getGroups())) {
                         Stream<BoxGroupMembership.Info> memberships  = boxUser.getResource().getMemberships().stream();
 
@@ -92,5 +103,18 @@ public class AuthorizationService {
         return StreamUtils.asStream(users.iterator())
                 .map(objectMapperService::convertUserObjectToManyWhoUser)
                 .collect(Collectors.toCollection(ObjectCollection::new));
+    }
+
+    public Object loadUsersAttributes() {
+        PropertyCollection properties = new PropertyCollection();
+        properties.add(new Property("Label", "Account ID"));
+        properties.add(new Property("Value", "accountId"));
+
+        Object object = new Object();
+        object.setDeveloperName("AuthenticationAttribute");
+        object.setExternalId("accountID");
+        object.setProperties(properties);
+
+        return object;
     }
 }

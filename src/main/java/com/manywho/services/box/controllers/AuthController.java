@@ -56,6 +56,6 @@ public class AuthController extends AbstractOauth2Controller {
 
     @Override
     public ObjectDataResponse userAttributes(ObjectDataRequest objectDataRequest) throws Exception {
-        return super.userAttributes(objectDataRequest);
+        return authManager.loadUsersAttributes();
     }
 }

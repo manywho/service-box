@@ -1,0 +1,49 @@
+{
+  "stateId": "b09cab7b-b798-47d9-ab87-37faa6497e76",
+  "token": null,
+  "typeElementBindingId": "b6ef372b-1b6d-4ea5-98ac-ad3dd59df25d",
+  "authorization": null,
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "123456789",
+      "contentType": null,
+      "objectData": null
+    }
+  ],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": null,
+  "objectDataType": {
+    "typeElementId": null,
+    "developerName": null,
+    "properties": [
+      {
+        "developerName": "AuthenticationId",
+        "list": null
+      },
+      {
+        "developerName": "FriendlyName",
+        "list": null
+      },
+      {
+        "developerName": "DeveloperSummary",
+        "list": null
+      }
+    ]
+  },
+  "objectData": null
+}

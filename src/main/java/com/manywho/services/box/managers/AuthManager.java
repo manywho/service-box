@@ -101,7 +101,7 @@ public class AuthManager {
         Configuration configuration = propertyParser.parse(objectDataRequest.getConfigurationValues(), Configuration.class);
 
         return new ObjectDataResponse(new ObjectCollection());
-        //todo restore this line when we made the changes to be safe again
+        //todo restore this line when we made the changes to be safe again and remove ignore from test
         //return new ObjectDataResponse(authorizationService.loadGroups(configuration.getEnterpriseId()));
     }
 
@@ -112,6 +112,12 @@ public class AuthManager {
     public ObjectDataResponse loadUsers(ObjectDataRequest objectDataRequest) throws Exception {
         Configuration configuration = propertyParser.parse(objectDataRequest.getConfigurationValues(), Configuration.class);
 
-        return new ObjectDataResponse(authorizationService.loadUsers(configuration.getEnterpriseId()));
+        //todo restore this line when we made the changes to be safe again and remove ignore from test
+        return new ObjectDataResponse(new ObjectCollection());
+        //return new ObjectDataResponse(authorizationService.loadUsers(configuration.getEnterpriseId()));
+    }
+
+    public ObjectDataResponse loadUsersAttributes() {
+        return new ObjectDataResponse(authorizationService.loadUsersAttributes());
     }
 }

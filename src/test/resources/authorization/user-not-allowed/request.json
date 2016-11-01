@@ -1,0 +1,101 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": {
+    "users":  [
+      {
+        "authenticationId": "12345678",
+        "attribute": "accountId",
+        "runningUser": false
+      }
+    ],
+    "groups": null,
+    "runningAuthenticationId": null,
+    "globalAuthenticationType": "SPECIFIED"
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "123456789",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": {
+    "id": null,
+    "filterByProvidedObjects": false,
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": null,
+    "orderBy": null,
+    "limit": 0,
+    "offset": 0,
+    "search": null,
+    "searchCriteria": null,
+    "comparisonType": null,
+    "where": null,
+    "listFilters": null
+  },
+  "objectDataType": {
+    "typeElementId": "2674ce95-dd99-42c6-96fc-ad12e1b48a69",
+    "developerName": "$User",
+    "properties": [
+      {
+        "developerName": "Username",
+        "list": null
+      },
+      {
+        "developerName": "User ID",
+        "list": null
+      },
+      {
+        "developerName": "Location",
+        "list": null
+      },
+      {
+        "developerName": "Last Name",
+        "list": null
+      },
+      {
+        "developerName": "Language",
+        "list": null
+      },
+      {
+        "developerName": "First Name",
+        "list": null
+      },
+      {
+        "developerName": "Email",
+        "list": null
+      },
+      {
+        "developerName": "Country",
+        "list": null
+      },
+      {
+        "developerName": "Brand",
+        "list": null
+      },
+      {
+        "developerName": "Variant",
+        "list": null
+      }
+    ]
+  },
+  "objectData": null
+}
