@@ -54,7 +54,7 @@ public class ObjectMapperService {
         properties.add(new Property("Created At", info.getCreatedAt()));
         properties.add(new Property("Modified At", info.getModifiedAt()));
 
-        if (emptyParentFolder || Objects.equals(info.getID(), "0")) {
+        if (emptyParentFolder || Objects.equals(info.getID(), "0") || info.getParent() == null ) {
             properties.add(new Property("Parent Folder", new ObjectCollection()));
         } else {
             properties.add(new Property("Parent Folder", convertBoxFolderInternal(info.getParent(), true)));
