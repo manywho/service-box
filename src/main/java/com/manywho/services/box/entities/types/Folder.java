@@ -14,7 +14,6 @@ public class Folder {
     private String id;
 
     @Property("Name")
-    @NotEmpty(message = "Folder Name cannot be null or empty")
     private String name;
 
     @Property("Description")

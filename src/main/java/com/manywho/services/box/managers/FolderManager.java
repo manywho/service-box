@@ -28,6 +28,10 @@ public class FolderManager {
             throw new Exception("The Parent Folder ID can not be empty");
         }
 
+        if (StringUtils.isEmpty(folder.getName())) {
+            throw new Exception("Folder Name cannot be null or empty");
+        }
+
         return folderService.createFolder(user.getToken(), folder.getParentFolder().getId(), folder.getName());
     }
 }
