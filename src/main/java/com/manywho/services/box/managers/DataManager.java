@@ -65,7 +65,7 @@ public class DataManager {
             return new ObjectCollection(databaseLoadService.loadFolder(user.getToken(), objectDataRequest.getListFilter().getId()));
         }
 
-        if(objectDataRequest.getListFilter() != null) {
+        if(objectDataRequest.getListFilter() != null && objectDataRequest.getListFilter().getWhere() != null) {
 
             BoxSearchParameters boxSearchParameters = new BoxSearchParameters();
             boxSearchParameters.setType("folder");
