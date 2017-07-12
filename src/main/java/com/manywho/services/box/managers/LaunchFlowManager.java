@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LaunchFlowManager {
-    AuthenticationService authenticationService;
-    BoxClient boxClient;
-    CacheManagerInterface cacheManager;
-    AbstractOauth2Provider oauth2Provider;
-    WebhookTriggersService webhookTriggersService;
-    WebhookManager webhookManager;
-    CallbackService callbackService;
+    private AuthenticationService authenticationService;
+    private BoxClient boxClient;
+    private CacheManagerInterface cacheManager;
+    private AbstractOauth2Provider oauth2Provider;
+    private WebhookTriggersService webhookTriggersService;
+    private WebhookManager webhookManager;
+    private CallbackService callbackService;
 
     @Inject
     public LaunchFlowManager(AuthenticationService authenticationService, BoxClient boxClient,
@@ -47,7 +47,7 @@ public class LaunchFlowManager {
 
         BoxDeveloperEditionAPIConnection developerApiConnection = boxClient.createDeveloperApiConnection(callbackService.getEnterpriseIdFromMetadata(fileMetadata));
 
-        List<BoxMetadataTemplate.Info> accountTemplates = BoxMetadataTemplate.getEnterpriseTemplates(developerApiConnection);
+        Iterable<MetadataTemplate> accountTemplates = MetadataTemplate.getEnterpriseMetadataTemplates(developerApiConnection);
         callbackService.overwriteNullValuesWithDefaultOptions(fileMetadata, accountTemplates);
 
         List<ExecutionFlowMetadata> executionFlowMetadatas = fileMetadata.stream()

@@ -1,9 +1,8 @@
 package com.manywho.services.box.services;
 
 import com.box.sdk.BoxFile;
-import com.box.sdk.BoxMetadataTemplate;
 import com.box.sdk.Metadata;
-import com.box.sdk.MetadataField;
+import com.box.sdk.MetadataTemplate;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
 import com.manywho.services.box.utilities.ParseUrlUtility;
 import org.apache.commons.lang3.StringUtils;
@@ -20,15 +19,15 @@ public class CallbackService {
     public CallbackService(){
     }
 
-    public void overwriteNullValuesWithDefaultOptions(List<ExecutionFlowMetadata> fileMetadata, List<BoxMetadataTemplate.Info> defaultValues) throws URISyntaxException {
+    public void overwriteNullValuesWithDefaultOptions(List<ExecutionFlowMetadata> fileMetadata, Iterable<MetadataTemplate> defaultValues) throws URISyntaxException {
         String templateFlowKey = "";
         String defaultTriggerId;
         String defaultUri;
 
-        for (BoxMetadataTemplate.Info template: defaultValues) {
+        for (MetadataTemplate template: defaultValues) {
             defaultUri = "";
             defaultTriggerId = "";
-            for (MetadataField field: template.getFields()) {
+            for (MetadataTemplate.Field field: template.getFields()) {
 
                 if (Objects.equals(field.getDisplayName(), "ManyWho Flow Uri")) {
                     defaultUri = field.getOptions().get(0);

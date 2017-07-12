@@ -1,18 +1,17 @@
 package com.manywho.services.box.services;
 
-import com.box.sdk.BoxMetadataTemplate;
+import com.box.sdk.MetadataTemplate;
 import com.manywho.sdk.entities.draw.elements.type.TypeElement;
 import com.manywho.sdk.entities.draw.elements.type.TypeElementCollection;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.services.PropertyCollectionParser;
-import com.manywho.services.box.entities.Configuration;
 import com.manywho.services.box.client.BoxClient;
+import com.manywho.services.box.entities.Configuration;
 import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
-import java.util.List;
 
 public class DescribeService {
     private PropertyCollectionParser propertyParser;
@@ -31,15 +30,15 @@ public class DescribeService {
         }
 
         TypeElementCollection typeElements = new TypeElementCollection();
-        List<BoxMetadataTemplate.Info> templates = boxClient.getEnterpriseTemplates(accessToken);
+        Iterable<MetadataTemplate> templates = boxClient.getEnterpriseTemplates(accessToken);
 
-        for (BoxMetadataTemplate.Info template : templates) {
+        for (MetadataTemplate metadataTemplate: templates) {
             TypeElement.SimpleTypeBuilder typeBuilder = new TypeElement.SimpleTypeBuilder()
-                    .setDeveloperName("Metadata: " + template.getDisplayName())
-                    .setTableName(template.getTemplateKey());
+                    .setDeveloperName("Metadata: " + metadataTemplate.getDisplayName())
+                    .setTableName(metadataTemplate.getTemplateKey());
 
             // Generate all the properties and bindings for the fields
-            template.getFields().stream()
+            metadataTemplate.getFields().stream()
                     .forEach(field -> typeBuilder.addProperty(field.getDisplayName(), convertToContentType(field.getType()), field.getKey()));
 
             // Add the virtual "file" and "folder" fields, for use in database loads

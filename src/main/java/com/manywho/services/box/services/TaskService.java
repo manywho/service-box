@@ -9,8 +9,6 @@ import org.joda.time.DateTime;
 import javax.inject.Inject;
 import java.util.Date;
 
-//import com.box.sdk.BoxTask;
-
 public class TaskService {
     private BoxClient boxClient;
 
@@ -36,6 +34,6 @@ public class TaskService {
     }
 
     public BoxTaskAssignment.Info addAssignmentToTask(String token, String id, String assigneeEmail) {
-        return boxClient.getTask(token, id).addAssignment(assigneeEmail);
+        return boxClient.getTask(token, id).addAssignmentByLogin(assigneeEmail);
     }
 }

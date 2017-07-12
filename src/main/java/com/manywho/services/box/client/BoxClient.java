@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -199,8 +198,8 @@ public class BoxClient {
         return  webhook;
     }
 
-    public List<BoxMetadataTemplate.Info> getEnterpriseTemplates(String accessToken) {
-        return BoxMetadataTemplate.getEnterpriseTemplates(createApiConnection(accessToken));
+    public Iterable<MetadataTemplate> getEnterpriseTemplates(String accessToken) {
+        return MetadataTemplate.getEnterpriseMetadataTemplates(createApiConnection(accessToken));
     }
 
     public BoxWebHook.Info getWebhook(String accessToken, String webhookId) throws MalformedURLException {
