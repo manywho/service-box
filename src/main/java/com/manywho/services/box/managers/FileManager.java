@@ -2,22 +2,24 @@ package com.manywho.services.box.managers;
 
 import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
-import com.box.sdk.BoxItem;
 import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
 import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
 import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.PropertyCollectionParser;
+import com.manywho.sdk.utils.StreamUtils;
 import com.manywho.services.box.entities.actions.FileCopy;
 import com.manywho.services.box.entities.actions.FileMove;
 import com.manywho.services.box.client.BoxClient;
 import com.manywho.services.box.services.FileService;
 import com.manywho.services.box.services.FileUploadService;
+import com.manywho.services.box.services.ObjectMapperService;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import javax.inject.Inject;
+import java.util.stream.Collectors;
 
 public class FileManager {
     @Inject
@@ -31,6 +33,9 @@ public class FileManager {
 
     @Inject
     private BoxClient boxClient;
+
+    @Inject
+    private ObjectMapperService objectMapperService;
 
     public ObjectDataResponse uploadFile(AuthenticatedWho authenticatedWho, FileDataRequest fileDataRequest, FormDataMultiPart formDataMultiPart) throws Exception {
         BodyPart bodyPart = fileUploadService.getFilePart(formDataMultiPart);
@@ -47,14 +52,15 @@ public class FileManager {
     public ObjectCollection loadFiles(AuthenticatedWho authenticatedWho, String resourcePath) {
         BoxFolder folder = boxClient.getFolder(authenticatedWho.getToken(), resourcePath);
 
-        ObjectCollection files = new ObjectCollection();
-
-        for (BoxItem.Info itemInfo : folder) {
-            if (itemInfo instanceof BoxFile.Info) {
-                files.add(fileService.buildManyWhoFileObject((BoxFile.Info) itemInfo, (BoxFile) itemInfo.getResource()));
-            }
+        if (folder == null) {
+            throw new RuntimeException("A folder could not be found with the ID " + resourcePath);
         }
-        return files;
+
+        // Loop over all the files in the loaded folder, and convert them to ManyWho objects
+        return StreamUtils.asStream(folder.getChildren(BoxFile.ALL_FIELDS).iterator())
+                .filter(i -> i instanceof BoxFile.Info)
+                .map(f -> objectMapperService.convertBoxFile((BoxFile.Info) f, null))
+                .collect(Collectors.toCollection(ObjectCollection::new));
     }
 
 

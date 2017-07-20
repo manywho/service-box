@@ -105,7 +105,7 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
 
         try {
             String credentialsPath = Resources.getResource("credentials/example-credentials.test").toURI().getPath();
-            when(mockSecurityConfiguration.getPrivateKeyLocation()).thenReturn(credentialsPath);
+            when(mockSecurityConfiguration.getPrivateKey()).thenReturn(credentialsPath);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }

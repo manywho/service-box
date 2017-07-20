@@ -1,15 +1,11 @@
 package com.manywho.services.box.facades;
 
-import com.box.sdk.BoxAPIConnection;
-import com.box.sdk.BoxDeveloperEditionAPIConnection;
-import com.box.sdk.EncryptionAlgorithm;
-import com.box.sdk.JWTEncryptionPreferences;
+import com.box.sdk.*;
 import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.services.TokenCacheService;
 import com.manywho.services.box.utilities.SystemInteractionInterface;
 
 import javax.inject.Inject;
-import java.io.IOException;
 
 public class BoxFacade implements BoxFacadeInterface {
     private SecurityConfiguration securityConfiguration;
@@ -39,25 +35,16 @@ public class BoxFacade implements BoxFacadeInterface {
 
     @Override
     public BoxDeveloperEditionAPIConnection createDeveloperApiConnection(String enterpriseId) {
-        String privateKey;
 
-        try {
-            privateKey = systemInteraction.getFileContent(securityConfiguration.getPrivateKeyLocation());
-        } catch (IOException e) {
-            throw new RuntimeException("Error executing server to server connection");
-        }
-
-        JWTEncryptionPreferences encryptionPreferences = new JWTEncryptionPreferences();
-        encryptionPreferences.setEncryptionAlgorithm(EncryptionAlgorithm.RSA_SHA_256);
-        encryptionPreferences.setPrivateKey(privateKey);
-        encryptionPreferences.setPrivateKeyPassword(securityConfiguration.getPrivateKeyPassword());
-
-        return  BoxDeveloperEditionAPIConnection.getAppEnterpriseConnection(
-                enterpriseId,
+        BoxConfig boxConfig = new BoxConfig(
                 securityConfiguration.getOauth2DeveloperEditionClientId(),
                 securityConfiguration.getOauth2DeveloperEditionClientSecret(),
-                encryptionPreferences,
-                tokenCacheService.getAccessTokenCache()
+                enterpriseId,
+                securityConfiguration.getOauth2DeveloperEditionPublicId(),
+                securityConfiguration.getPrivateKey(),
+                securityConfiguration.getPrivateKeyPassword()
         );
+
+        return  BoxDeveloperEditionAPIConnection.getAppEnterpriseConnection(boxConfig, tokenCacheService.getAccessTokenCache());
     }
 }
