@@ -33,6 +33,11 @@ public class SecurityConfiguration extends ServiceConfigurationDefault {
     }
 
     public String getPrivateKey() {
+        // the new lines are escaped before we received by command line parameter, we need to remove extra slash
+        if (this.get("secure.privateKey") != null) {
+            return this.get("secure.privateKey").replace("\\n", "\n");
+        }
+
         return this.get("secure.privateKey");
     }
 
