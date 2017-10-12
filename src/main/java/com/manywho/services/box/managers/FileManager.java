@@ -16,9 +16,12 @@ import com.manywho.services.box.services.FileService;
 import com.manywho.services.box.services.FileUploadService;
 import com.manywho.services.box.services.ObjectMapperService;
 import org.glassfish.jersey.media.multipart.BodyPart;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import javax.inject.Inject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class FileManager {
@@ -40,8 +43,12 @@ public class FileManager {
     public ObjectDataResponse uploadFile(AuthenticatedWho authenticatedWho, FileDataRequest fileDataRequest, FormDataMultiPart formDataMultiPart) throws Exception {
         BodyPart bodyPart = fileUploadService.getFilePart(formDataMultiPart);
         if (bodyPart != null) {
+            Integer size = ((FormDataBodyPart) bodyPart).getValue().getBytes().length;
+            Logger.getLogger(FileManager.class.getName()).log(Level.INFO, "upload file Size: " + Integer.toString(size));
             BoxFile.Info fileInformation = fileUploadService.uploadFileToBox(authenticatedWho.getToken(), fileDataRequest, bodyPart);
+
             if (fileInformation != null) {
+                Logger.getLogger(FileManager.class.getName()).log(Level.INFO, "fileInformation no null");
                 return new ObjectDataResponse(fileService.buildManyWhoFileObject(fileInformation, fileInformation.getResource()));
             }
         }
