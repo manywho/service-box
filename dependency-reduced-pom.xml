@@ -47,6 +47,46 @@
   </build>
   <dependencies>
     <dependency>
+      <groupId>com.manywho.sdk</groupId>
+      <artifactId>sdk-test</artifactId>
+      <version>1.25.0</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit</artifactId>
+          <groupId>junit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jersey-test-framework-core</artifactId>
+          <groupId>org.glassfish.jersey.test-framework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>mockito-core</artifactId>
+          <groupId>org.mockito</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+          <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>mock-jedis</artifactId>
+          <groupId>com.fiftyonred</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>powermock-module-junit4</artifactId>
+          <groupId>org.powermock</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jsonassert</artifactId>
+          <groupId>org.skyscreamer</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>powermock-api-mockito</artifactId>
+          <groupId>org.powermock</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
       <groupId>com.tngtech.java</groupId>
       <artifactId>junit-dataprovider</artifactId>
       <version>1.10.0</version>
