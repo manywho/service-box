@@ -44,11 +44,11 @@ public class FileManager {
         BodyPart bodyPart = fileUploadService.getFilePart(formDataMultiPart);
         if (bodyPart != null) {
             Integer size = ((FormDataBodyPart) bodyPart).getValue().getBytes().length;
-            Logger.getLogger(FileManager.class.getName()).log(Level.INFO, "upload file Size: " + Integer.toString(size));
+            Logger.getLogger(FileManager.class.getName()).log(Level.ALL, "upload file Size: " + Integer.toString(size));
             BoxFile.Info fileInformation = fileUploadService.uploadFileToBox(authenticatedWho.getToken(), fileDataRequest, bodyPart);
 
             if (fileInformation != null) {
-                Logger.getLogger(FileManager.class.getName()).log(Level.INFO, "fileInformation no null");
+                Logger.getLogger(FileManager.class.getName()).log(Level.ALL, "fileInformation no null");
                 return new ObjectDataResponse(fileService.buildManyWhoFileObject(fileInformation, fileInformation.getResource()));
             }
         }
