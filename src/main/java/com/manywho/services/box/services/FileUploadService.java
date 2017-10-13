@@ -4,8 +4,11 @@ import com.box.sdk.BoxFile;
 import com.manywho.sdk.entities.run.elements.type.FileDataRequest;
 import com.manywho.services.box.client.BoxClient;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.BodyPartEntity;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import javax.inject.Inject;
@@ -15,6 +18,8 @@ import java.util.Optional;
 
 public class FileUploadService {
     private BoxClient boxClient;
+
+    private static final Logger LOGGER = LogManager.getLogger("com.manywho.services.box");
 
     @Inject
     public FileUploadService(BoxClient boxClient){
@@ -26,6 +31,11 @@ public class FileUploadService {
         Optional<BodyPart> filePart = formDataMultiPart.getBodyParts().stream()
                 .filter(bodyPart -> StringUtils.isNotEmpty(bodyPart.getContentDisposition().getFileName()))
                 .findFirst();
+
+        for (BodyPart bodyPart: formDataMultiPart.getBodyParts()) {
+            Integer size = ((FormDataBodyPart) bodyPart).getValue().getBytes().length;
+            LOGGER.debug("fileName:"+ bodyPart.getContentDisposition().getFileName() +"upload file Size: " + Integer.toString(size));
+        }
 
         if (filePart.isPresent()) {
             return filePart.get();
