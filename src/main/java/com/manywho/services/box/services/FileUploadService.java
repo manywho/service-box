@@ -6,10 +6,8 @@ import com.manywho.services.box.client.BoxClient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.glassfish.jersey.media.multipart.BodyPart;
-import org.glassfish.jersey.media.multipart.BodyPartEntity;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.apache.logging.log4j.util.Strings;
+import org.glassfish.jersey.media.multipart.*;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -26,16 +24,24 @@ public class FileUploadService {
         this.boxClient = boxClient;
     }
 
+    private boolean containsFileName(BodyPart bodyPart) {
+        ContentDisposition contentDisposition = bodyPart.getContentDisposition();
+
+        if (contentDisposition != null && Strings.isNotEmpty(contentDisposition.getFileName())) {
+            Integer size = ((FormDataBodyPart) bodyPart).getValue().getBytes().length;
+            LOGGER.debug("fileName:"+ bodyPart.getContentDisposition().getFileName() +"upload file Size: " + Integer.toString(size));
+
+            return true;
+        }
+
+        return false;
+    }
+
     public BodyPart getFilePart(FormDataMultiPart formDataMultiPart) throws Exception {
         // If the filename is blank or doesn't exist, assume it's the FileDataRequest and skip it
         Optional<BodyPart> filePart = formDataMultiPart.getBodyParts().stream()
-                .filter(bodyPart -> StringUtils.isNotEmpty(bodyPart.getContentDisposition().getFileName()))
+                .filter(this::containsFileName)
                 .findFirst();
-
-        for (BodyPart bodyPart: formDataMultiPart.getBodyParts()) {
-            Integer size = ((FormDataBodyPart) bodyPart).getValue().getBytes().length;
-            LOGGER.debug("fileName:"+ bodyPart.getContentDisposition().getFileName() +"upload file Size: " + Integer.toString(size));
-        }
 
         if (filePart.isPresent()) {
             return filePart.get();

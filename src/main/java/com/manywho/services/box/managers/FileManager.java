@@ -48,13 +48,9 @@ public class FileManager {
     public ObjectDataResponse uploadFile(AuthenticatedWho authenticatedWho, FileDataRequest fileDataRequest, FormDataMultiPart formDataMultiPart) throws Exception {
         BodyPart bodyPart = fileUploadService.getFilePart(formDataMultiPart);
         if (bodyPart != null) {
-            Integer size = ((FormDataBodyPart) bodyPart).getValue().getBytes().length;
-            LOGGER.debug("upload file Size: " + Integer.toString(size));
-
             BoxFile.Info fileInformation = fileUploadService.uploadFileToBox(authenticatedWho.getToken(), fileDataRequest, bodyPart);
 
             if (fileInformation != null) {
-                LOGGER.debug(FileManager.class.getName(), "upload file information: ", fileInformation);
 
                 return new ObjectDataResponse(fileService.buildManyWhoFileObject(fileInformation, fileInformation.getResource()));
             }
