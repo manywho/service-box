@@ -16,11 +16,9 @@ import com.manywho.services.box.services.FileService;
 import com.manywho.services.box.services.FileUploadService;
 import com.manywho.services.box.services.ObjectMapperService;
 import org.glassfish.jersey.media.multipart.BodyPart;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 import javax.inject.Inject;
 import java.util.stream.Collectors;
@@ -47,6 +45,9 @@ public class FileManager {
 
     public ObjectDataResponse uploadFile(AuthenticatedWho authenticatedWho, FileDataRequest fileDataRequest, FormDataMultiPart formDataMultiPart) throws Exception {
         BodyPart bodyPart = fileUploadService.getFilePart(formDataMultiPart);
+
+        LOGGER.debug("headers:" + bodyPart.getHeaders().toString());
+
         if (bodyPart != null) {
             BoxFile.Info fileInformation = fileUploadService.uploadFileToBox(authenticatedWho.getToken(), fileDataRequest, bodyPart);
 

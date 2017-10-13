@@ -27,7 +27,7 @@ public class FileUploadService {
     private boolean containsFileName(BodyPart bodyPart) {
         ContentDisposition contentDisposition = bodyPart.getContentDisposition();
 
-        if (contentDisposition != null && Strings.isNotEmpty(contentDisposition.getFileName())) {
+         if (contentDisposition != null && Strings.isNotEmpty(contentDisposition.getFileName())) {
             Integer size = ((FormDataBodyPart) bodyPart).getValue().getBytes().length;
             LOGGER.debug("fileName:"+ bodyPart.getContentDisposition().getFileName() +"upload file Size: " + Integer.toString(size));
 
