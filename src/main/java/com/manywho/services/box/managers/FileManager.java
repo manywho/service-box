@@ -18,13 +18,18 @@ import com.manywho.services.box.services.ObjectMapperService;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import javax.inject.Inject;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class FileManager {
+
+
+    private static final Logger LOGGER = LogManager.getLogger("com.manywho.services.box");
+
     @Inject
     private FileService fileService;
 
@@ -44,11 +49,13 @@ public class FileManager {
         BodyPart bodyPart = fileUploadService.getFilePart(formDataMultiPart);
         if (bodyPart != null) {
             Integer size = ((FormDataBodyPart) bodyPart).getValue().getBytes().length;
-            Logger.getLogger(FileManager.class.getName()).log(Level.ALL, "upload file Size: " + Integer.toString(size));
+            LOGGER.debug("upload file Size: " + Integer.toString(size));
+
             BoxFile.Info fileInformation = fileUploadService.uploadFileToBox(authenticatedWho.getToken(), fileDataRequest, bodyPart);
 
             if (fileInformation != null) {
-                Logger.getLogger(FileManager.class.getName()).log(Level.ALL, "fileInformation no null");
+                LOGGER.debug(FileManager.class.getName(), "upload file information: ", fileInformation);
+
                 return new ObjectDataResponse(fileService.buildManyWhoFileObject(fileInformation, fileInformation.getResource()));
             }
         }
