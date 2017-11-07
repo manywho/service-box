@@ -44,13 +44,13 @@ public class TaskManager {
             // Add a new task to the requested file on Box
             BoxTask.Info taskInfo = taskService.addTaskToFile(
                     user.getToken(),
-                    taskCreate.getFile().getId(),
+                    taskCreate.getFileId(),
                     taskCreate.getMessage(),
                     taskCreate.getDueAt()
             );
 
             return objectMapperService.convertBoxTask(taskInfo, boxClient.getFile(user.getToken(),
-                    taskCreate.getFile().getId()).getInfo());
+                    taskCreate.getFileId()).getInfo());
         }
 
         throw new Exception("An invalid task creation request was given");
@@ -60,7 +60,7 @@ public class TaskManager {
         // Parse the received ManyWho objects into POJOs
         TaskAddAssignment assignment = propertyCollectionParser.parse(serviceRequest.getInputs(), TaskAddAssignment.class);
         if (assignment != null) {
-            BoxTaskAssignment.Info taskInfo = taskService.addAssignmentToTask(user.getToken(), assignment.getTask().getId(), assignment.getAssigneeEmail());
+            BoxTaskAssignment.Info taskInfo = taskService.addAssignmentToTask(user.getToken(), assignment.getTaskId(), assignment.getAssigneeEmail());
 
             Object taskObject = objectMapperService.convertBoxTaskAssignment(taskInfo,
                     boxClient.getFile(user.getToken(), taskInfo.getItem().getID()).getInfo());

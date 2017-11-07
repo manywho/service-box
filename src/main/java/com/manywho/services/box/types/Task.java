@@ -21,7 +21,7 @@ public class Task extends AbstractType {
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("Message", "Message"));
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("Is Completed?", "Is Completed?"));
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("Created At", "Created At"));
-        typeElementPropertyBindings.add(new TypeElementPropertyBinding("File", "File"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("File ID", "File ID"));
 
         TypeElementBindingCollection typeElementBindings = new TypeElementBindingCollection();
         typeElementBindings.add(new TypeElementBinding(NAME, "Details about a Task", NAME, typeElementPropertyBindings));
@@ -37,7 +37,7 @@ public class Task extends AbstractType {
         typeElementProperties.add(new TypeElementProperty("Message", ContentType.String));
         typeElementProperties.add(new TypeElementProperty("Is Completed?", ContentType.Boolean));
         typeElementProperties.add(new TypeElementProperty("Created At", ContentType.DateTime));
-        typeElementProperties.add(new TypeElementProperty("File", ContentType.Object, File.NAME));
+        typeElementProperties.add(new TypeElementProperty("File ID", ContentType.String));
 
         return typeElementProperties;
     }

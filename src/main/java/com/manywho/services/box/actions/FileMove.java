@@ -26,8 +26,8 @@ public class FileMove extends AbstractAction {
     @Override
     public DescribeValueCollection getServiceInputs() {
         DescribeValueCollection describeValues = new DescribeValueCollection();
-        describeValues.add(new DescribeValue("Source File", ContentType.Object, true, null, File.NAME));
-        describeValues.add(new DescribeValue("Destination Folder", ContentType.Object, true, null, Folder.NAME));
+        describeValues.add(new DescribeValue("Source File ID", ContentType.String, true));
+        describeValues.add(new DescribeValue("Destination Folder ID", ContentType.String, true));
         describeValues.add(new DescribeValue("Name", ContentType.String, false));
 
         return describeValues;

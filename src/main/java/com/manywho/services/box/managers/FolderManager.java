@@ -24,7 +24,7 @@ public class FolderManager {
             throw new Exception("Unable to parse Folder save request");
         }
 
-        if (StringUtils.isEmpty(folder.getParentFolder().getId())) {
+        if (StringUtils.isEmpty(folder.getParentFolderId())) {
             throw new Exception("The Parent Folder ID can not be empty");
         }
 
@@ -32,6 +32,6 @@ public class FolderManager {
             throw new Exception("Folder Name cannot be null or empty");
         }
 
-        return folderService.createFolder(user.getToken(), folder.getParentFolder().getId(), folder.getName());
+        return folderService.createFolder(user.getToken(), folder.getParentFolderId(), folder.getName());
     }
 }

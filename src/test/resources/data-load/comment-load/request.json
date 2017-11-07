@@ -31,154 +31,7 @@
     "country": "USA",
     "variant": null
   },
-  "listFilter": {
-    "id": null,
-    "filterByProvidedObjects": false,
-    "orderByPropertyDeveloperName": "File",
-    "orderByDirectionType": "",
-    "orderBy": null,
-    "limit": 0,
-    "offset": 0,
-    "search": null,
-    "searchCriteria": null,
-    "comparisonType": "AND",
-    "where": [
-      {
-        "columnName": "File",
-        "criteriaType": "EQUAL",
-        "value": null,
-        "contentValue": null,
-        "objectData": [
-          {
-            "internalId": "3b9d0388-f5f8-425d-95d5-a0f7e181c5d0",
-            "externalId": "98041338416",
-            "developerName": "File",
-            "typeElementId": "fd839ec8-0936-47b0-a2ff-323bc77f1a72",
-            "order": 0,
-            "properties": [
-              {
-                "typeElementPropertyId": "f7c8c357-5c80-46db-b25e-c7336dcf5779",
-                "developerName": "ID",
-                "contentValue": "98041338416",
-                "contentType": "ContentString",
-                "contentFormat": null,
-                "objectData": null
-              },
-              {
-                "typeElementPropertyId": "c99bda4f-98c4-457a-990f-467672675747",
-                "developerName": "Name",
-                "contentValue": "pokemon.png",
-                "contentType": "ContentString",
-                "contentFormat": null,
-                "objectData": null
-              },
-              {
-                "typeElementPropertyId": "123ec495-f90f-4db3-bf11-cc3b864424a2",
-                "developerName": "Description",
-                "contentValue": "",
-                "contentType": "ContentString",
-                "contentFormat": null,
-                "objectData": null
-              },
-              {
-                "typeElementPropertyId": "06ded3df-bc77-47a3-98c5-122e1ab0ab49",
-                "developerName": "Content",
-                "contentValue": "",
-                "contentType": "ContentString",
-                "contentFormat": null,
-                "objectData": null
-              },
-              {
-                "typeElementPropertyId": "87f679e1-5b75-44d7-a382-14ecfa950dcc",
-                "developerName": "Parent Folder",
-                "contentValue": null,
-                "contentType": "ContentObject",
-                "contentFormat": null,
-                "objectData": [
-                  {
-                    "internalId": "078e0e10-4278-4293-a238-b0adce672c99",
-                    "externalId": "0",
-                    "developerName": "Folder",
-                    "typeElementId": "66bfbafc-e259-4768-8725-41abcc43dd39",
-                    "order": 0,
-                    "properties": [
-                      {
-                        "typeElementPropertyId": "5f85cccb-4c93-4ea5-bf2c-cd6c66bcba2f",
-                        "developerName": "ID",
-                        "contentValue": "0",
-                        "contentType": "ContentString",
-                        "contentFormat": null,
-                        "objectData": null
-                      },
-                      {
-                        "typeElementPropertyId": "45638b77-1b87-44ed-a965-0143d3ca7f69",
-                        "developerName": "Name",
-                        "contentValue": "All Files",
-                        "contentType": "ContentString",
-                        "contentFormat": null,
-                        "objectData": null
-                      },
-                      {
-                        "typeElementPropertyId": "6f5aa198-330a-42ea-868a-bafc852fa9ba",
-                        "developerName": "Description",
-                        "contentValue": "",
-                        "contentType": "ContentString",
-                        "contentFormat": null,
-                        "objectData": null
-                      },
-                      {
-                        "typeElementPropertyId": "834c39ec-c8e0-4646-a093-410a511a2739",
-                        "developerName": "Parent Folder",
-                        "contentValue": null,
-                        "contentType": "ContentObject",
-                        "contentFormat": null,
-                        "objectData": null
-                      },
-                      {
-                        "typeElementPropertyId": "0d044052-5c6f-46b1-8f7e-d93139949806",
-                        "developerName": "Created At",
-                        "contentValue": "",
-                        "contentType": "ContentDateTime",
-                        "contentFormat": null,
-                        "objectData": null
-                      },
-                      {
-                        "typeElementPropertyId": "99a3dafc-18d9-4c62-b49e-7b445456c9c1",
-                        "developerName": "Modified At",
-                        "contentValue": "",
-                        "contentType": "ContentDateTime",
-                        "contentFormat": null,
-                        "objectData": null
-                      }
-                    ],
-                    "isSelected": false
-                  }
-                ]
-              },
-              {
-                "typeElementPropertyId": "90e25269-623c-4b3a-a3b4-4d0ad0811678",
-                "developerName": "Created At",
-                "contentValue": "2016-10-14T12:29:43.000+01:00",
-                "contentType": "ContentDateTime",
-                "contentFormat": null,
-                "objectData": null
-              },
-              {
-                "typeElementPropertyId": "c112465e-942e-4fbb-8c2c-cd85f72a2200",
-                "developerName": "Modified At",
-                "contentValue": "2016-10-14T12:29:43.000+01:00",
-                "contentType": "ContentDateTime",
-                "contentFormat": null,
-                "objectData": null
-              }
-            ],
-            "isSelected": false
-          }
-        ]
-      }
-    ],
-    "listFilters": null
-  },
+  "listFilter": null,
   "objectDataType": {
     "typeElementId": "1007eae3-cad3-4290-9221-feea16919b12",
     "developerName": "Comment",
@@ -223,9 +76,9 @@
         },
         {
           "typeElementPropertyId": "7776cf94-67f8-4faf-8729-582f6f3328b8",
-          "developerName": "File",
-          "contentValue": null,
-          "contentType": "ContentObject",
+          "developerName": "File ID",
+          "contentValue": "",
+          "contentType": "ContentString",
           "contentFormat": null,
           "objectData": null
         }

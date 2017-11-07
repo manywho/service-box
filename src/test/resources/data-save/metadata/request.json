@@ -127,70 +127,11 @@
                 },
                 {
                   "typeElementPropertyId": "25db89ab-7cd3-48b0-85c9-1e42e530ea50",
-                  "developerName": "Parent Folder",
-                  "contentValue": null,
-                  "contentType": "ContentObject",
+                  "developerName": "Parent Folder ID",
+                  "contentValue": "0",
+                  "contentType": "ContentString",
                   "contentFormat": null,
-                  "objectData": [
-                    {
-                      "internalId": "7e114ed2-3f3f-42f5-b491-9581d48bd48f",
-                      "externalId": "0",
-                      "developerName": "Folder",
-                      "typeElementId": "10f69c02-69a5-4e09-b957-d20d9e5351bf",
-                      "order": 0,
-                      "properties": [
-                        {
-                          "typeElementPropertyId": "f27449f7-66fe-4f37-99e1-32fa1fd56b9b",
-                          "developerName": "ID",
-                          "contentValue": "0",
-                          "contentType": "ContentString",
-                          "contentFormat": null,
-                          "objectData": null
-                        },
-                        {
-                          "typeElementPropertyId": "98e69bab-e2da-429b-a3ee-13458a2d18a0",
-                          "developerName": "Name",
-                          "contentValue": "All Files",
-                          "contentType": "ContentString",
-                          "contentFormat": null,
-                          "objectData": null
-                        },
-                        {
-                          "typeElementPropertyId": "611388a5-5d73-45ad-b43b-60d72df5617a",
-                          "developerName": "Description",
-                          "contentValue": "",
-                          "contentType": "ContentString",
-                          "contentFormat": null,
-                          "objectData": null
-                        },
-                        {
-                          "typeElementPropertyId": "8ddc7828-9b82-43dc-ab21-17605dc2d1c2",
-                          "developerName": "Parent Folder",
-                          "contentValue": null,
-                          "contentType": "ContentObject",
-                          "contentFormat": null,
-                          "objectData": null
-                        },
-                        {
-                          "typeElementPropertyId": "077d83e3-ea51-472f-bb61-1bae0c0079fe",
-                          "developerName": "Created At",
-                          "contentValue": "",
-                          "contentType": "ContentDateTime",
-                          "contentFormat": null,
-                          "objectData": null
-                        },
-                        {
-                          "typeElementPropertyId": "8ba52d32-2704-4726-bb99-cd5c6f994ab5",
-                          "developerName": "Modified At",
-                          "contentValue": "",
-                          "contentType": "ContentDateTime",
-                          "contentFormat": null,
-                          "objectData": null
-                        }
-                      ],
-                      "isSelected": false
-                    }
-                  ]
+                  "objectData": null
                 },
                 {
                   "typeElementPropertyId": "3c429e30-6151-408a-9211-d50b4aa3c964",

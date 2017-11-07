@@ -59,7 +59,7 @@
       "developerName": "Content",
       "list": null
     }, {
-      "developerName": "Parent Folder",
+      "developerName": "Parent Folder ID",
       "list": null
     }, {
       "developerName": "Comments",
@@ -108,9 +108,9 @@
       "objectData": null
     }, {
       "typeElementPropertyId": "27b32f96-cb21-47c3-9701-34c50d169b40",
-      "developerName": "Parent Folder",
-      "contentValue": null,
-      "contentType": "ContentObject",
+      "developerName": "Parent Folder ID",
+      "contentValue": "0",
+      "contentType": "ContentString",
       "contentFormat": null,
       "objectData": null
     }, {

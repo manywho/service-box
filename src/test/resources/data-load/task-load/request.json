@@ -70,7 +70,7 @@
         "list": null
       },
       {
-        "developerName": "File",
+        "developerName": "File ID",
         "list": null
       }
     ]
@@ -125,9 +125,9 @@
         },
         {
           "typeElementPropertyId": "bced7ec9-5248-4320-b982-2b2e1c1bd520",
-          "developerName": "File",
+          "developerName": "File ID",
           "contentValue": null,
-          "contentType": "ContentObject",
+          "contentType": "ContentString",
           "contentFormat": null,
           "objectData": null
         }

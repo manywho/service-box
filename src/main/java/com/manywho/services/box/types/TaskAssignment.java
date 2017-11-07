@@ -17,7 +17,7 @@ public class TaskAssignment extends AbstractType {
         TypeElementPropertyBindingCollection typeElementPropertyBindings = new TypeElementPropertyBindingCollection();
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("ID", "ID"));
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("Assignee Email", "Assignee Email"));
-        typeElementPropertyBindings.add(new TypeElementPropertyBinding("File", "File"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("File ID", "File ID"));
         TypeElementBindingCollection typeElementBindings = new TypeElementBindingCollection();
         typeElementBindings.add(new TypeElementBinding(NAME, "Details about a Task Assignment", NAME, typeElementPropertyBindings));
 
@@ -29,7 +29,7 @@ public class TaskAssignment extends AbstractType {
         TypeElementPropertyCollection typeElementProperties = new TypeElementPropertyCollection();
         typeElementProperties.add(new TypeElementProperty("ID", ContentType.String));
         typeElementProperties.add(new TypeElementProperty("Assignee Email", ContentType.String));
-        typeElementProperties.add(new TypeElementProperty("File", ContentType.Object, File.NAME));
+        typeElementProperties.add(new TypeElementProperty("File ID", ContentType.String));
 
         return typeElementProperties;
     }

@@ -19,8 +19,8 @@ public class Folder {
     @Property("Description")
     private String description;
 
-    @Property(value = "Parent Folder", isObject = true)
-    private Folder parentFolder;
+    @Property(value = "Parent Folder ID")
+    private String parentFolderId;
 
     @Property(value = "Created At")
     private DateTime createdAt;
@@ -40,8 +40,8 @@ public class Folder {
         return description;
     }
 
-    public Folder getParentFolder() {
-        return parentFolder;
+    public String getParentFolderId() {
+        return parentFolderId;
     }
 
     public DateTime getCreatedAt() {

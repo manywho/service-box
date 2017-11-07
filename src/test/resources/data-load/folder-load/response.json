@@ -50,11 +50,11 @@
         },
         {
           "typeElementPropertyId": null,
-          "developerName": "Parent Folder",
+          "developerName": "Parent Folder ID",
           "contentType": null,
-          "contentValue": null,
+          "contentValue": "0",
           "contentFormat": null,
-          "objectData": []
+          "objectData": null
         }
       ],
       "isSelected": false

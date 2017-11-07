@@ -83,7 +83,7 @@ public class FileManager {
             throw new Exception("Unable to parse the incoming FileCopy request");
         }
 
-        fileService.copyFile(user.getToken(), fileCopy.getFile().getId(), fileCopy.getFolder().getId(), fileCopy.getName());
+        fileService.copyFile(user.getToken(), fileCopy.getFileId(), fileCopy.getFolderId(), fileCopy.getName());
 
         return new ServiceResponse(InvokeType.Forward, serviceRequest.getToken());
     }
@@ -94,7 +94,7 @@ public class FileManager {
             throw new Exception("Unable to parse the incoming FileMove request");
         }
 
-        fileService.moveFile(user.getToken(), fileMove.getFile().getId(), fileMove.getFolder().getId(), fileMove.getName());
+        fileService.moveFile(user.getToken(), fileMove.getFileId(), fileMove.getFolderId(), fileMove.getName());
 
         return new ServiceResponse(InvokeType.Forward, serviceRequest.getToken());
     }

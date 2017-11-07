@@ -25,9 +25,9 @@ public class Task {
     @Property(value = "Created At")
     private DateTime createdAt;
 
-    @Property(value = "File", isObject = true)
-    @NotNull(message = "The File can not be empty")
-    private File file;
+    @Property(value = "File ID")
+    @NotNull(message = "The File ID can not be empty")
+    private String fileId;
 
     public String getId() {
         return id;
@@ -49,7 +49,7 @@ public class Task {
         return createdAt;
     }
 
-    public File getFile() {
-        return file;
+    public String getFileId() {
+        return fileId;
     }
 }

@@ -41,9 +41,6 @@ public class LoadDataControllerTest extends BoxServiceFunctionalTest {
         headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
 
         requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load-filter/box-response/folders.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load-filter/box-response/folder-items.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load-filter/box-response/folders.json", 200));
-        requestIntersectorTests.addApiResponse(createBoxApiResponse("data-load/folder-load-filter/box-response/folder-items.json", 200));
 
         Response responseMsg = target("/data").request()
                 .headers(headers)

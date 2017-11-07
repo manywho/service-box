@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 
 public class ObjectMapperService {
 
-    public Object convertBoxComment(BoxComment.Info comment, BoxFile.Info fileInfo) {
+    Object convertBoxComment(BoxComment.Info comment, BoxFile.Info fileInfo) {
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("ID", comment.getID()));
         properties.add(new Property("Message", comment.getMessage()));
-        properties.add(new Property("File", convertBoxFile(fileInfo, null)));
+        properties.add(new Property("File ID", fileInfo.getID()));
 
         Object object = new Object();
         object.setDeveloperName(Comment.NAME);
@@ -30,7 +30,7 @@ public class ObjectMapperService {
         properties.add(new Property("Name", fileInfo.getName()));
         properties.add(new Property("Description", fileInfo.getDescription()));
         properties.add(new Property("Content", content));
-        properties.add(new Property("Parent Folder", convertBoxFolder(fileInfo.getParent())));
+        properties.add(new Property("Parent Folder ID", fileInfo.getParent().getID()));
         properties.add(new Property("Created At", fileInfo.getCreatedAt()));
         properties.add(new Property("Modified At", fileInfo.getModifiedAt()));
 
@@ -42,11 +42,8 @@ public class ObjectMapperService {
         return object;
     }
 
-    public Object convertBoxFolder(BoxFolder.Info info) {
-        return convertBoxFolderInternal(info, false);
-    }
 
-    public Object convertBoxFolderInternal(BoxFolder.Info info, Boolean emptyParentFolder) {
+    Object convertBoxFolder(BoxFolder.Info info) {
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("ID", info.getID()));
         properties.add(new Property("Name", info.getName()));
@@ -54,10 +51,10 @@ public class ObjectMapperService {
         properties.add(new Property("Created At", info.getCreatedAt()));
         properties.add(new Property("Modified At", info.getModifiedAt()));
 
-        if (emptyParentFolder || Objects.equals(info.getID(), "0") || info.getParent() == null ) {
-            properties.add(new Property("Parent Folder", new ObjectCollection()));
+        if (Objects.equals(info.getID(), "0") || info.getParent() == null ) {
+            properties.add(new Property("Parent Folder ID", "0"));
         } else {
-            properties.add(new Property("Parent Folder", convertBoxFolderInternal(info.getParent(), true)));
+            properties.add(new Property("Parent Folder ID", info.getParent().getID()));
         }
 
         Object object = new Object();
@@ -75,7 +72,7 @@ public class ObjectMapperService {
         properties.add(new Property("Message", taskInfo.getMessage()));
         properties.add(new Property("Is Completed?", taskInfo.isCompleted()));
         properties.add(new Property("Created At", taskInfo.getCreatedAt()));
-        properties.add(new Property("File", convertBoxFile(fileInfo, null)));
+        properties.add(new Property("File ID", fileInfo.getID()));
 
         Object object = new Object();
         object.setDeveloperName(Task.NAME);
@@ -90,7 +87,7 @@ public class ObjectMapperService {
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("ID", taskAssignmentInfo.getID()));
         properties.add(new Property("Assignee Email", taskAssignmentInfo.getAssignedTo().getLogin()));
-        properties.add(new Property("File", convertBoxFile(fileInfo, null)));
+        properties.add(new Property("File ID", fileInfo.getID()));
 
         Object object = new Object();
         object.setDeveloperName(TaskAssignment.NAME);
@@ -100,7 +97,7 @@ public class ObjectMapperService {
         return object;
     }
 
-    public Object convertFileMetadata(BoxFile file, ObjectDataType objectDataType) {
+    Object convertFileMetadata(BoxFile file, ObjectDataType objectDataType) {
         Metadata metadata = file.getMetadata( objectDataType.getDeveloperName());
 
         // Populate all the desired properties from the values in the metadata (except for the virtual ___file field)
@@ -121,7 +118,7 @@ public class ObjectMapperService {
         return object;
     }
 
-    public Object convertGroupObjectToManyWhoGroup(BoxGroup.Info group) {
+    Object convertGroupObjectToManyWhoGroup(BoxGroup.Info group) {
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("AuthenticationId", group.getID()));
         properties.add(new Property("FriendlyName", group.getName()));
@@ -135,7 +132,7 @@ public class ObjectMapperService {
         return object;
     }
 
-    public Object convertUserObjectToManyWhoUser(BoxUser.Info user) {
+    Object convertUserObjectToManyWhoUser(BoxUser.Info user) {
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("AuthenticationId", user.getID()));
         properties.add(new Property("FriendlyName", user.getName()));

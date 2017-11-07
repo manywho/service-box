@@ -19,7 +19,7 @@ public class File extends AbstractType {
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("Name", "Name"));
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("Description", "Description"));
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("Content", "Content"));
-        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Parent Folder", "Parent Folder"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("Parent Folder ID", "Parent Folder ID"));
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("Created At", "Created At"));
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("Modified At", "Modified At"));
 
@@ -36,7 +36,7 @@ public class File extends AbstractType {
         typeElementProperties.add(new TypeElementProperty("Name", ContentType.String));
         typeElementProperties.add(new TypeElementProperty("Description", ContentType.String));
         typeElementProperties.add(new TypeElementProperty("Content", ContentType.String));
-        typeElementProperties.add(new TypeElementProperty("Parent Folder", ContentType.Object, Folder.NAME));
+        typeElementProperties.add(new TypeElementProperty("Parent Folder ID", ContentType.String));
         typeElementProperties.add(new TypeElementProperty("Created At", ContentType.DateTime));
         typeElementProperties.add(new TypeElementProperty("Modified At", ContentType.DateTime));
 

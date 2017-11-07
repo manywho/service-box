@@ -70,7 +70,7 @@
         "list": null
       },
       {
-        "developerName": "Files",
+        "developerName": "Parent Folder ID",
         "list": null
       },
       {
@@ -116,10 +116,10 @@
           "objectData": null
         },
         {
-          "typeElementPropertyId": "fce7d595-8167-4b14-a01a-c36f9a466a05",
-          "developerName": "Files",
-          "contentValue": null,
-          "contentType": "ContentList",
+          "typeElementPropertyId": "d05cf5d8-88f6-4ec2-9dd9-8365d4be0f4b",
+          "developerName": "Parent Folder ID",
+          "contentValue": "0",
+          "contentType": "ContentString",
           "contentFormat": null,
           "objectData": null
         },

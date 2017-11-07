@@ -85,17 +85,17 @@
     "serviceOutputs": [],
     "uriPart": "file/copy",
     "serviceInputs": [{
-      "developerName": "Source File",
+      "developerName": "Source File ID",
       "contentValue": null,
-      "contentType": "ContentObject",
-      "typeElementDeveloperName": "File",
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
       "ordinal": 0,
       "required": true
     }, {
-      "developerName": "Destination Folder",
+      "developerName": "Destination Folder ID",
       "contentValue": null,
-      "contentType": "ContentObject",
-      "typeElementDeveloperName": "Folder",
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
       "ordinal": 0,
       "required": true
     }, {
@@ -114,17 +114,17 @@
     "serviceOutputs": [],
     "uriPart": "file/move",
     "serviceInputs": [{
-      "developerName": "Source File",
+      "developerName": "Source File ID",
       "contentValue": null,
-      "contentType": "ContentObject",
-      "typeElementDeveloperName": "File",
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
       "ordinal": 0,
       "required": true
     }, {
-      "developerName": "Destination Folder",
+      "developerName": "Destination Folder ID",
       "contentValue": null,
-      "contentType": "ContentObject",
-      "typeElementDeveloperName": "Folder",
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
       "ordinal": 0,
       "required": true
     }, {
@@ -150,10 +150,10 @@
     }],
     "uriPart": "task/addassignment",
     "serviceInputs": [{
-      "developerName": "Task",
+      "developerName": "Task ID",
       "contentValue": null,
-      "contentType": "ContentObject",
-      "typeElementDeveloperName": "Task",
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
       "ordinal": 0,
       "required": true
     }, {
@@ -190,11 +190,11 @@
         "typeElementDeveloperName": null
       }, {
         "id": null,
-        "developerName": "File",
+        "developerName": "File ID",
         "contentFormat": null,
-        "contentType": "ContentObject",
+        "contentType": "ContentString",
         "typeElementId": null,
-        "typeElementDeveloperName": "File"
+        "typeElementDeveloperName": null
       }],
       "bindings": [{
         "id": null,
@@ -213,9 +213,9 @@
           "typeElementPropertyDeveloperName": "Message",
           "databaseContentType": null
         }, {
-          "databaseFieldName": "File",
+          "databaseFieldName": "File ID",
           "typeElementPropertyId": null,
-          "typeElementPropertyDeveloperName": "File",
+          "typeElementPropertyDeveloperName": "File ID",
           "databaseContentType": null
         }]
       }],
@@ -256,11 +256,11 @@
         "typeElementDeveloperName": null
       }, {
         "id": null,
-        "developerName": "Parent Folder",
+        "developerName": "Parent Folder ID",
         "contentFormat": null,
-        "contentType": "ContentObject",
+        "contentType": "ContentString",
         "typeElementId": null,
-        "typeElementDeveloperName": "Folder"
+        "typeElementDeveloperName": null
       }, {
         "id": null,
         "developerName": "Created At",
@@ -303,9 +303,9 @@
           "typeElementPropertyDeveloperName": "Content",
           "databaseContentType": null
         }, {
-          "databaseFieldName": "Parent Folder",
+          "databaseFieldName": "Parent Folder ID",
           "typeElementPropertyId": null,
-          "typeElementPropertyDeveloperName": "Parent Folder",
+          "typeElementPropertyDeveloperName": "Parent Folder ID",
           "databaseContentType": null
         }, {
           "databaseFieldName": "Created At",
@@ -349,11 +349,11 @@
         "typeElementDeveloperName": null
       }, {
         "id": null,
-        "developerName": "Parent Folder",
+        "developerName": "Parent Folder ID",
         "contentFormat": null,
-        "contentType": "ContentObject",
+        "contentType": "ContentString",
         "typeElementId": null,
-        "typeElementDeveloperName": "Folder"
+        "typeElementDeveloperName": null
       }, {
         "id": null,
         "developerName": "Created At",
@@ -391,9 +391,9 @@
           "typeElementPropertyDeveloperName": "Description",
           "databaseContentType": null
         }, {
-          "databaseFieldName": "Parent Folder",
+          "databaseFieldName": "Parent Folder ID",
           "typeElementPropertyId": null,
-          "typeElementPropertyDeveloperName": "Parent Folder",
+          "typeElementPropertyDeveloperName": "Parent Folder ID",
           "databaseContentType": null
         }, {
           "databaseFieldName": "Created At",
@@ -451,11 +451,11 @@
         "typeElementDeveloperName": null
       }, {
         "id": null,
-        "developerName": "File",
+        "developerName": "File ID",
         "contentFormat": null,
-        "contentType": "ContentObject",
+        "contentType": "ContentString",
         "typeElementId": null,
-        "typeElementDeveloperName": "File"
+        "typeElementDeveloperName": null
       }],
       "bindings": [{
         "id": null,
@@ -489,9 +489,9 @@
           "typeElementPropertyDeveloperName": "Created At",
           "databaseContentType": null
         }, {
-          "databaseFieldName": "File",
+          "databaseFieldName": "File ID",
           "typeElementPropertyId": null,
-          "typeElementPropertyDeveloperName": "File",
+          "typeElementPropertyDeveloperName": "File ID",
           "databaseContentType": null
         }]
       }],
@@ -518,11 +518,11 @@
         "typeElementDeveloperName": null
       }, {
         "id": null,
-        "developerName": "File",
+        "developerName": "File ID",
         "contentFormat": null,
-        "contentType": "ContentObject",
+        "contentType": "ContentString",
         "typeElementId": null,
-        "typeElementDeveloperName": "File"
+        "typeElementDeveloperName": null
       }],
       "bindings": [{
         "id": null,
@@ -541,9 +541,9 @@
           "typeElementPropertyDeveloperName": "Assignee Email",
           "databaseContentType": null
         }, {
-          "databaseFieldName": "File",
+          "databaseFieldName": "File ID",
           "typeElementPropertyId": null,
-          "typeElementPropertyDeveloperName": "File",
+          "typeElementPropertyDeveloperName": "File ID",
           "databaseContentType": null
         }]
       }],

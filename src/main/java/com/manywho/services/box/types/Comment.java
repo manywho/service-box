@@ -17,7 +17,7 @@ public class Comment extends AbstractType {
         TypeElementPropertyCollection typeElementProperties = new TypeElementPropertyCollection();
         typeElementProperties.add(new TypeElementProperty("ID", ContentType.String));
         typeElementProperties.add(new TypeElementProperty("Message", ContentType.String));
-        typeElementProperties.add(new TypeElementProperty("File", ContentType.Object, File.NAME));
+        typeElementProperties.add(new TypeElementProperty("File ID", ContentType.String));
 
         return typeElementProperties;
     }
@@ -27,7 +27,7 @@ public class Comment extends AbstractType {
         TypeElementPropertyBindingCollection typeElementPropertyBindings = new TypeElementPropertyBindingCollection();
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("ID", "ID"));
         typeElementPropertyBindings.add(new TypeElementPropertyBinding("Message", "Message"));
-        typeElementPropertyBindings.add(new TypeElementPropertyBinding("File", "File"));
+        typeElementPropertyBindings.add(new TypeElementPropertyBinding("File ID", "File ID"));
 
         TypeElementBindingCollection typeElementBindings = new TypeElementBindingCollection();
         typeElementBindings.add(new TypeElementBinding(NAME, "Details about a Comment", NAME, typeElementPropertyBindings));

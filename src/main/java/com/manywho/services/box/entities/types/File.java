@@ -22,8 +22,8 @@ public class File {
     @Property("Content")
     private String content;
 
-    @Property(value = "Parent Folder", isObject = true)
-    private Folder parentFolder;
+    @Property(value = "Parent Folder ID")
+    private String parentFolderId;
 
     @Property(value = "Comments", isList = true)
     private List<Comment> comments;
@@ -50,8 +50,8 @@ public class File {
         return content;
     }
 
-    public Folder getParentFolder() {
-        return parentFolder;
+    public String getParentFolderId() {
+        return parentFolderId;
     }
 
     public List<Comment> getComments() {
