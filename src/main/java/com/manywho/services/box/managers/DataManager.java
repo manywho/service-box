@@ -8,6 +8,7 @@ import com.manywho.sdk.enums.CriteriaType;
 import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.services.DatabaseLoadService;
 import com.manywho.services.box.services.DatabaseSaveService;
+import com.manywho.services.box.utilities.FilterUtility;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
@@ -44,8 +45,9 @@ public class DataManager {
                 folder = folderFilter.get().getContentValue();
             }
         }
-
-        return databaseLoadService.loadFiles(user.getToken(), folder);
+        // we load one element more to know if there is more elements to do the pagination in front-end
+        return databaseLoadService.loadFiles(user.getToken(), folder, FilterUtility.getOffset(objectDataRequest),
+                FilterUtility.getLimit(objectDataRequest) + 1);
     }
 
     public ObjectCollection loadFileSystem(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {

@@ -112,14 +112,14 @@ public class DatabaseLoadService {
         return new ObjectCollection(objectMapperService.convertFileMetadata(file, objectDataType));
     }
 
-    public ObjectCollection loadFiles(String token, String folderId) throws Exception {
+    public ObjectCollection loadFiles(String token, String folderId, int offset, int limit) throws Exception {
         BoxFolder folder = boxClient.getFolder(token, folderId);
         if (folder == null) {
             throw new Exception("A folder could not be found with the ID " + folderId);
         }
 
         // Loop over all the files in the loaded folder, and convert them to ManyWho objects
-        return StreamUtils.asStream(folder.getChildren(BoxFile.ALL_FIELDS).iterator())
+        return StreamUtils.asStream(folder.getChildrenRange(offset, limit, BoxFile.ALL_FIELDS).iterator())
                 .filter(i -> i instanceof BoxFile.Info)
                 .map(f -> objectMapperService.convertBoxFile((BoxFile.Info) f, null))
                 .collect(Collectors.toCollection(ObjectCollection::new));

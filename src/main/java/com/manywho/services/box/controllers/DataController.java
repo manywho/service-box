@@ -1,5 +1,6 @@
 package com.manywho.services.box.controllers;
 
+import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataResponse;
 import com.manywho.sdk.services.annotations.AuthorizationRequired;
@@ -8,6 +9,7 @@ import com.manywho.services.box.managers.DataManager;
 import com.manywho.services.box.managers.FolderManager;
 import com.manywho.services.box.managers.TaskManager;
 import com.manywho.services.box.types.*;
+import com.manywho.services.box.utilities.FilterUtility;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -38,7 +40,15 @@ public class DataController extends AbstractDataController {
     public ObjectDataResponse load(ObjectDataRequest objectDataRequest) throws Exception {
         switch (objectDataRequest.getObjectDataType().getDeveloperName()) {
             case File.NAME:
-                return new ObjectDataResponse(dataManager.loadFileType(getAuthenticatedWho(), objectDataRequest));
+                ObjectCollection filesCollection = dataManager.loadFileType(getAuthenticatedWho(), objectDataRequest);
+                boolean hasMoreElements = filesCollection.size() > FilterUtility.getLimit(objectDataRequest);
+                if (hasMoreElements) {
+                    filesCollection.remove(filesCollection.size() - 1);
+                }
+                ObjectDataResponse filesResponse =  new ObjectDataResponse(filesCollection);
+                filesResponse.setHasMoreResults(hasMoreElements);
+
+                return filesResponse;
             case Folder.NAME:
                 return new ObjectDataResponse(dataManager.loadFolderType(getAuthenticatedWho(), objectDataRequest));
             case Task.NAME:
