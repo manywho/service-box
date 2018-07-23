@@ -1,0 +1,138 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": {
+    "users": null,
+    "groups": null,
+    "runningAuthenticationId": null,
+    "globalAuthenticationType": "ALL_USERS"
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "123456",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": {
+    "id": "0",
+    "filterByProvidedObjects": false,
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": "",
+    "orderBy": null,
+    "limit": 0,
+    "offset": 0,
+    "search": null,
+    "searchCriteria": null,
+    "comparisonType": "",
+    "where": null,
+    "listFilters": null
+  },
+  "objectDataType": {
+    "typeElementId": "3ba495d9-99e6-48d7-887e-b121e778c4a9",
+    "developerName": "Folder",
+    "properties": [
+      {
+        "developerName": "ID",
+        "list": null
+      },
+      {
+        "developerName": "Name",
+        "list": null
+      },
+      {
+        "developerName": "Description",
+        "list": null
+      },
+      {
+        "developerName": "Files",
+        "list": null
+      },
+      {
+        "developerName": "Created At",
+        "list": null
+      },
+      {
+        "developerName": "Modified At",
+        "list": null
+      }
+    ]
+  },
+  "objectData": [
+    {
+      "internalId": "1336196d-152f-48f5-8071-2a5e072eca3a",
+      "externalId": null,
+      "developerName": "Folder",
+      "typeElementId": "3ba495d9-99e6-48d7-887e-b121e778c4a9",
+      "order": 0,
+      "properties": [
+        {
+          "typeElementPropertyId": "6e41f6b0-b382-4fd6-8b22-7029c8d32082",
+          "developerName": "ID",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "9950a400-0e22-46d1-b5e2-09211e32607a",
+          "developerName": "Name",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "84e2b2e5-4e33-4d6c-874e-96d4b7c11bef",
+          "developerName": "Description",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "e2890cf2-e19c-4525-a13e-a6cd81f75981",
+          "developerName": "Files",
+          "contentValue": null,
+          "contentType": "ContentList",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "5e30fc2c-f36a-4759-8dbf-c462bf33fa0c",
+          "developerName": "Created At",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3cca171f-5506-40d0-8ad6-d8a3dd06a831",
+          "developerName": "Modified At",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
+          "contentFormat": null,
+          "objectData": null
+        }
+      ],
+      "isSelected": false
+    }
+  ]
+}

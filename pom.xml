@@ -12,23 +12,26 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
-            <groupId>com.manywho</groupId>
-            <artifactId>sdk</artifactId>
-            <version>1.18.0</version>
+            <groupId>com.manywho.sdk</groupId>
+            <artifactId>sdk-core</artifactId>
+            <version>1.25.0</version>
         </dependency>
         <dependency>
-            <groupId>com.github.manywho</groupId>
+            <groupId>com.manywho.sdk</groupId>
+            <artifactId>sdk-client</artifactId>
+            <version>1.25.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.manywho.sdk</groupId>
+            <artifactId>sdk-test</artifactId>
+            <version>1.25.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.box</groupId>
             <artifactId>box-java-sdk</artifactId>
-            <version>999a2e5e2a</version>
+            <version>2.8.2</version>
         </dependency>
         <dependency>
             <groupId>org.graylog2.log4j2</groupId>
@@ -40,8 +43,18 @@
             <artifactId>disruptor</artifactId>
             <version>3.3.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.tngtech.java</groupId>
+            <artifactId>junit-dataprovider</artifactId>
+            <version>1.10.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.6.1</version>
+        </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>

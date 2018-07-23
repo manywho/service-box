@@ -1,0 +1,177 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": {
+    "users": null,
+    "groups": null,
+    "runningAuthenticationId": null,
+    "globalAuthenticationType": "ALL_USERS"
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "2516780",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": {
+    "id": "19514630",
+    "filterByProvidedObjects": false,
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": "",
+    "orderBy": null,
+    "limit": 0,
+    "offset": 0,
+    "search": null,
+    "searchCriteria": null,
+    "comparisonType": "",
+    "where": null,
+    "listFilters": null
+  },
+  "objectDataType": {
+    "typeElementId": "6a61d999-9898-4199-925f-7cfa942a7d59",
+    "developerName": "Task Assignment",
+    "properties": [
+      {
+        "developerName": "ID",
+        "list": null
+      },
+      {
+        "developerName": "Assignee Email",
+        "list": null
+      },
+      {
+        "developerName": "File",
+        "list": null
+      }
+    ]
+  },
+  "objectData": [
+    {
+      "internalId": "e18b414b-8c85-4ab6-b9a7-bd45ba5cb4b8",
+      "externalId": "19514630",
+      "developerName": "Task Assignment",
+      "typeElementId": "6a61d999-9898-4199-925f-7cfa942a7d59",
+      "order": 0,
+      "properties": [
+        {
+          "typeElementPropertyId": "9acbce42-e06b-462a-8940-0e889dfe6b6f",
+          "developerName": "ID",
+          "contentValue": "19514630",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "6f529c30-f021-4b2e-a7c2-2a4def833c17",
+          "developerName": "Assignee Email",
+          "contentValue": "jose.collazzi@manywho.com",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "45402bdb-8bc9-41b9-9e39-14730175858c",
+          "developerName": "File",
+          "contentValue": null,
+          "contentType": "ContentObject",
+          "contentFormat": null,
+          "objectData": [
+            {
+              "internalId": "06395d9b-cbe0-475c-bb57-54d37825b4fb",
+              "externalId": "94761962967",
+              "developerName": "File",
+              "typeElementId": "65facdbc-c13e-485d-9ca7-f6fed04c8a82",
+              "order": 0,
+              "properties": [
+                {
+                  "typeElementPropertyId": "2846abdf-2afd-4fdc-a951-91368723e79a",
+                  "developerName": "ID",
+                  "contentValue": "94761962967",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "89279758-25bc-4c0d-8410-350bb62dfd03",
+                  "developerName": "Name",
+                  "contentValue": "dog.jpg",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "29f03261-df70-46a4-84d0-7a919fe8e2aa",
+                  "developerName": "Description",
+                  "contentValue": "",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "07ca2e66-4247-46da-a371-ab45194a2b4e",
+                  "developerName": "Content",
+                  "contentValue": "",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "268d5512-f2b8-4213-b2b5-b65ef279f924",
+                  "developerName": "Parent Folder",
+                  "contentValue": null,
+                  "contentType": "ContentObject",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "10c81faf-c933-43d4-9eb1-a0757860be27",
+                  "developerName": "Comments",
+                  "contentValue": null,
+                  "contentType": "ContentList",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "425dc8bd-53dd-4c81-bb53-60aba5b3ee90",
+                  "developerName": "Created At",
+                  "contentValue": "",
+                  "contentType": "ContentDateTime",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "ae123fac-9443-4694-86d5-dac7d36ac593",
+                  "developerName": "Modified At",
+                  "contentValue": "",
+                  "contentType": "ContentDateTime",
+                  "contentFormat": null,
+                  "objectData": null
+                }
+              ],
+              "isSelected": false
+            }
+          ]
+        }
+      ],
+      "isSelected": false
+    }
+  ]
+}

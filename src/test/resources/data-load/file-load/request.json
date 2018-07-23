@@ -1,0 +1,140 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": {
+    "users": null,
+    "groups": null,
+    "runningAuthenticationId": null,
+    "globalAuthenticationType": "ALL_USERS"
+  },
+  "configurationValues": [{
+    "valueElementId": null,
+    "typeElementId": null,
+    "typeElementPropertyId": null,
+    "developerName": "Enterprise ID",
+    "typeElementDeveloperName": null,
+    "typeElementPropertyDeveloperName": null,
+    "contentValue": "123456",
+    "contentType": "ContentString",
+    "objectData": null
+  }],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": {
+    "id": "76723416457",
+    "filterByProvidedObjects": false,
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": "",
+    "orderBy": null,
+    "limit": 0,
+    "offset": 0,
+    "search": null,
+    "searchCriteria": null,
+    "comparisonType": "",
+    "where": null,
+    "listFilters": null
+  },
+  "objectDataType": {
+    "typeElementId": "8aa0f7e5-807d-45f4-9d4f-9cb18cc3bd05",
+    "developerName": "File",
+    "properties": [{
+      "developerName": "ID",
+      "list": null
+    }, {
+      "developerName": "Name",
+      "list": null
+    }, {
+      "developerName": "Description",
+      "list": null
+    }, {
+      "developerName": "Content",
+      "list": null
+    }, {
+      "developerName": "Parent Folder",
+      "list": null
+    }, {
+      "developerName": "Comments",
+      "list": null
+    }, {
+      "developerName": "Created At",
+      "list": null
+    }, {
+      "developerName": "Modified At",
+      "list": null
+    }]
+  },
+  "objectData": [{
+    "internalId": "da6c1157-fb02-4826-a3ac-1c8a7d7bb42c",
+    "externalId": null,
+    "developerName": "File",
+    "typeElementId": "8aa0f7e5-807d-45f4-9d4f-9cb18cc3bd05",
+    "order": 0,
+    "properties": [{
+      "typeElementPropertyId": "f785d297-161d-4698-b93a-4715c5660217",
+      "developerName": "ID",
+      "contentValue": "",
+      "contentType": "ContentString",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": "19e4212c-da79-411b-ab6b-e613a2bf420c",
+      "developerName": "Name",
+      "contentValue": "",
+      "contentType": "ContentString",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": "3435b751-46a2-4500-846c-85f4171bdf17",
+      "developerName": "Description",
+      "contentValue": "",
+      "contentType": "ContentString",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": "8619eb5e-782c-467c-acfc-099d03d827d0",
+      "developerName": "Content",
+      "contentValue": "",
+      "contentType": "ContentString",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": "27b32f96-cb21-47c3-9701-34c50d169b40",
+      "developerName": "Parent Folder",
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": "38840900-b54e-404f-bfec-7dbeedfb19a0",
+      "developerName": "Comments",
+      "contentValue": null,
+      "contentType": "ContentList",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": "e6acc3d4-3052-4f82-8539-27e111162139",
+      "developerName": "Created At",
+      "contentValue": "",
+      "contentType": "ContentDateTime",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": "94ac8596-dfe6-44fb-aeda-c6b2f70ffdd8",
+      "developerName": "Modified At",
+      "contentValue": "",
+      "contentType": "ContentDateTime",
+      "contentFormat": null,
+      "objectData": null
+    }],
+    "isSelected": false
+  }]
+}

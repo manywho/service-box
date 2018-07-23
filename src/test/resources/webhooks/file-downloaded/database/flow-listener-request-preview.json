@@ -1,0 +1,8 @@
+{
+  "keyTemplate": null,
+  "flowId": "ddcf5352-ebb7-4574-9ea2-0b997d0ba546",
+  "flowVersionId": "f9902b03-d8e2-4251-b309-1f9cc930b01a",
+  "enterpriseId": null,
+  "trigger": "FILE.PREVIEWED",
+  "tenantId": "67204d5c-6022-474d-8f80-0d576b43d02d"
+}

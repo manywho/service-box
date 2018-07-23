@@ -1,57 +1,24 @@
 package com.manywho.services.box.services;
 
-import com.box.sdk.BoxComment;
-import com.box.sdk.BoxFile;
-import com.box.sdk.BoxFolder;
-import com.box.sdk.BoxGroup;
-import com.box.sdk.BoxTask;
-import com.box.sdk.BoxUser;
-import com.box.sdk.Metadata;
+import com.box.sdk.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
-import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
-import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
-import com.manywho.sdk.entities.run.elements.type.Property;
-import com.manywho.sdk.entities.run.elements.type.PropertyCollection;
-import com.manywho.sdk.utils.StreamUtils;
-import com.manywho.services.box.types.Comment;
-import com.manywho.services.box.types.File;
-import com.manywho.services.box.types.Folder;
-import com.manywho.services.box.types.Task;
-
+import com.manywho.sdk.entities.run.elements.type.*;
+import com.manywho.services.box.types.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ObjectMapperService {
 
-    public ObjectCollection convertBoxComments(List<BoxComment.Info> comments) {
-        return comments.stream().map(this::convertBoxComment)
-                .collect(Collectors.toCollection(ObjectCollection::new));
-    }
-
-    public Object convertBoxComment(BoxComment.Info comment) {
+    public Object convertBoxComment(BoxComment.Info comment, BoxFile.Info fileInfo) {
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("ID", comment.getID()));
         properties.add(new Property("Message", comment.getMessage()));
+        properties.add(new Property("File", convertBoxFile(fileInfo, null)));
 
         Object object = new Object();
         object.setDeveloperName(Comment.NAME);
         object.setExternalId(comment.getID());
-        object.setProperties(properties);
-
-        return object;
-    }
-
-    public Object convertBoxFileBasic(BoxFile.Info info) {
-        PropertyCollection properties = new PropertyCollection();
-        properties.add(new Property("ID", info.getID()));
-        properties.add(new Property("Name", info.getName()));
-        properties.add(new Property("Description", info.getDescription()));
-        properties.add(new Property("Created At", info.getCreatedAt()));
-        properties.add(new Property("Modified At", info.getModifiedAt()));
-
-        Object object = new Object();
-        object.setDeveloperName(File.NAME);
-        object.setExternalId(info.getID());
         object.setProperties(properties);
 
         return object;
@@ -64,7 +31,6 @@ public class ObjectMapperService {
         properties.add(new Property("Description", fileInfo.getDescription()));
         properties.add(new Property("Content", content));
         properties.add(new Property("Parent Folder", convertBoxFolder(fileInfo.getParent())));
-        properties.add(new Property("Comments", convertBoxComments(fileInfo.getResource().getComments())));
         properties.add(new Property("Created At", fileInfo.getCreatedAt()));
         properties.add(new Property("Modified At", fileInfo.getModifiedAt()));
 
@@ -77,18 +43,22 @@ public class ObjectMapperService {
     }
 
     public Object convertBoxFolder(BoxFolder.Info info) {
-        ObjectCollection files = StreamUtils.asStream(info.getResource().iterator())
-                .filter(item -> item instanceof BoxFile.Info)
-                .map(file -> convertBoxFileBasic((BoxFile.Info) file))
-                .collect(Collectors.toCollection(ObjectCollection::new));
+        return convertBoxFolderInternal(info, false);
+    }
 
+    public Object convertBoxFolderInternal(BoxFolder.Info info, Boolean emptyParentFolder) {
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("ID", info.getID()));
         properties.add(new Property("Name", info.getName()));
         properties.add(new Property("Description", info.getDescription()));
-        properties.add(new Property("Files", files));
         properties.add(new Property("Created At", info.getCreatedAt()));
         properties.add(new Property("Modified At", info.getModifiedAt()));
+
+        if (emptyParentFolder || Objects.equals(info.getID(), "0") || info.getParent() == null ) {
+            properties.add(new Property("Parent Folder", new ObjectCollection()));
+        } else {
+            properties.add(new Property("Parent Folder", convertBoxFolderInternal(info.getParent(), true)));
+        }
 
         Object object = new Object();
         object.setDeveloperName(Folder.NAME);
@@ -98,24 +68,40 @@ public class ObjectMapperService {
         return object;
     }
 
-    public Object convertBoxTask(BoxTask.Info info) {
+    public Object convertBoxTask(BoxTask.Info taskInfo, BoxFile.Info fileInfo) {
         PropertyCollection properties = new PropertyCollection();
-        properties.add(new Property("ID", info.getID()));
-        properties.add(new Property("Due At", info.getDueAt()));
-        properties.add(new Property("Message", info.getMessage()));
-        properties.add(new Property("Is Completed?", info.isCompleted()));
-        properties.add(new Property("Created At", info.getCreatedAt()));
+        properties.add(new Property("ID", taskInfo.getID()));
+        properties.add(new Property("Due At", taskInfo.getDueAt()));
+        properties.add(new Property("Message", taskInfo.getMessage()));
+        properties.add(new Property("Is Completed?", taskInfo.isCompleted()));
+        properties.add(new Property("Created At", taskInfo.getCreatedAt()));
+        properties.add(new Property("File", convertBoxFile(fileInfo, null)));
 
         Object object = new Object();
         object.setDeveloperName(Task.NAME);
-        object.setExternalId(info.getID());
+        object.setExternalId(taskInfo.getID());
+        object.setProperties(properties);
+
+        return object;
+    }
+
+
+    public Object convertBoxTaskAssignment(BoxTaskAssignment.Info taskAssignmentInfo, BoxFile.Info fileInfo) {
+        PropertyCollection properties = new PropertyCollection();
+        properties.add(new Property("ID", taskAssignmentInfo.getID()));
+        properties.add(new Property("Assignee Email", taskAssignmentInfo.getAssignedTo().getLogin()));
+        properties.add(new Property("File", convertBoxFile(fileInfo, null)));
+
+        Object object = new Object();
+        object.setDeveloperName(TaskAssignment.NAME);
+        object.setExternalId(taskAssignmentInfo.getID());
         object.setProperties(properties);
 
         return object;
     }
 
     public Object convertFileMetadata(BoxFile file, ObjectDataType objectDataType) {
-        Metadata metadata = file.getMetadata("enterprise/" + objectDataType.getDeveloperName());
+        Metadata metadata = file.getMetadata( objectDataType.getDeveloperName());
 
         // Populate all the desired properties from the values in the metadata (except for the virtual ___file field)
         PropertyCollection properties = objectDataType.getProperties()
@@ -125,7 +111,7 @@ public class ObjectMapperService {
                 .collect(Collectors.toCollection(PropertyCollection::new));
 
         // Add the virtual ___file field
-        properties.add(new Property("___file", new ObjectCollection(convertBoxFileBasic(file.getInfo(BoxFile.ALL_FIELDS)))));
+        properties.add(new Property("___file", new ObjectCollection(convertBoxFile(file.getInfo(BoxFile.ALL_FIELDS), null))));
 
         Object object = new Object();
         object.setDeveloperName(objectDataType.getDeveloperName());

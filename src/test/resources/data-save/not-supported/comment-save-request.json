@@ -1,0 +1,228 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": {
+    "users": null,
+    "groups": null,
+    "runningAuthenticationId": null,
+    "globalAuthenticationType": "ALL_USERS"
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "123456",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": {
+    "id": null,
+    "filterByProvidedObjects": false,
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": null,
+    "orderBy": null,
+    "limit": 0,
+    "offset": 0,
+    "search": null,
+    "searchCriteria": null,
+    "comparisonType": null,
+    "where": null,
+    "listFilters": null
+  },
+  "objectDataType": {
+    "typeElementId": "0505f543-36a4-4b45-8ce0-e97ff145f138",
+    "developerName": "Comment",
+    "properties": [
+      {
+        "developerName": "ID",
+        "list": null
+      },
+      {
+        "developerName": "Message",
+        "list": null
+      },
+      {
+        "developerName": "File",
+        "list": null
+      }
+    ]
+  },
+  "objectData": [
+    {
+      "internalId": "53af4f5e-12c3-43b8-834f-571ea22450ba",
+      "externalId": null,
+      "developerName": "Comment",
+      "typeElementId": "0505f543-36a4-4b45-8ce0-e97ff145f138",
+      "order": 0,
+      "properties": [
+        {
+          "typeElementPropertyId": "3f68828c-c2e9-487b-bfe0-ed975e1f7a16",
+          "developerName": "ID",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "c42ba208-d4d0-499b-9784-4fddf271b5c1",
+          "developerName": "Message",
+          "contentValue": "message update",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "dd125d85-a8e4-4233-861f-a352291afe94",
+          "developerName": "File",
+          "contentValue": null,
+          "contentType": "ContentObject",
+          "contentFormat": null,
+          "objectData": [
+            {
+              "internalId": "d9b7cacb-607f-4874-b7a8-470b0f73ae74",
+              "externalId": "97705300620",
+              "developerName": "File",
+              "typeElementId": "ad28874f-894f-4695-bc60-2cea9f868fdc",
+              "order": 0,
+              "properties": [
+                {
+                  "typeElementPropertyId": "db3a65e4-2a42-4555-a24e-91072f47bda3",
+                  "developerName": "ID",
+                  "contentValue": "1234567",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "f0096307-08e5-4e38-8fff-fb79c598d0b4",
+                  "developerName": "Name",
+                  "contentValue": "pokemon.png",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "0312c132-0a61-43bb-a7ff-75645af2d62e",
+                  "developerName": "Description",
+                  "contentValue": "",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "6ca97829-bfb2-4d33-86ce-8ca69cb7df2e",
+                  "developerName": "Content",
+                  "contentValue": "",
+                  "contentType": "ContentString",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "c703d3f7-3adf-4231-8042-9c097016ca29",
+                  "developerName": "Parent Folder",
+                  "contentValue": null,
+                  "contentType": "ContentObject",
+                  "contentFormat": null,
+                  "objectData": [
+                    {
+                      "internalId": "6c9a613f-fb6f-43f9-afb0-a32271c0dea1",
+                      "externalId": "0",
+                      "developerName": "Folder",
+                      "typeElementId": "8ce62e3b-79b6-4e0d-9cc3-3cb93f494751",
+                      "order": 0,
+                      "properties": [
+                        {
+                          "typeElementPropertyId": "7c04da06-4453-44f8-aff7-586edb334c91",
+                          "developerName": "ID",
+                          "contentValue": "0",
+                          "contentType": "ContentString",
+                          "contentFormat": null,
+                          "objectData": null
+                        },
+                        {
+                          "typeElementPropertyId": "6c5e39d7-3bdf-4b92-a9ee-4a71edc206ff",
+                          "developerName": "Name",
+                          "contentValue": "All Files",
+                          "contentType": "ContentString",
+                          "contentFormat": null,
+                          "objectData": null
+                        },
+                        {
+                          "typeElementPropertyId": "a4ef913e-7991-46e0-b0dd-22282cbebae8",
+                          "developerName": "Description",
+                          "contentValue": "",
+                          "contentType": "ContentString",
+                          "contentFormat": null,
+                          "objectData": null
+                        },
+                        {
+                          "typeElementPropertyId": "18cbf0e2-2b96-4eb7-a5c7-620b233cc3b0",
+                          "developerName": "Parent Folder",
+                          "contentValue": null,
+                          "contentType": "ContentObject",
+                          "contentFormat": null,
+                          "objectData": null
+                        },
+                        {
+                          "typeElementPropertyId": "db9f7a38-ec98-4dc6-9f7c-e44fd782031e",
+                          "developerName": "Created At",
+                          "contentValue": "",
+                          "contentType": "ContentDateTime",
+                          "contentFormat": null,
+                          "objectData": null
+                        },
+                        {
+                          "typeElementPropertyId": "9987ed78-2cb7-44d7-84a7-716f16e9d306",
+                          "developerName": "Modified At",
+                          "contentValue": "",
+                          "contentType": "ContentDateTime",
+                          "contentFormat": null,
+                          "objectData": null
+                        }
+                      ],
+                      "isSelected": false
+                    }
+                  ]
+                },
+                {
+                  "typeElementPropertyId": "32951d2a-6477-4c42-a7da-0290b15b5f97",
+                  "developerName": "Created At",
+                  "contentValue": "2016-10-11T12:48:49.000+01:00",
+                  "contentType": "ContentDateTime",
+                  "contentFormat": null,
+                  "objectData": null
+                },
+                {
+                  "typeElementPropertyId": "025642eb-71b2-40b0-8c13-54e971c53a36",
+                  "developerName": "Modified At",
+                  "contentValue": "2016-10-11T12:48:49.000+01:00",
+                  "contentType": "ContentDateTime",
+                  "contentFormat": null,
+                  "objectData": null
+                }
+              ],
+              "isSelected": false
+            }
+          ]
+        }
+      ],
+      "isSelected": false
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": {
+    "users": null,
+    "groups": null,
+    "runningAuthenticationId": null,
+    "globalAuthenticationType": "ALL_USERS"
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "2516780",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": {
+    "id": null,
+    "filterByProvidedObjects": false,
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": "",
+    "orderBy": null,
+    "limit": 0,
+    "offset": 0,
+    "search": null,
+    "searchCriteria": null,
+    "comparisonType": "AND",
+    "where": [
+      {
+        "columnName": "Name",
+        "criteriaType": "EQUAL",
+        "value": "test",
+        "contentValue": "test",
+        "objectData": null
+      }
+    ],
+    "listFilters": null
+  },
+  "objectDataType": {
+    "typeElementId": "72a90cab-175c-48d1-abe9-b7393aee1ad8",
+    "developerName": "Folder",
+    "properties": [
+      {
+        "developerName": "ID",
+        "list": null
+      },
+      {
+        "developerName": "Name",
+        "list": null
+      },
+      {
+        "developerName": "Description",
+        "list": null
+      },
+      {
+        "developerName": "Files",
+        "list": null
+      },
+      {
+        "developerName": "Created At",
+        "list": null
+      },
+      {
+        "developerName": "Modified At",
+        "list": null
+      }
+    ]
+  },
+  "objectData": [
+    {
+      "internalId": "c6898215-7062-4f49-b044-54ce4203cd9f",
+      "externalId": null,
+      "developerName": "Folder",
+      "typeElementId": "72a90cab-175c-48d1-abe9-b7393aee1ad8",
+      "order": 0,
+      "properties": [
+        {
+          "typeElementPropertyId": "5bb85cfd-c2b5-4439-9058-1350b16f62af",
+          "developerName": "ID",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "e3bdba39-28bd-4bc1-aa46-fbbd0be8f095",
+          "developerName": "Name",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "d05cf5d8-88f6-4ec2-9dd9-8365d4be0f4b",
+          "developerName": "Description",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "fce7d595-8167-4b14-a01a-c36f9a466a05",
+          "developerName": "Files",
+          "contentValue": null,
+          "contentType": "ContentList",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "9fbd1723-ca2e-4375-a117-4a24f770adea",
+          "developerName": "Created At",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "53f59b81-652d-4016-8d37-18b52e84ac68",
+          "developerName": "Modified At",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
+          "contentFormat": null,
+          "objectData": null
+        }
+      ],
+      "isSelected": false
+    }
+  ]
+}

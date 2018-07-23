@@ -1,0 +1,83 @@
+{
+  "culture": null,
+  "objectData": [{
+    "internalId": null,
+    "externalId": "94761962967",
+    "developerName": "$File",
+    "typeElementId": null,
+    "order": 0,
+    "properties": [{
+      "typeElementPropertyId": null,
+      "developerName": "Kind",
+      "contentType": null,
+      "contentValue": "jpg",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "ID",
+      "contentType": null,
+      "contentValue": "94761962967",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Mime Type",
+      "contentType": null,
+      "contentValue": null,
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Name",
+      "contentType": null,
+      "contentValue": "dog.jpg",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Description",
+      "contentType": null,
+      "contentValue": "",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Date Created",
+      "contentType": null,
+      "contentValue": "2016-08-02T10:26:37.000Z",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Date Modified",
+      "contentType": null,
+      "contentValue": "2016-08-02T10:26:37.000Z",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Download Uri",
+      "contentType": null,
+      "contentValue": null,
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Embed Uri",
+      "contentType": null,
+      "contentValue": null,
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Icon Uri",
+      "contentType": null,
+      "contentValue": null,
+      "contentFormat": null,
+      "objectData": null
+    }],
+    "isSelected": false
+  }],
+  "hasMoreResults": false
+}

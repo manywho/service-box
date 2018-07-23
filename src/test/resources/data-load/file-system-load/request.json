@@ -1,0 +1,186 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": {
+    "users": null,
+    "groups": null,
+    "runningAuthenticationId": null,
+    "globalAuthenticationType": "ALL_USERS"
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "2516780",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": {
+    "id": "94761962967",
+    "filterByProvidedObjects": false,
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": "",
+    "orderBy": null,
+    "limit": 0,
+    "offset": 0,
+    "search": null,
+    "searchCriteria": null,
+    "comparisonType": "",
+    "where": null,
+    "listFilters": null
+  },
+  "objectDataType": {
+    "typeElementId": "65facdbc-c13e-485d-9ca7-f6fed04c8a82",
+    "developerName": "$File",
+    "properties": [
+      {
+        "developerName": "Id",
+        "list": null
+      },
+      {
+        "developerName": "Date Created",
+        "list": null
+      },
+      {
+        "developerName": "Date Modified",
+        "list": null
+      },
+      {
+        "developerName": "Description",
+        "list": null
+      },
+      {
+        "developerName": "Download Uri",
+        "list": null
+      },
+      {
+        "developerName": "Embed Uri",
+        "list": null
+      },
+      {
+        "developerName": "Icon Uri",
+        "list": null
+      },
+      {
+        "developerName": "Kind",
+        "list": null
+      },
+      {
+        "developerName": "Mime Type",
+        "list": null
+      },
+      {
+        "developerName": "Name",
+        "list": null
+      }
+    ]
+  },
+  "objectData": [
+    {
+      "internalId": "b9fb852f-a00a-4568-a6e6-040dde0298ba",
+      "externalId": null,
+      "developerName": "$File",
+      "typeElementId": "65facdbc-c13e-485d-9ca7-f6fed04c8a82",
+      "order": 0,
+      "properties": [
+        {
+          "typeElementPropertyId": "2846abdf-2afd-4fdc-a951-91368723e79a",
+          "developerName": "Id",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "89279758-25bc-4c0d-8410-350bb62dfd03",
+          "developerName": "Date Created",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "29f03261-df70-46a4-84d0-7a919fe8e2aa",
+          "developerName": "Date Modified",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "07ca2e66-4247-46da-a371-ab45194a2b4e",
+          "developerName": "Description",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "268d5512-f2b8-4213-b2b5-b65ef279f924",
+          "developerName": "Download Uri",
+          "contentValue": null,
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "10c81faf-c933-43d4-9eb1-a0757860be27",
+          "developerName": "Embed Uri",
+          "contentValue": null,
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "425dc8bd-53dd-4c81-bb53-60aba5b3ee90",
+          "developerName": "Icon Uri",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "ae123fac-9443-4694-86d5-dac7d36ac593",
+          "developerName": "Kind",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "ae123fac-9443-4694-86d5-dac7d36ac593",
+          "developerName": "Mime Type",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "ae123fac-9443-4694-86d5-dac7d36ac593",
+          "developerName": "Name",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        }
+      ],
+      "isSelected": false
+    }
+  ]
+}

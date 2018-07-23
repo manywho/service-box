@@ -1,0 +1,259 @@
+{
+  "token": "ad6561a6-68b6-4640-bfad-da5c276734f5",
+  "tenantId": "67204d5c-6022-474d-8f80-0d576b43d02d",
+  "stateId": "dd56ef5e-7ec4-4902-9db5-e7ad74c7ff53",
+  "callbackUri": "https://flow.manywho.com/api/run/1/event",
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "2516780",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "authorization": {
+    "serviceElementId": "803ab3e1-062c-478e-8754-e100485f84f2",
+    "globalAuthenticationType": "ALL_USERS",
+    "streamBehaviourType": "NONE",
+    "groups": null,
+    "users": null,
+    "locations": null
+  },
+  "annotations": null,
+  "attributes": null,
+  "listenType": "FILE.DOWNLOADED",
+  "valueForListening": {
+    "valueElementId": "13e96983-d489-4461-abbb-23f024e279b3",
+    "typeElementId": "65facdbc-c13e-485d-9ca7-f6fed04c8a82",
+    "typeElementPropertyId": null,
+    "developerName": null,
+    "typeElementDeveloperName": "File",
+    "typeElementPropertyDeveloperName": null,
+    "contentValue": null,
+    "contentType": "ContentObject",
+    "objectData": [
+      {
+        "internalId": "f9364704-b86e-420f-a009-8227736d0dae",
+        "externalId": "94205724383",
+        "developerName": "File",
+        "typeElementId": "65facdbc-c13e-485d-9ca7-f6fed04c8a82",
+        "order": 0,
+        "properties": [
+          {
+            "typeElementPropertyId": "2846abdf-2afd-4fdc-a951-91368723e79a",
+            "developerName": "ID",
+            "contentType": "ContentString",
+            "contentValue": "94205724383",
+            "contentFormat": null,
+            "objectData": null
+          },
+          {
+            "typeElementPropertyId": "89279758-25bc-4c0d-8410-350bb62dfd03",
+            "developerName": "Name",
+            "contentType": "ContentString",
+            "contentValue": "flow demo.png",
+            "contentFormat": null,
+            "objectData": null
+          },
+          {
+            "typeElementPropertyId": "29f03261-df70-46a4-84d0-7a919fe8e2aa",
+            "developerName": "Description",
+            "contentType": "ContentString",
+            "contentValue": "",
+            "contentFormat": null,
+            "objectData": null
+          },
+          {
+            "typeElementPropertyId": "07ca2e66-4247-46da-a371-ab45194a2b4e",
+            "developerName": "Content",
+            "contentType": "ContentString",
+            "contentValue": "",
+            "contentFormat": null,
+            "objectData": null
+          },
+          {
+            "typeElementPropertyId": "268d5512-f2b8-4213-b2b5-b65ef279f924",
+            "developerName": "Parent Folder",
+            "contentType": "ContentObject",
+            "contentValue": null,
+            "contentFormat": null,
+            "objectData": [
+              {
+                "internalId": "4153949d-7550-4c73-bb8a-d3928fe64bb4",
+                "externalId": "0",
+                "developerName": "Folder",
+                "typeElementId": "72a90cab-175c-48d1-abe9-b7393aee1ad8",
+                "order": 0,
+                "properties": [
+                  {
+                    "typeElementPropertyId": "5bb85cfd-c2b5-4439-9058-1350b16f62af",
+                    "developerName": "ID",
+                    "contentType": "ContentString",
+                    "contentValue": "0",
+                    "contentFormat": null,
+                    "objectData": null
+                  },
+                  {
+                    "typeElementPropertyId": "e3bdba39-28bd-4bc1-aa46-fbbd0be8f095",
+                    "developerName": "Name",
+                    "contentType": "ContentString",
+                    "contentValue": "All Files",
+                    "contentFormat": null,
+                    "objectData": null
+                  },
+                  {
+                    "typeElementPropertyId": "d05cf5d8-88f6-4ec2-9dd9-8365d4be0f4b",
+                    "developerName": "Description",
+                    "contentType": "ContentString",
+                    "contentValue": "",
+                    "contentFormat": null,
+                    "objectData": null
+                  },
+                  {
+                    "typeElementPropertyId": "fce7d595-8167-4b14-a01a-c36f9a466a05",
+                    "developerName": "Files",
+                    "contentType": "ContentList",
+                    "contentValue": null,
+                    "contentFormat": null,
+                    "objectData": [
+                      {
+                        "internalId": "5debe9cd-c1ee-438a-b71c-1cd4ed5181e8",
+                        "externalId": "94205724383",
+                        "developerName": "File",
+                        "typeElementId": "65facdbc-c13e-485d-9ca7-f6fed04c8a82",
+                        "order": 0,
+                        "properties": [
+                          {
+                            "typeElementPropertyId": "2846abdf-2afd-4fdc-a951-91368723e79a",
+                            "developerName": "ID",
+                            "contentType": "ContentString",
+                            "contentValue": "94205724383",
+                            "contentFormat": null,
+                            "objectData": null
+                          },
+                          {
+                            "typeElementPropertyId": "89279758-25bc-4c0d-8410-350bb62dfd03",
+                            "developerName": "Name",
+                            "contentType": "ContentString",
+                            "contentValue": "flow demo.png",
+                            "contentFormat": null,
+                            "objectData": null
+                          },
+                          {
+                            "typeElementPropertyId": "29f03261-df70-46a4-84d0-7a919fe8e2aa",
+                            "developerName": "Description",
+                            "contentType": "ContentString",
+                            "contentValue": "",
+                            "contentFormat": null,
+                            "objectData": null
+                          },
+                          {
+                            "typeElementPropertyId": "07ca2e66-4247-46da-a371-ab45194a2b4e",
+                            "developerName": "Content",
+                            "contentType": "ContentString",
+                            "contentValue": "",
+                            "contentFormat": null,
+                            "objectData": null
+                          },
+                          {
+                            "typeElementPropertyId": "268d5512-f2b8-4213-b2b5-b65ef279f924",
+                            "developerName": "Parent Folder",
+                            "contentType": "ContentObject",
+                            "contentValue": null,
+                            "contentFormat": null,
+                            "objectData": null
+                          },
+                          {
+                            "typeElementPropertyId": "10c81faf-c933-43d4-9eb1-a0757860be27",
+                            "developerName": "Comments",
+                            "contentType": "ContentList",
+                            "contentValue": null,
+                            "contentFormat": null,
+                            "objectData": null
+                          },
+                          {
+                            "typeElementPropertyId": "425dc8bd-53dd-4c81-bb53-60aba5b3ee90",
+                            "developerName": "Created At",
+                            "contentType": "ContentDateTime",
+                            "contentValue": "",
+                            "contentFormat": null,
+                            "objectData": null
+                          },
+                          {
+                            "typeElementPropertyId": "ae123fac-9443-4694-86d5-dac7d36ac593",
+                            "developerName": "Modified At",
+                            "contentType": "ContentDateTime",
+                            "contentValue": "",
+                            "contentFormat": null,
+                            "objectData": null
+                          }
+                        ],
+                        "isSelected": false
+                      }
+                    ]
+                  },
+                  {
+                    "typeElementPropertyId": "9fbd1723-ca2e-4375-a117-4a24f770adea",
+                    "developerName": "Created At",
+                    "contentType": "ContentDateTime",
+                    "contentValue": "",
+                    "contentFormat": null,
+                    "objectData": null
+                  },
+                  {
+                    "typeElementPropertyId": "53f59b81-652d-4016-8d37-18b52e84ac68",
+                    "developerName": "Modified At",
+                    "contentType": "ContentDateTime",
+                    "contentValue": "",
+                    "contentFormat": null,
+                    "objectData": null
+                  }
+                ],
+                "isSelected": false
+              }
+            ]
+          },
+          {
+            "typeElementPropertyId": "10c81faf-c933-43d4-9eb1-a0757860be27",
+            "developerName": "Comments",
+            "contentType": "ContentList",
+            "contentValue": null,
+            "contentFormat": null,
+            "objectData": null
+          },
+          {
+            "typeElementPropertyId": "425dc8bd-53dd-4c81-bb53-60aba5b3ee90",
+            "developerName": "Created At",
+            "contentType": "ContentDateTime",
+            "contentValue": "2016-09-07T11:11:22.000+01:00",
+            "contentFormat": null,
+            "objectData": null
+          },
+          {
+            "typeElementPropertyId": "ae123fac-9443-4694-86d5-dac7d36ac593",
+            "developerName": "Modified At",
+            "contentType": "ContentDateTime",
+            "contentValue": "2016-09-07T11:11:22.000+01:00",
+            "contentFormat": null,
+            "objectData": null
+          }
+        ],
+        "isSelected": false
+      }
+    ]
+  }
+}

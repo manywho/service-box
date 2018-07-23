@@ -1,27 +1,28 @@
 package com.manywho.services.box.managers;
 
-import com.box.sdk.BoxAPIConnection;
 import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
-import com.box.sdk.BoxItem;
 import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
 import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
 import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.PropertyCollectionParser;
-import com.manywho.services.box.entities.File;
-import com.manywho.services.box.entities.requests.FileCopy;
-import com.manywho.services.box.entities.requests.FileMove;
+import com.manywho.sdk.utils.StreamUtils;
+import com.manywho.services.box.entities.actions.FileCopy;
+import com.manywho.services.box.entities.actions.FileMove;
+import com.manywho.services.box.client.BoxClient;
 import com.manywho.services.box.services.FileService;
 import com.manywho.services.box.services.FileUploadService;
-import org.apache.commons.lang3.StringUtils;
+import com.manywho.services.box.services.ObjectMapperService;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import javax.inject.Inject;
+import java.util.stream.Collectors;
 
 public class FileManager {
+
     @Inject
     private FileService fileService;
 
@@ -31,11 +32,20 @@ public class FileManager {
     @Inject
     private PropertyCollectionParser propertyParser;
 
+    @Inject
+    private BoxClient boxClient;
+
+    @Inject
+    private ObjectMapperService objectMapperService;
+
     public ObjectDataResponse uploadFile(AuthenticatedWho authenticatedWho, FileDataRequest fileDataRequest, FormDataMultiPart formDataMultiPart) throws Exception {
         BodyPart bodyPart = fileUploadService.getFilePart(formDataMultiPart);
+
         if (bodyPart != null) {
             BoxFile.Info fileInformation = fileUploadService.uploadFileToBox(authenticatedWho.getToken(), fileDataRequest, bodyPart);
+
             if (fileInformation != null) {
+
                 return new ObjectDataResponse(fileService.buildManyWhoFileObject(fileInformation, fileInformation.getResource()));
             }
         }
@@ -43,21 +53,28 @@ public class FileManager {
         throw new Exception("A file was not provided to upload to Box");
     }
 
-    public ObjectDataResponse loadFiles(AuthenticatedWho authenticatedWho, FileDataRequest fileDataRequest) {
-        String selectedFolder = StringUtils.isNotEmpty(fileDataRequest.getResourcePath()) ? fileDataRequest.getResourcePath() : "0";
+    public ObjectCollection loadFiles(AuthenticatedWho authenticatedWho, String resourcePath) {
+        BoxFolder folder = boxClient.getFolder(authenticatedWho.getToken(), resourcePath);
 
-        BoxAPIConnection apiConnection = new BoxAPIConnection(authenticatedWho.getToken());
-        BoxFolder folder = new BoxFolder(apiConnection, selectedFolder);
-
-        ObjectCollection files = new ObjectCollection();
-
-        for (BoxItem.Info itemInfo : folder) {
-            if (itemInfo instanceof BoxFile.Info) {
-                files.add(fileService.buildManyWhoFileObject((BoxFile.Info) itemInfo, (BoxFile) itemInfo.getResource()));
-            }
+        if (folder == null) {
+            throw new RuntimeException("A folder could not be found with the ID " + resourcePath);
         }
 
-        return new ObjectDataResponse(files);
+        // Loop over all the files in the loaded folder, and convert them to ManyWho objects
+        return StreamUtils.asStream(folder.getChildren(BoxFile.ALL_FIELDS).iterator())
+                .filter(i -> i instanceof BoxFile.Info)
+                .map(f -> objectMapperService.convertBoxFile((BoxFile.Info) f, null))
+                .collect(Collectors.toCollection(ObjectCollection::new));
+    }
+
+
+    public ObjectCollection loadManyWhoFile(AuthenticatedWho authenticatedWho, String fileId) {
+        BoxFile file = boxClient.getFile(authenticatedWho.getToken(), fileId);
+
+        ObjectCollection files = new ObjectCollection();
+        files.add(fileService.buildManyWhoFileObject(file.getInfo(), file));
+
+        return files;
     }
 
     public ServiceResponse copyFile(AuthenticatedWho user, ServiceRequest serviceRequest) throws Exception {

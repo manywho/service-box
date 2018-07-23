@@ -1,0 +1,89 @@
+{
+  "type": "file",
+  "id": "98064366142",
+  "etag": "1",
+  "sequence_id": "1",
+  "sha1": "d56df1f37de52bf49f7ed382204c64d6b815b3af",
+  "name": "pokemon.png",
+  "description": "",
+  "size": 502748,
+  "path_collection": {
+    "total_count": 1,
+    "entries": [{
+      "type": "folder",
+      "id": "0",
+      "sequence_id": null,
+      "etag": null,
+      "name": "All Files"
+    }]
+  },
+  "created_at": "2016-10-14T06:55:49-07:00",
+  "modified_at": "2016-10-14T06:55:49-07:00",
+  "trashed_at": null,
+  "purged_at": null,
+  "content_created_at": "2016-08-03T08:49:40-07:00",
+  "content_modified_at": "2016-08-03T08:49:40-07:00",
+  "created_by": {
+    "type": "user",
+    "id": "328136111",
+    "name": "jose",
+    "login": "jose.collazzi@manywho.com"
+  },
+  "modified_by": {
+    "type": "user",
+    "id": "328136111",
+    "name": "jose",
+    "login": "jose.collazzi@manywho.com"
+  },
+  "owned_by": {
+    "type": "user",
+    "id": "328136111",
+    "name": "jose",
+    "login": "jose.collazzi@manywho.com"
+  },
+  "shared_link": {
+    "url": "https:\/\/app.box.com\/s\/typwk960kv6zonmzwfawwdjxdqf3bizw",
+    "download_url": "https:\/\/app.box.com\/shared\/static\/typwk960kv6zonmzwfawwdjxdqf3bizw.png",
+    "vanity_url": null,
+    "effective_access": "open",
+    "is_password_enabled": false,
+    "unshared_at": null,
+    "download_count": 0,
+    "preview_count": 0,
+    "access": "open",
+    "permissions": {
+      "can_download": true,
+      "can_preview": true
+    }
+  },
+  "parent": {
+    "type": "folder",
+    "id": "0",
+    "sequence_id": null,
+    "etag": null,
+    "name": "All Files"
+  },
+  "item_status": "active",
+  "version_number": "1",
+  "comment_count": 0,
+  "permissions": {
+    "can_download": true,
+    "can_preview": true,
+    "can_upload": true,
+    "can_comment": true,
+    "can_rename": true,
+    "can_delete": true,
+    "can_share": true,
+    "can_set_share_access": true,
+    "can_annotate": true
+  },
+  "tags": [],
+  "lock": null,
+  "extension": "png",
+  "is_package": false,
+  "file_version": {
+    "type": "file_version",
+    "id": "105552915262",
+    "sha1": "d56df1f37de52bf49f7ed382204c64d6b815b3af"
+  }
+}

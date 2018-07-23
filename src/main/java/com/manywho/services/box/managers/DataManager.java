@@ -1,5 +1,6 @@
 package com.manywho.services.box.managers;
 
+import com.box.sdk.BoxSearchParameters;
 import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
@@ -10,6 +11,9 @@ import com.manywho.services.box.services.DatabaseSaveService;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class DataManager {
@@ -18,6 +22,9 @@ public class DataManager {
 
     @Inject
     private DatabaseSaveService databaseSaveService;
+
+    @Inject
+    private FileManager fileManager;
 
     public ObjectCollection loadFileType(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
         // Check if the load is for a single object with an identifier
@@ -40,19 +47,82 @@ public class DataManager {
         return databaseLoadService.loadFiles(user.getToken(), folder);
     }
 
+    public ObjectCollection loadFileSystem(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
+        // Check if the load is for a single object with an identifier
+        if (objectDataRequest.getListFilter() != null && StringUtils.isNotEmpty(objectDataRequest.getListFilter().getId())) {
+            return fileManager.loadManyWhoFile(user, objectDataRequest.getListFilter().getId());
+        }
+
+        // at the moment only support list of the files for the root directory
+        String folderId = "0";
+
+        return fileManager.loadFiles(user, folderId);
+    }
+
     public ObjectCollection loadFolderType(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
         // Check if the load is for a single object with an identifier
         if (objectDataRequest.getListFilter() != null && StringUtils.isNotEmpty(objectDataRequest.getListFilter().getId())) {
             return new ObjectCollection(databaseLoadService.loadFolder(user.getToken(), objectDataRequest.getListFilter().getId()));
         }
 
+        if(objectDataRequest.getListFilter() != null && objectDataRequest.getListFilter().getWhere() != null) {
+
+            BoxSearchParameters boxSearchParameters = new BoxSearchParameters();
+            boxSearchParameters.setType("folder");
+            ListFilterWhereCollection listFilterWheres = objectDataRequest.getListFilter().getWhere();
+
+            List<String> contentTypes = new ArrayList<>();
+
+            Boolean validFilter = false;
+
+            for (ListFilterWhere where : listFilterWheres) {
+                if (Objects.equals(where.getColumnName(), "Name")) {
+                    boxSearchParameters.setQuery(where.getContentValue());
+                    contentTypes.add("name");
+                    validFilter = true;
+                }
+                if (Objects.equals(where.getColumnName(), "Description")) {
+                    boxSearchParameters.setQuery(where.getContentValue());
+                    contentTypes.add("description");
+                    validFilter = true;
+                }
+            }
+
+            if(!validFilter) {
+                throw new Exception("One valid filter is required (please select Name or Description)");
+            }
+
+            boxSearchParameters.setContentTypes(contentTypes);
+            return databaseLoadService.loadFolder(user.getToken(), boxSearchParameters);
+        }
+
         throw new Exception("Loading a list of folders is not yet supported");
     }
+
+
+    public ObjectCollection loadTask(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
+        // Check if the load is for a single object with an identifier
+        if (objectDataRequest.getListFilter() != null && StringUtils.isNotEmpty(objectDataRequest.getListFilter().getId())) {
+            return new ObjectCollection(databaseLoadService.loadTask(user.getToken(), objectDataRequest.getListFilter().getId()));
+        }
+
+        throw new Exception("Loading a list of task is not yet supported");
+    }
+
+    public ObjectCollection loadTaskAssignment(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
+        // Check if the load is for a single object with an identifier
+        if (objectDataRequest.getListFilter() != null && StringUtils.isNotEmpty(objectDataRequest.getListFilter().getId())) {
+            return new ObjectCollection(databaseLoadService.loadTaskAssignment(user.getToken(), objectDataRequest.getListFilter().getId()));
+        }
+
+        throw new Exception("Loading a list of task is not yet supported");
+    }
+
 
     public ObjectCollection loadMetadataType(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
         MetadataSearch metadataSearch = new MetadataSearch();
 
-        if (objectDataRequest.getListFilter() != null) {
+        if (objectDataRequest.getListFilter() != null && objectDataRequest.getListFilter().getWhere()!= null) {
             // Add any columns in the filter to the metadata search object
             objectDataRequest.getListFilter().getWhere().stream()
                     .filter(where -> !where.getColumnName().equals("___file"))
@@ -102,5 +172,26 @@ public class DataManager {
                 objectDataRequest.getObjectDataType(),
                 objectDataRequest.getObjectData().get(0)
         );
+    }
+
+    public ObjectCollection loadComments(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
+        // Check if the load is for a single object with an identifier
+        if (objectDataRequest.getListFilter() != null && StringUtils.isNotEmpty(objectDataRequest.getListFilter().getId())) {
+            return new ObjectCollection(databaseLoadService.loadComment(user.getToken(), objectDataRequest.getListFilter().getId()));
+        }
+
+        // Try and get the folder to search in, if one was passed in as a filter otherwise use "0" (the root folder)
+        String file = "0";
+        if (objectDataRequest.getListFilter() != null && objectDataRequest.getListFilter().getWhere() != null) {
+            Optional<ListFilterWhere> fileFilter = objectDataRequest.getListFilter().getWhere().stream()
+                    .filter(w -> w.getColumnName().equals("File"))
+                    .findFirst();
+
+            if (fileFilter.isPresent()) {
+                file = fileFilter.get().getObjectData().get(0).getExternalId();
+            }
+        }
+
+        return databaseLoadService.loadComments(user.getToken(), file);
     }
 }

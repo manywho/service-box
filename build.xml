@@ -6,8 +6,15 @@
             <entry key="oauth2.contentApi.clientSecret" value="${oauth2.contentApi.clientSecret}"/>
             <entry key="oauth2.developerEdition.clientId" value="${oauth2.developerEdition.clientId}"/>
             <entry key="oauth2.developerEdition.clientSecret" value="${oauth2.developerEdition.clientSecret}"/>
-            <entry key="secure.privateKeyLocation" value="${secure.privateKeyLocation}"/>
+            <entry key="oauth2.developerEdition.publicKeyId" value="${oauth2.developerEdition.publicKeyId}"/>
+            <entry key="secure.privateKey" value="${secure.privateKey}"/>
             <entry key="secure.privateKeyPassword" value="${secure.privateKeyPassword}"/>
+            <entry key="webhook.signature.primary.key" value="${webhook.signature.primary.key}"/>
+            <entry key="webhook.signature.secondary.key" value="${webhook.signature.secondary.key}"/>
+            <entry key="assignment.flowId" value="${assignment.flowId}"/>
+            <entry key="assignment.flowVersionId" value="${assignment.flowVersionId}"/>
+            <entry key="assignment.tenantId" value="${assignment.tenantId}"/>
+            <entry key="redis.url" value="${redis.url}"/>
         </propertyfile>
     </target>
 </project>

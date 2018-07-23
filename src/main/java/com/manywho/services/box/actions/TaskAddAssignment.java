@@ -5,6 +5,7 @@ import com.manywho.sdk.entities.describe.DescribeValueCollection;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.services.describe.actions.AbstractAction;
 import com.manywho.services.box.types.Task;
+import com.manywho.services.box.types.TaskAssignment;
 
 public class TaskAddAssignment extends AbstractAction {
     @Override
@@ -24,16 +25,18 @@ public class TaskAddAssignment extends AbstractAction {
 
     @Override
     public DescribeValueCollection getServiceInputs() {
-        return new DescribeValueCollection() {{
-            add(new DescribeValue("Task", ContentType.Object, true, null, Task.NAME));
-            add(new DescribeValue("Assignee Email", ContentType.String, true));
-        }};
+        DescribeValueCollection describeValues = new DescribeValueCollection();
+        describeValues.add(new DescribeValue("Task", ContentType.Object, true, null, Task.NAME));
+        describeValues.add(new DescribeValue("Assignee Email", ContentType.String, true));
+
+        return describeValues;
     }
 
     @Override
     public DescribeValueCollection getServiceOutputs() {
-        return new DescribeValueCollection() {{
+        DescribeValueCollection describeValues = new DescribeValueCollection();
+        describeValues.add(new DescribeValue("Task Assignment", ContentType.Object, false, null, TaskAssignment.NAME));
 
-        }};
+        return describeValues;
     }
 }

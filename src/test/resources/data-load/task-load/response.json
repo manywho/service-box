@@ -1,0 +1,162 @@
+{
+  "culture": null,
+  "objectData": [{
+    "internalId": null,
+    "externalId": "14627330",
+    "developerName": "Task",
+    "typeElementId": null,
+    "order": 0,
+    "properties": [{
+      "typeElementPropertyId": null,
+      "developerName": "ID",
+      "contentType": null,
+      "contentValue": "14627330",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Due At",
+      "contentType": null,
+      "contentValue": "",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Message",
+      "contentType": null,
+      "contentValue": "94761962967",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Is Completed?",
+      "contentType": null,
+      "contentValue": "false",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "Created At",
+      "contentType": null,
+      "contentValue": "2016-09-13T13:20:24.000Z",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "File",
+      "contentType": null,
+      "contentValue": null,
+      "contentFormat": null,
+      "objectData": [{
+        "internalId": null,
+        "externalId": "94761962967",
+        "developerName": "File",
+        "typeElementId": null,
+        "order": 0,
+        "properties": [{
+          "typeElementPropertyId": null,
+          "developerName": "ID",
+          "contentType": null,
+          "contentValue": "94761962967",
+          "contentFormat": null,
+          "objectData": null
+        }, {
+          "typeElementPropertyId": null,
+          "developerName": "Name",
+          "contentType": null,
+          "contentValue": "dog.jpg",
+          "contentFormat": null,
+          "objectData": null
+        }, {
+          "typeElementPropertyId": null,
+          "developerName": "Description",
+          "contentType": null,
+          "contentValue": "",
+          "contentFormat": null,
+          "objectData": null
+        }, {
+          "typeElementPropertyId": null,
+          "developerName": "Content",
+          "contentType": null,
+          "contentValue": null,
+          "contentFormat": null,
+          "objectData": null
+        }, {
+          "typeElementPropertyId": null,
+          "developerName": "Parent Folder",
+          "contentType": null,
+          "contentValue": null,
+          "contentFormat": null,
+          "objectData": [{
+            "internalId": null,
+            "externalId": "0",
+            "developerName": "Folder",
+            "typeElementId": null,
+            "order": 0,
+            "properties": [{
+              "typeElementPropertyId": null,
+              "developerName": "ID",
+              "contentType": null,
+              "contentValue": "0",
+              "contentFormat": null,
+              "objectData": null
+            }, {
+              "typeElementPropertyId": null,
+              "developerName": "Name",
+              "contentType": null,
+              "contentValue": "All Files",
+              "contentFormat": null,
+              "objectData": null
+            }, {
+              "typeElementPropertyId": null,
+              "developerName": "Description",
+              "contentType": null,
+              "contentValue": null,
+              "contentFormat": null,
+              "objectData": null
+            }, {
+              "typeElementPropertyId": null,
+              "developerName": "Created At",
+              "contentType": null,
+              "contentValue": "",
+              "contentFormat": null,
+              "objectData": null
+            }, {
+              "typeElementPropertyId": null,
+              "developerName": "Modified At",
+              "contentType": null,
+              "contentValue": "",
+              "contentFormat": null,
+              "objectData": null
+            }, {
+              "typeElementPropertyId": null,
+              "developerName": "Parent Folder",
+              "contentType": null,
+              "contentValue": null,
+              "contentFormat": null,
+              "objectData": []
+            }],
+            "isSelected": false
+          }]
+        }, {
+          "typeElementPropertyId": null,
+          "developerName": "Created At",
+          "contentType": null,
+          "contentValue": "2016-08-02T10:26:37.000Z",
+          "contentFormat": null,
+          "objectData": null
+        }, {
+          "typeElementPropertyId": null,
+          "developerName": "Modified At",
+          "contentType": null,
+          "contentValue": "2016-08-02T10:26:37.000Z",
+          "contentFormat": null,
+          "objectData": null
+        }],
+        "isSelected": false
+      }]
+    }],
+    "isSelected": false
+  }],
+  "hasMoreResults": false
+}

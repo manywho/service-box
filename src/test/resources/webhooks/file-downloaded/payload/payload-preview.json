@@ -1,0 +1,77 @@
+{
+  "type": "webhook_event",
+  "id": "1d929383-392d-4a40-8c41-907397dc8fe8",
+  "created_at": "2016-09-12T07:48:11-07:00",
+  "trigger": "FILE.PREVIEWED",
+  "webhook": {
+    "id": "177326",
+    "type": "webhook"
+  },
+  "created_by": {
+    "type": "user",
+    "id": "328136111",
+    "name": "jose",
+    "login": "jose.collazzi@manywho.com"
+  },
+  "source": {
+    "id": "94205724383",
+    "type": "file",
+    "file_version": {
+      "type": "file_version",
+      "id": "101613889775",
+      "sha1": "3e0af035c95ee81c5d7526d6fbaf5d03db3076da"
+    },
+    "sequence_id": "0",
+    "etag": "0",
+    "sha1": "3e0af035c95ee81c5d7526d6fbaf5d03db3076da",
+    "name": "flow demo.png",
+    "description": "",
+    "size": 177858,
+    "path_collection": {
+      "total_count": 1,
+      "entries": [
+        {
+          "type": "folder",
+          "id": "0",
+          "sequence_id": null,
+          "etag": null,
+          "name": "All Files"
+        }
+      ]
+    },
+    "created_at": "2016-09-12T07:37:55-07:00",
+    "modified_at": "2016-09-12T07:37:55-07:00",
+    "trashed_at": null,
+    "purged_at": null,
+    "content_created_at": "2016-07-20T05:45:38-07:00",
+    "content_modified_at": "2016-07-20T05:45:38-07:00",
+    "created_by": {
+      "type": "user",
+      "id": "328136111",
+      "name": "jose",
+      "login": "jose.collazzi@manywho.com"
+    },
+    "modified_by": {
+      "type": "user",
+      "id": "328136111",
+      "name": "jose",
+      "login": "jose.collazzi@manywho.com"
+    },
+    "owned_by": {
+      "type": "user",
+      "id": "328136111",
+      "name": "jose",
+      "login": "jose.collazzi@manywho.com"
+    },
+    "shared_link": null,
+    "parent": {
+      "type": "folder",
+      "id": "0",
+      "sequence_id": null,
+      "etag": null,
+      "name": "All Files"
+    },
+    "item_status": "active"
+  },
+  "additional_info": []
+}

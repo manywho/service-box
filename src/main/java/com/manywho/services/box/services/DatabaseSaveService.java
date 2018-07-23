@@ -7,18 +7,20 @@ import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
 import com.manywho.sdk.enums.ContentType;
-import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.client.BoxClient;
 import org.apache.commons.collections4.CollectionUtils;
 
 import javax.inject.Inject;
-import java.util.List;
 
 public class DatabaseSaveService {
-    @Inject
-    private BoxFacade boxFacade;
+    private BoxClient boxFacade;
+    private ObjectMapperService objectMapperService;
 
     @Inject
-    private ObjectMapperService objectMapperService;
+    public DatabaseSaveService(BoxClient boxFacade, ObjectMapperService objectMapperService) {
+        this.boxFacade = boxFacade;
+        this.objectMapperService = objectMapperService;
+    }
 
     public Object saveFileMetadata(String token, ObjectDataType objectDataType, MObject metadataObject) throws Exception {
         // Get the virtual ___file property from the given Metadata object
@@ -32,17 +34,19 @@ public class DatabaseSaveService {
         // Fetch the file from Box, using the ID from the virtual ___file property
         BoxFile file = boxFacade.getFile(token, fileObjects.get(0).getExternalId());
 
-        List<Metadata> fileMetadata = file.getAllMetadata();
-        if (fileMetadata.stream().anyMatch(m -> m.getTemplateName().equals(metadataType))) {
-            // Get the correct metadata to update
-            Metadata metadata = fileMetadata.stream().filter(m -> m.getTemplateName().equals(metadataType))
-                    .findFirst().get();
+        Iterable<Metadata> fileMetadata = file.getAllMetadata();
+        Metadata metadata1 = null;
 
-            // Perform the update to the Metadata on Box
-            file.updateMetadata("enterprise", convertPropertiesToMetadata(metadataObject, metadata));
-        } else {
+        for (Metadata metadata:fileMetadata) {
+            if(metadata.getTemplateName().equals(metadataType)) {
+                metadata1 = metadata;
+                file.updateMetadata(convertPropertiesToMetadata(metadataObject, metadata));
+            }
+        }
+
+        if (metadata1 == null){
             // Create a new Metadata item for the file on Box, with the given data
-            file.createMetadata("enterprise/" + metadataType, convertPropertiesToMetadata(metadataObject, new Metadata()));
+            file.createMetadata(metadataType, convertPropertiesToMetadata(metadataObject, new Metadata()));
         }
 
         return objectMapperService.convertFileMetadata(file, objectDataType);

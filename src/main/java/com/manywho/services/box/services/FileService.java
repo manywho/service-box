@@ -5,13 +5,17 @@ import com.box.sdk.BoxSharedLink;
 import com.box.sdk.BoxSharedLink.Access;
 import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
-import com.manywho.services.box.facades.BoxFacade;
+import com.manywho.services.box.client.BoxClient;
 
 import javax.inject.Inject;
 
 public class FileService {
+    private BoxClient boxClient;
+
     @Inject
-    private BoxFacade boxFacade;
+    public FileService(BoxClient boxClient) {
+        this.boxClient = boxClient;
+    }
 
     public Object buildManyWhoFileObject(BoxFile.Info fileInformation, BoxFile file) {
         BoxSharedLink.Permissions permissions = new BoxSharedLink.Permissions();
@@ -38,10 +42,10 @@ public class FileService {
     }
 
     public void copyFile(String token, String fileId, String folderId, String newName) {
-        boxFacade.copyFile(token, fileId, folderId, newName);
+        boxClient.copyFile(token, fileId, folderId, newName);
     }
 
     public void moveFile(String token, String fileId, String folderId, String newName) {
-        boxFacade.moveFile(token, fileId, folderId, newName);
+        boxClient.moveFile(token, fileId, folderId, newName);
     }
 }

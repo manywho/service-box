@@ -1,16 +1,22 @@
 package com.manywho.services.box;
 
+import com.box.sdk.RequestInterceptor;
+import com.manywho.sdk.client.raw.RawRunClient;
+import com.manywho.sdk.services.config.RedisConfiguration;
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
+import com.manywho.services.box.configuration.FlowConfiguration;
+import com.manywho.services.box.configuration.RedisConfig;
 import com.manywho.services.box.configuration.SecurityConfiguration;
+import com.manywho.services.box.client.BoxClient;
 import com.manywho.services.box.facades.BoxFacade;
-import com.manywho.services.box.managers.AuthManager;
-import com.manywho.services.box.managers.DataManager;
-import com.manywho.services.box.managers.DescribeManager;
-import com.manywho.services.box.managers.FileManager;
-import com.manywho.services.box.managers.FolderManager;
-import com.manywho.services.box.managers.TaskManager;
+import com.manywho.services.box.facades.BoxFacadeInterface;
+import com.manywho.services.box.interceptor.RequestInterceptorImpl;
+import com.manywho.services.box.managers.*;
 import com.manywho.services.box.oauth2.BoxProvider;
 import com.manywho.services.box.services.*;
+import com.manywho.services.box.services.box.WebhookSingatureValidator;
+import com.manywho.services.box.utilities.SystemInteractionInterface;
+import com.manywho.services.box.utilities.SystemInteraction;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import javax.inject.Singleton;
@@ -19,9 +25,8 @@ public class ApplicationBinder extends AbstractBinder {
     @Override
     protected void configure() {
         bind(BoxProvider.class).to(AbstractOauth2Provider.class);
-
-        bind(BoxFacade.class).to(BoxFacade.class).in(Singleton.class);
-
+        bind(RedisConfig.class).to(RedisConfiguration.class).in(Singleton.class);
+        bind(BoxClient.class).to(BoxClient.class).in(Singleton.class);
         bind(AuthManager.class).to(AuthManager.class);
         bind(AuthenticationService.class).to(AuthenticationService.class);
         bind(AuthorizationService.class).to(AuthorizationService.class);
@@ -37,7 +42,26 @@ public class ApplicationBinder extends AbstractBinder {
         bind(FileUploadService.class).to(FileUploadService.class);
         bind(ObjectMapperService.class).to(ObjectMapperService.class);
         bind(SecurityConfiguration.class).to(SecurityConfiguration.class);
+        bind(FlowConfiguration.class).to(FlowConfiguration.class);
         bind(TaskManager.class).to(TaskManager.class);
         bind(TaskService.class).to(TaskService.class);
+        bind(WebhookManager.class).to(WebhookManager.class);
+        bind(WebhookTriggersService.class).to(WebhookTriggersService.class);
+        bind(CacheManager.class).to(CacheManagerInterface.class);
+        bind(EventManager.class).to(EventManager.class);
+        bind(CallbackWebhookManager.class).to(CallbackWebhookManager.class);
+        bind(ListenerManager.class).to(ListenerManager.class);
+        bind(RequestInterceptorImpl.class).to(RequestInterceptor.class);
+        bind(TokenCacheService.class).to(TokenCacheService.class);
+        bind(CallbackService.class).to(CallbackService.class);
+        bind(LaunchFlowManager.class).to(LaunchFlowManager.class);
+        bind(FlowService.class).to(FlowService.class);
+        bind(RawRunClient.class).to(RawRunClient.class);
+        bind(AssignFlowManager.class).to(AssignFlowManager.class);
+        bind(ListenerService.class).to(ListenerService.class);
+        bind(WebhookHandlerManager.class).to(WebhookHandlerManager.class);
+        bind(WebhookSingatureValidator.class).to(WebhookSingatureValidator.class);
+        bind(BoxFacade.class).to(BoxFacadeInterface.class);
+        bind(SystemInteraction.class).to(SystemInteractionInterface.class);
     }
 }

@@ -1,0 +1,138 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": {
+    "users": null,
+    "groups": null,
+    "runningAuthenticationId": null,
+    "globalAuthenticationType": "ALL_USERS"
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "2516780",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": {
+    "id": "14627330",
+    "filterByProvidedObjects": false,
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": "",
+    "orderBy": null,
+    "limit": 0,
+    "offset": 0,
+    "search": null,
+    "searchCriteria": null,
+    "comparisonType": "",
+    "where": null,
+    "listFilters": null
+  },
+  "objectDataType": {
+    "typeElementId": "f3838289-71fc-4198-b7fd-04cc102037c9",
+    "developerName": "Task",
+    "properties": [
+      {
+        "developerName": "ID",
+        "list": null
+      },
+      {
+        "developerName": "Due At",
+        "list": null
+      },
+      {
+        "developerName": "Message",
+        "list": null
+      },
+      {
+        "developerName": "Is Completed?",
+        "list": null
+      },
+      {
+        "developerName": "Created At",
+        "list": null
+      },
+      {
+        "developerName": "File",
+        "list": null
+      }
+    ]
+  },
+  "objectData": [
+    {
+      "internalId": "0f5a6e7d-f4e4-46b4-a589-ca2337c8720b",
+      "externalId": null,
+      "developerName": "Task",
+      "typeElementId": "f3838289-71fc-4198-b7fd-04cc102037c9",
+      "order": 0,
+      "properties": [
+        {
+          "typeElementPropertyId": "edf836dd-b53e-4585-a17c-02a391ca57b8",
+          "developerName": "ID",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "dd32338e-270b-491c-9ff8-bb21b8cb1100",
+          "developerName": "Due At",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "91c695fd-ac5a-4ba3-811b-86333edcfbf6",
+          "developerName": "Message",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "bc9bdeac-bb08-4d5e-94bf-6d1f5496c4ba",
+          "developerName": "Is Completed?",
+          "contentValue": "",
+          "contentType": "ContentBoolean",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "660cb1fa-2124-4ef2-9042-facb8a8c632c",
+          "developerName": "Created At",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "bced7ec9-5248-4320-b982-2b2e1c1bd520",
+          "developerName": "File",
+          "contentValue": null,
+          "contentType": "ContentObject",
+          "contentFormat": null,
+          "objectData": null
+        }
+      ],
+      "isSelected": false
+    }
+  ]
+}

@@ -1,23 +1,23 @@
 package com.manywho.services.box.controllers;
 
-import com.manywho.sdk.entities.run.elements.type.*;
-import com.manywho.sdk.entities.run.elements.type.Object;
+import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
+import com.manywho.sdk.entities.run.elements.type.ObjectDataResponse;
 import com.manywho.sdk.entities.security.AuthenticatedWhoResult;
 import com.manywho.sdk.entities.security.AuthenticationCredentials;
 import com.manywho.sdk.services.annotations.AuthorizationRequired;
 import com.manywho.sdk.services.controllers.AbstractOauth2Controller;
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
 import com.manywho.services.box.managers.AuthManager;
-
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 @Path("/")
-@Consumes("application/json")
-@Produces("application/json")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class AuthController extends AbstractOauth2Controller {
     @Inject
     private AuthManager authManager;
@@ -56,6 +56,6 @@ public class AuthController extends AbstractOauth2Controller {
 
     @Override
     public ObjectDataResponse userAttributes(ObjectDataRequest objectDataRequest) throws Exception {
-        return super.userAttributes(objectDataRequest);
+        return authManager.loadUsersAttributes();
     }
 }

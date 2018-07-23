@@ -1,0 +1,37 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": null,
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Enterprise ID",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "123456789",
+      "contentType": null,
+      "objectData": null
+    }
+  ],
+  "command": null,
+  "culture": null,
+  "listFilter": null,
+  "objectDataType": {
+    "typeElementId": null,
+    "developerName": null,
+    "properties": [
+      {
+        "developerName": "Value",
+        "list": null
+      },
+      {
+        "developerName": "Label",
+        "list": null
+      }
+    ]
+  },
+  "objectData": null
+}

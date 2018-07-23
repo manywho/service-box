@@ -1,16 +1,12 @@
 package com.manywho.services.box.managers;
 
-import com.manywho.sdk.entities.run.EngineValue;
-import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
-import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
 import com.manywho.sdk.entities.run.elements.type.Object;
+import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
-import com.manywho.sdk.enums.ContentType;
-import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.PropertyCollectionParser;
-import com.manywho.services.box.entities.requests.FolderCreate;
+import com.manywho.services.box.entities.types.Folder;
 import com.manywho.services.box.services.FolderService;
-import com.manywho.services.box.types.Folder;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 
@@ -21,16 +17,21 @@ public class FolderManager {
     @Inject
     private PropertyCollectionParser propertyParser;
 
-    public ServiceResponse createFolder(AuthenticatedWho user, ServiceRequest serviceRequest) throws Exception {
-        FolderCreate folderCreate = propertyParser.parse(serviceRequest.getInputs(), FolderCreate.class);
-        if (folderCreate == null) {
-            throw new Exception("Unable to parse the incoming FolderCreate request");
+    public Object createFolder(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
+        Folder folder = propertyParser.parse(objectDataRequest.getObjectData().get(0).getProperties(), Folder.class);
+
+        if (folder == null) {
+            throw new Exception("Unable to parse Folder save request");
         }
 
-        Object folder = folderService.createFolder(user.getToken(), folderCreate.getFolder().getId(), folderCreate.getName());
+        if (StringUtils.isEmpty(folder.getParentFolder().getId())) {
+            throw new Exception("The Parent Folder ID can not be empty");
+        }
 
-        EngineValue folderValue = new EngineValue("Folder", ContentType.Object, Folder.NAME, folder);
+        if (StringUtils.isEmpty(folder.getName())) {
+            throw new Exception("Folder Name cannot be null or empty");
+        }
 
-        return new ServiceResponse(InvokeType.Forward, folderValue, serviceRequest.getToken());
+        return folderService.createFolder(user.getToken(), folder.getParentFolder().getId(), folder.getName());
     }
 }

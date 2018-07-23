@@ -1,0 +1,32 @@
+{
+  "culture": null,
+  "objectData": [
+    {
+      "internalId": null,
+      "externalId": "accountID",
+      "developerName": "AuthenticationAttribute",
+      "typeElementId": null,
+      "order": 0,
+      "properties": [
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Label",
+          "contentType": null,
+          "contentValue": "Account ID",
+          "contentFormat": null,
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": null,
+          "developerName": "Value",
+          "contentType": null,
+          "contentValue": "accountId",
+          "contentFormat": null,
+          "objectData": null
+        }
+      ],
+      "isSelected": false
+    }
+  ],
+  "hasMoreResults": false
+}
