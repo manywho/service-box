@@ -7,8 +7,6 @@ ManyWho Box Service
 
 This service allows you to integrate your Flows with [Box](https://www.box.com).
 
-Java Cryptography Extension (JCE) Unlimited Strength 
-
 ## Running
 
 The service is compatible with Heroku, and can be deployed by clicking the button below:
