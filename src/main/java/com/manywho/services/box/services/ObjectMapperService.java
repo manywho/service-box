@@ -4,7 +4,6 @@ import com.box.sdk.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.services.box.types.*;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -33,6 +32,30 @@ public class ObjectMapperService {
         properties.add(new Property("Parent Folder", convertBoxFolder(fileInfo.getParent())));
         properties.add(new Property("Created At", fileInfo.getCreatedAt()));
         properties.add(new Property("Modified At", fileInfo.getModifiedAt()));
+
+        Object object = new Object();
+        object.setDeveloperName(File.NAME);
+        object.setExternalId(fileInfo.getID());
+        object.setProperties(properties);
+
+        return object;
+    }
+
+    /**
+     * The properties of this object will match with the $File object
+     */
+    public Object convertToManyWhoFile(BoxFile.Info fileInfo, String content) {
+        PropertyCollection properties = new PropertyCollection();
+        properties.add(new Property("Date Created", fileInfo.getCreatedAt()));
+        properties.add(new Property("Date Modified", fileInfo.getModifiedAt()));
+        properties.add(new Property("Description", fileInfo.getDescription()));
+        properties.add(new Property("Download Uri", ""));
+        properties.add(new Property("Embed Uri", ""));
+        properties.add(new Property("Icon Uri", ""));
+        properties.add(new Property("Id", fileInfo.getID()));
+        properties.add(new Property("Name", fileInfo.getName()));
+        properties.add(new Property("Kind", fileInfo.getExtension()));
+        properties.add(new Property("Mime Type", ""));
 
         Object object = new Object();
         object.setDeveloperName(File.NAME);

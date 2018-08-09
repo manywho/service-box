@@ -45,7 +45,7 @@ public class FileController extends AbstractController {
     public ObjectDataResponse loadFiles(FileDataRequest fileDataRequest) throws Exception {
         String selectedFolder = StringUtils.isNotEmpty(fileDataRequest.getResourcePath()) ? fileDataRequest.getResourcePath() : "0";
 
-        return new ObjectDataResponse(fileManager.loadFiles(getAuthenticatedWho(), selectedFolder));
+        return new ObjectDataResponse(fileManager.loadManyWhoFiles(getAuthenticatedWho(), selectedFolder, fileDataRequest.getListFilter()));
     }
 
     @POST

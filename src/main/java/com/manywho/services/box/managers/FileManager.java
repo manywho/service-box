@@ -54,17 +54,30 @@ public class FileManager {
     }
 
     public ObjectCollection loadFiles(AuthenticatedWho authenticatedWho, String resourcePath) {
-        BoxFolder folder = boxClient.getFolder(authenticatedWho.getToken(), resourcePath);
+        // Loop over all the files in the loaded folder, and convert them to Box File Service Type
+        return StreamUtils.asStream(findFolder(authenticatedWho.getToken(), resourcePath)
+                .getChildren(BoxFile.ALL_FIELDS).iterator())
+                .filter(i -> i instanceof BoxFile.Info)
+                .map(f -> objectMapperService.convertBoxFile((BoxFile.Info) f, null))
+                .collect(Collectors.toCollection(ObjectCollection::new));
+    }
+
+    public ObjectCollection loadManyWhoFiles(AuthenticatedWho authenticatedWho, String resourcePath, FileListFilter fileFilter) {
+        // Loop over all the files in the loaded folder, and convert them to $File objects
+        return StreamUtils.asStream(findFolder(authenticatedWho.getToken(), resourcePath)
+                .getChildrenRange(fileFilter.getOffset(), fileFilter.getLimit(), BoxFile.ALL_FIELDS).iterator())
+                .filter(i -> i instanceof BoxFile.Info)
+                .map(f -> objectMapperService.convertToManyWhoFile((BoxFile.Info) f, null))
+                .collect(Collectors.toCollection(ObjectCollection::new));
+    }
+
+    private BoxFolder findFolder(String token,String resourcePath) {
+        BoxFolder folder = boxClient.getFolder(token, resourcePath);
 
         if (folder == null) {
             throw new RuntimeException("A folder could not be found with the ID " + resourcePath);
         }
-
-        // Loop over all the files in the loaded folder, and convert them to ManyWho objects
-        return StreamUtils.asStream(folder.getChildren(BoxFile.ALL_FIELDS).iterator())
-                .filter(i -> i instanceof BoxFile.Info)
-                .map(f -> objectMapperService.convertBoxFile((BoxFile.Info) f, null))
-                .collect(Collectors.toCollection(ObjectCollection::new));
+        return folder;
     }
 
 
