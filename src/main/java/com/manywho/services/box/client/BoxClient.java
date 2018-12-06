@@ -3,6 +3,7 @@ package com.manywho.services.box.client;
 import com.box.sdk.*;
 import com.box.sdk.BoxWebHook.Trigger;
 import com.google.common.collect.Lists;
+import com.manywho.sdk.entities.run.elements.type.ListFilter;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.facades.BoxFacadeInterface;
@@ -71,9 +72,11 @@ public class BoxClient {
         return boxFolder;
     }
 
-    public PartialCollection<BoxItem.Info>  getFolders(String accessToken, BoxSearchParameters searchParameters) {
+    public PartialCollection<BoxItem.Info>  getFolders(String accessToken, BoxSearchParameters searchParameters, ListFilter listFilter) {
         BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
-        PartialCollection<BoxItem.Info> boxFolders = new BoxSearch(createApiConnection(accessToken)).searchRange(0, 500, searchParameters);
+        PartialCollection<BoxItem.Info> boxFolders = new BoxSearch(createApiConnection(accessToken))
+                .searchRange(listFilter.getOffset(), listFilter.getLimit(), searchParameters);
+
         updateCredentials(boxAPIConnection, accessToken);
 
         return boxFolders;

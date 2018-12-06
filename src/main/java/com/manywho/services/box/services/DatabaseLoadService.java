@@ -1,9 +1,8 @@
 package com.manywho.services.box.services;
 
 import com.box.sdk.*;
+import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
-import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
-import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
 import com.manywho.sdk.utils.StreamUtils;
 import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.client.BoxClient;
@@ -12,6 +11,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatabaseLoadService {
@@ -78,8 +78,8 @@ public class DatabaseLoadService {
         throw new Exception("Unable to load folder with ID " + id + " from Box");
     }
 
-    public ObjectCollection loadFolder(String token, BoxSearchParameters boxSearchParameters) {
-        PartialCollection<BoxItem.Info> folder = boxClient.getFolders(token, boxSearchParameters);
+    public ObjectCollection loadFolder(String token, BoxSearchParameters boxSearchParameters, ListFilter listFilter) {
+        PartialCollection<BoxItem.Info> folder = boxClient.getFolders(token, boxSearchParameters, listFilter);
 
         ObjectCollection objectList= new ObjectCollection();
         for (BoxItem.Info boxIem: folder) {
@@ -112,17 +112,29 @@ public class DatabaseLoadService {
         return new ObjectCollection(objectMapperService.convertFileMetadata(file, objectDataType));
     }
 
-    public ObjectCollection loadFiles(String token, String folderId) throws Exception {
-        BoxFolder folder = boxClient.getFolder(token, folderId);
-        if (folder == null) {
+    public ObjectCollection loadFiles(String token, String folderId, ListFilter listFilter) throws Exception {
+        ObjectCollection objects = new ObjectCollection();
+
+        BoxFolder folderIterable = boxClient.getFolder(token, folderId);
+        if (folderIterable == null) {
             throw new Exception("A folder could not be found with the ID " + folderId);
         }
+        Integer counter = 0;
+        Integer ignore = listFilter.getOffset();
+        Integer maximun = listFilter.getOffset() + listFilter.getLimit() + 1;
 
-        // Loop over all the files in the loaded folder, and convert them to ManyWho objects
-        return StreamUtils.asStream(folder.getChildren(BoxFile.ALL_FIELDS).iterator())
-                .filter(i -> i instanceof BoxFile.Info)
-                .map(f -> objectMapperService.convertBoxFile((BoxFile.Info) f, null))
-                .collect(Collectors.toCollection(ObjectCollection::new));
+        for (BoxItem.Info item:folderIterable) {
+            if (item instanceof BoxFile.Info && counter < maximun) {
+                if (ignore <= 0) {
+                    objects.add(objectMapperService.convertBoxFile((BoxFile.Info) item, null));
+                } else {
+                    ignore--;
+                }
+                counter++;
+            }
+        }
+
+        return objects;
     }
 
     private String loadFileContent(BoxFile.Info fileInfo) {
@@ -149,6 +161,15 @@ public class DatabaseLoadService {
         return StreamUtils.asStream(file.getComments().iterator())
                 .filter(i -> i != null)
                 .map(comment -> objectMapperService.convertBoxComment(comment, file.getInfo()))
+                .collect(Collectors.toCollection(ObjectCollection::new));
+    }
+
+    public ObjectCollection loadTasksByFile(String token, String fileId) {
+        BoxFile file =  boxClient.getFile(token, fileId);
+        List<BoxTask.Info> listTasks = file.getTasks();
+
+        return listTasks.stream()
+                .map(task -> objectMapperService.convertBoxTask(task, file.getInfo()))
                 .collect(Collectors.toCollection(ObjectCollection::new));
     }
 }

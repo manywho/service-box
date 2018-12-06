@@ -29,7 +29,12 @@ public class ObjectMapperService {
         properties.add(new Property("Name", fileInfo.getName()));
         properties.add(new Property("Description", fileInfo.getDescription()));
         properties.add(new Property("Content", content));
-        properties.add(new Property("Parent Folder", convertBoxFolder(fileInfo.getParent())));
+        if (fileInfo.getParent() != null) {
+            properties.add(new Property("Parent Folder", convertBoxFolder(fileInfo.getParent())));
+        } else {
+            properties.add(new Property("Parent Folder", new ObjectCollection()));
+        }
+
         properties.add(new Property("Created At", fileInfo.getCreatedAt()));
         properties.add(new Property("Modified At", fileInfo.getModifiedAt()));
 

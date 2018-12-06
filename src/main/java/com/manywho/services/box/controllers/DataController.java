@@ -1,5 +1,7 @@
 package com.manywho.services.box.controllers;
 
+import com.manywho.sdk.entities.run.elements.type.ListFilter;
+import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
 import com.manywho.sdk.entities.run.elements.type.ObjectDataResponse;
 import com.manywho.sdk.services.annotations.AuthorizationRequired;
@@ -38,7 +40,11 @@ public class DataController extends AbstractDataController {
     public ObjectDataResponse load(ObjectDataRequest objectDataRequest) throws Exception {
         switch (objectDataRequest.getObjectDataType().getDeveloperName()) {
             case File.NAME:
-                return new ObjectDataResponse(dataManager.loadFileType(getAuthenticatedWho(), objectDataRequest));
+                ObjectCollection collection = dataManager.loadFileType(getAuthenticatedWho(), objectDataRequest);
+                boolean hasMore = removeOneElementsAfterIndex(collection, objectDataRequest.getListFilter());
+
+                return new ObjectDataResponse(collection, hasMore);
+
             case Folder.NAME:
                 return new ObjectDataResponse(dataManager.loadFolderType(getAuthenticatedWho(), objectDataRequest));
             case Task.NAME:
@@ -52,6 +58,15 @@ public class DataController extends AbstractDataController {
             default:
                 // Assume the type represents Metadata
                 return new ObjectDataResponse(dataManager.loadMetadataType(getAuthenticatedWho(), objectDataRequest));
+        }
+    }
+
+    private boolean removeOneElementsAfterIndex(ObjectCollection objectCollection, ListFilter filter) {
+        if (filter != null && filter.getLimit() > 0 && objectCollection.size() > filter.getLimit()) {
+            objectCollection.remove(filter.getLimit());
+            return true;
+        } else{
+            return false;
         }
     }
 

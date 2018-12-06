@@ -33,18 +33,23 @@ public class DataManager {
         }
 
         // Try and get the folder to search in, if one was passed in as a filter otherwise use "0" (the root folder)
-        String folder = "0";
+        String boxFolderId = "0";
         if (objectDataRequest.getListFilter() != null && objectDataRequest.getListFilter().getWhere() != null) {
-            Optional<ListFilterWhere> folderFilter = objectDataRequest.getListFilter().getWhere().stream()
+            ListFilterWhere parentFolderFilter = objectDataRequest.getListFilter().getWhere().stream()
                     .filter(w -> w.getColumnName().equals("Parent Folder"))
-                    .findFirst();
+                    .findFirst()
+                    .orElse(new ListFilterWhere());
 
-            if (folderFilter.isPresent()) {
-                folder = folderFilter.get().getObjectData().get(0).getExternalId();
+            if (parentFolderFilter.getObjectData() != null && parentFolderFilter.getObjectData().size() > 0) {
+                boxFolderId = parentFolderFilter.getObjectData().get(0).getProperties().stream()
+                        .filter(property -> property.getDeveloperName().equals("ID"))
+                        .map(property -> property.getContentValue())
+                        .findFirst()
+                        .orElse("0");
             }
         }
 
-        return databaseLoadService.loadFiles(user.getToken(), folder);
+        return databaseLoadService.loadFiles(user.getToken(), boxFolderId, objectDataRequest.getListFilter());
     }
 
     public ObjectCollection loadFileSystem(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
@@ -72,6 +77,7 @@ public class DataManager {
             ListFilterWhereCollection listFilterWheres = objectDataRequest.getListFilter().getWhere();
 
             List<String> contentTypes = new ArrayList<>();
+            List<String> ancestors = new ArrayList<>();
 
             Boolean validFilter = false;
 
@@ -86,6 +92,16 @@ public class DataManager {
                     contentTypes.add("description");
                     validFilter = true;
                 }
+
+                if (Objects.equals(where.getColumnName(), "Parent Folder")) {
+                    ancestors.add(where.getContentValue());
+                    boxSearchParameters.setAncestorFolderIds(ancestors);
+                    validFilter = true;
+                }
+            }
+
+            if (StringUtils.isEmpty(objectDataRequest.getListFilter().getSearch()) == false) {
+                boxSearchParameters.setQuery(objectDataRequest.getListFilter().getSearch());
             }
 
             if(!validFilter) {
@@ -93,7 +109,8 @@ public class DataManager {
             }
 
             boxSearchParameters.setContentTypes(contentTypes);
-            return databaseLoadService.loadFolder(user.getToken(), boxSearchParameters);
+
+            return databaseLoadService.loadFolder(user.getToken(), boxSearchParameters, objectDataRequest.getListFilter());
         }
 
         throw new Exception("Loading a list of folders is not yet supported");
@@ -101,12 +118,39 @@ public class DataManager {
 
 
     public ObjectCollection loadTask(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
+        String fileId = getPropertyValue(objectDataRequest.getListFilter(),"File", "ID");
+
         // Check if the load is for a single object with an identifier
         if (objectDataRequest.getListFilter() != null && StringUtils.isNotEmpty(objectDataRequest.getListFilter().getId())) {
             return new ObjectCollection(databaseLoadService.loadTask(user.getToken(), objectDataRequest.getListFilter().getId()));
+        } else if (StringUtils.isNotEmpty(fileId)) {
+            return databaseLoadService.loadTasksByFile(user.getToken(), fileId);
         }
 
-        throw new Exception("Loading a list of task is not yet supported");
+        throw new Exception("Loading a list of task is only supported if it is filtered by unique ID or valid File filter");
+    }
+
+    private String getPropertyValue(ListFilter listFilter, String objectDeveloperName, String searchingField) {
+        ObjectCollection objects = getObjectData(listFilter);
+        MObject object = objects.stream().filter(o -> o.getDeveloperName().equals(objectDeveloperName))
+                .findFirst().orElse(new MObject(objectDeveloperName,"", new PropertyCollection()));
+
+        return object.getProperties().stream()
+                .filter(property -> property.getDeveloperName().equals(searchingField))
+                .findFirst()
+                .map( property -> property.getContentValue())
+                .orElse(null);
+    }
+
+    private ObjectCollection getObjectData(ListFilter listFilter) {
+
+        if (listFilter != null && listFilter.getWhere() != null && listFilter.getWhere().size() > 0 &&
+                listFilter.getWhere().get(0).getObjectData() != null && listFilter.getWhere().get(0).getObjectData().size() > 0) {
+
+            return listFilter.getWhere().get(0).getObjectData();
+        }
+
+        return new ObjectCollection();
     }
 
     public ObjectCollection loadTaskAssignment(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
@@ -117,7 +161,6 @@ public class DataManager {
 
         throw new Exception("Loading a list of task is not yet supported");
     }
-
 
     public ObjectCollection loadMetadataType(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {
         MetadataSearch metadataSearch = new MetadataSearch();
