@@ -119,12 +119,12 @@ public class DatabaseLoadService {
         if (folderIterable == null) {
             throw new Exception("A folder could not be found with the ID " + folderId);
         }
-        Integer counter = 0;
-        Integer ignore = listFilter.getOffset();
-        Integer maximun = listFilter.getOffset() + listFilter.getLimit() + 1;
+        int counter = 0;
+        int ignore = listFilter.getOffset();
+        int maxItems = listFilter.getOffset() + listFilter.getLimit() + 1;
 
         for (BoxItem.Info item:folderIterable) {
-            if (item instanceof BoxFile.Info && counter < maximun) {
+            if (item instanceof BoxFile.Info && counter < maxItems) {
                 if (ignore <= 0) {
                     objects.add(objectMapperService.convertBoxFile((BoxFile.Info) item, null));
                 } else {
@@ -171,5 +171,29 @@ public class DatabaseLoadService {
         return listTasks.stream()
                 .map(task -> objectMapperService.convertBoxTask(task, file.getInfo()))
                 .collect(Collectors.toCollection(ObjectCollection::new));
+    }
+
+    public ObjectCollection loadRootFolders(String token, ListFilter listFilter) {
+        Iterable<BoxItem.Info> folder = boxClient.getFolder(token, "0")
+                .getChildren(BoxFolder.ALL_FIELDS);
+
+        ObjectCollection objectList= new ObjectCollection();
+
+        int counter = 0;
+        int ignore = listFilter.getOffset();
+        int maxItems = listFilter.getOffset() + listFilter.getLimit() + 1;
+
+        for (BoxItem.Info item:folder) {
+            if (item instanceof BoxFolder.Info && counter < maxItems) {
+                if (ignore <= 0) {
+                    objectList.add(objectMapperService.convertBoxFolder((BoxFolder.Info) item));
+                } else {
+                    ignore--;
+                }
+                counter++;
+            }
+        }
+
+        return objectList;
     }
 }
