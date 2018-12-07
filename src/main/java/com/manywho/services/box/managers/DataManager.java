@@ -102,10 +102,11 @@ public class DataManager {
 
             if (StringUtils.isEmpty(objectDataRequest.getListFilter().getSearch()) == false) {
                 boxSearchParameters.setQuery(objectDataRequest.getListFilter().getSearch());
+                validFilter = true;
             }
 
             if(!validFilter) {
-                throw new Exception("One valid filter is required (please select Name or Description)");
+                return databaseLoadService.loadRootFolders(user.getToken(), objectDataRequest.getListFilter());
             }
 
             boxSearchParameters.setContentTypes(contentTypes);
