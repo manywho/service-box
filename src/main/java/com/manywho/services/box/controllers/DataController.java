@@ -46,7 +46,10 @@ public class DataController extends AbstractDataController {
                 return new ObjectDataResponse(collection, hasMore);
 
             case Folder.NAME:
-                return new ObjectDataResponse(dataManager.loadFolderType(getAuthenticatedWho(), objectDataRequest));
+                ObjectCollection collectionOfFolders = dataManager.loadFolderType(getAuthenticatedWho(), objectDataRequest);
+                boolean hasMoreFolders = removeOneElementsAfterIndex(collectionOfFolders, objectDataRequest.getListFilter());
+
+                return new ObjectDataResponse(collectionOfFolders, hasMoreFolders);
             case Task.NAME:
                 return new ObjectDataResponse(dataManager.loadTask(getAuthenticatedWho(), objectDataRequest));
             case TaskAssignment.NAME:

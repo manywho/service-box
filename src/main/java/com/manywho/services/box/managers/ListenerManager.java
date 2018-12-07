@@ -2,6 +2,7 @@ package com.manywho.services.box.managers;
 
 import com.box.sdk.BoxWebHook;
 import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
+import com.manywho.sdk.entities.run.elements.type.MObject;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.box.services.WebhookTriggersService;
 
@@ -22,6 +23,15 @@ public class ListenerManager {
 
     public void createListener(AuthenticatedWho authenticatedWho, ListenerServiceRequest listenerServiceRequest, BoxWebHook.Trigger triggerType, String name) throws Exception {
         String webhookId = cacheManager.getWebhook(name, listenerServiceRequest.getValueForListening().getObjectData().get(0).getExternalId());
+        MObject object = listenerServiceRequest.getValueForListening().getObjectData().get(0);
+
+        String objectId = object.getProperties().stream()
+                .filter(p -> p.getDeveloperName().equals("ID"))
+                .map(property -> property.getContentValue())
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException(String.format("Expected ID at object %s",
+                        object.getDeveloperName())));
+
         BoxWebHook.Info webhookInfo;
 
         if (webhookId != null) {
@@ -31,9 +41,8 @@ public class ListenerManager {
                 webhookManager.updateWebhookInfoTriggers(authenticatedWho.getToken(), webhookId, triggerList);
             }
         } else {
-            webhookInfo = webhookManager.createWebhook(authenticatedWho.getToken(),
-                    listenerServiceRequest.getToken(), name,
-                    listenerServiceRequest.getValueForListening().getObjectData().get(0).getExternalId(), triggerType);
+            webhookInfo = webhookManager.createWebhook(authenticatedWho.getToken(), listenerServiceRequest.getToken(),
+                    name, objectId, triggerType);
 
             webhookId = webhookInfo.getID();
         }

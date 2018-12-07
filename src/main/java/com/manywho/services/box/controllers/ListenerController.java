@@ -3,7 +3,6 @@ package com.manywho.services.box.controllers;
 import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
 import com.manywho.sdk.services.annotations.AuthorizationRequired;
 import com.manywho.sdk.services.controllers.AbstractListenerController;
-import com.manywho.services.box.managers.CacheManagerInterface;
 import com.manywho.services.box.managers.ListenerManager;
 import com.manywho.services.box.types.File;
 import com.manywho.services.box.types.Folder;
@@ -19,10 +18,6 @@ import static com.box.sdk.BoxWebHook.Trigger.*;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ListenerController extends AbstractListenerController{
-
-    @Inject
-    CacheManagerInterface cacheManager;
-
     @Inject
     ListenerManager listenerManager;
 

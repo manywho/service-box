@@ -75,7 +75,7 @@ public class BoxClient {
     public PartialCollection<BoxItem.Info>  getFolders(String accessToken, BoxSearchParameters searchParameters, ListFilter listFilter) {
         BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
         PartialCollection<BoxItem.Info> boxFolders = new BoxSearch(createApiConnection(accessToken))
-                .searchRange(listFilter.getOffset(), listFilter.getLimit(), searchParameters);
+                .searchRange(listFilter.getOffset(), listFilter.getLimit() + 1, searchParameters);
 
         updateCredentials(boxAPIConnection, accessToken);
 
