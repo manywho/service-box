@@ -22,15 +22,8 @@ public class ListenerManager {
     }
 
     public void createListener(AuthenticatedWho authenticatedWho, ListenerServiceRequest listenerServiceRequest, BoxWebHook.Trigger triggerType, String name) throws Exception {
-        String webhookId = cacheManager.getWebhook(name, listenerServiceRequest.getValueForListening().getObjectData().get(0).getExternalId());
-        MObject object = listenerServiceRequest.getValueForListening().getObjectData().get(0);
-
-        String objectId = object.getProperties().stream()
-                .filter(p -> p.getDeveloperName().equals("ID"))
-                .map(property -> property.getContentValue())
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException(String.format("Expected ID at object %s",
-                        object.getDeveloperName())));
+        String objectId = listenerServiceRequest.getValueForListening().getObjectData().get(0).getExternalId();
+        String webhookId = cacheManager.getWebhook(name, objectId);
 
         BoxWebHook.Info webhookInfo;
 
