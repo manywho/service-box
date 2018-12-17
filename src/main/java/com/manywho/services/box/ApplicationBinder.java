@@ -4,6 +4,7 @@ import com.box.sdk.RequestInterceptor;
 import com.manywho.sdk.client.raw.RawRunClient;
 import com.manywho.sdk.services.config.RedisConfiguration;
 import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
+import com.manywho.services.box.configuration.EncryptConfiguration;
 import com.manywho.services.box.configuration.FlowConfiguration;
 import com.manywho.services.box.configuration.RedisConfig;
 import com.manywho.services.box.configuration.SecurityConfiguration;
@@ -27,6 +28,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(BoxProvider.class).to(AbstractOauth2Provider.class);
         bind(RedisConfig.class).to(RedisConfiguration.class).in(Singleton.class);
         bind(BoxClient.class).to(BoxClient.class).in(Singleton.class);
+        bind(EncryptService.class).to(EncryptService.class).in(Singleton.class);
         bind(AuthManager.class).to(AuthManager.class);
         bind(AuthenticationService.class).to(AuthenticationService.class);
         bind(AuthorizationService.class).to(AuthorizationService.class);
@@ -43,6 +45,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(ObjectMapperService.class).to(ObjectMapperService.class);
         bind(SecurityConfiguration.class).to(SecurityConfiguration.class);
         bind(FlowConfiguration.class).to(FlowConfiguration.class);
+        bind(EncryptConfiguration.class).to(EncryptConfiguration.class);
         bind(TaskManager.class).to(TaskManager.class);
         bind(TaskService.class).to(TaskService.class);
         bind(WebhookManager.class).to(WebhookManager.class);

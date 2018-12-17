@@ -6,7 +6,14 @@ public class Configuration {
     @Property("Enterprise ID")
     private String enterpriseId;
 
+    @Property("Verification Token")
+    private String verificationToken;
+
     public String getEnterpriseId() {
         return enterpriseId;
+    }
+
+    public String getVerificationToken() {
+        return verificationToken;
     }
 }
