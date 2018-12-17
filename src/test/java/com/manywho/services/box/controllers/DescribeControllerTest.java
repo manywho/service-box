@@ -30,6 +30,7 @@ public class DescribeControllerTest extends BoxServiceFunctionalTest{
                 getJsonFormatResponse(responseMsg)
         );
 
-        assertEquals(1, requestIntersectorTests.executedCalls());
+        // we don't send verification token to simplify this test, so the box metadata request is never done
+        assertEquals(0, requestIntersectorTests.executedCalls());
     }
 }
