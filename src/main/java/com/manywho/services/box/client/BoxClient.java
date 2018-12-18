@@ -134,7 +134,7 @@ public class BoxClient {
         return users;
     }
 
-    public Iterable<BoxItem.Info> searchByMetadata(String accessToken, String metadataType, MetadataSearch metadataSearch) {
+    public Iterable<BoxItem.Info> searchByMetadata(String accessToken, String metadataType, MetadataSearch metadataSearch, ListFilter filter) {
         BoxMetadataFilter metadataFilter = new BoxMetadataFilter();
         metadataFilter.setScope("enterprise");
         metadataFilter.setTemplateKey(metadataType);
@@ -145,10 +145,9 @@ public class BoxClient {
         }
 
         BoxSearchParameters searchParameters = new BoxSearchParameters();
-        searchParameters.setAncestorFolderIds(Lists.newArrayList("0"));
         searchParameters.setMetadataFilter(metadataFilter);
 
-        return new BoxSearch(createApiConnection(accessToken)).searchRange(0, 500, searchParameters);
+        return new BoxSearch(createApiConnection(accessToken)).searchRange(filter.getOffset(), (filter.getLimit()), searchParameters);
     }
 
     public BoxTask getTask(String accessToken, String id) {

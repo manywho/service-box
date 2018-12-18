@@ -207,7 +207,7 @@ public class DataManager {
             return databaseLoadService.loadSingleMetadata(user.getToken(), objectDataRequest.getObjectDataType(), metadataSearch.getFileId());
         }
 
-        return databaseLoadService.loadMetadata(user.getToken(), objectDataRequest.getObjectDataType(), metadataSearch);
+        return databaseLoadService.loadMetadata(user.getToken(), objectDataRequest, metadataSearch);
     }
 
     public Object saveMetadataType(AuthenticatedWho user, ObjectDataRequest objectDataRequest) throws Exception {

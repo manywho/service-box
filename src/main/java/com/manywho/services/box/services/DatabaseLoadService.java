@@ -3,6 +3,9 @@ package com.manywho.services.box.services;
 import com.box.sdk.*;
 import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
+import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
+import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
+import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
 import com.manywho.sdk.utils.StreamUtils;
 import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.client.BoxClient;
@@ -91,13 +94,20 @@ public class DatabaseLoadService {
         return objectList;
     }
 
-    public ObjectCollection loadMetadata(String token, ObjectDataType objectDataType, MetadataSearch metadataSearch) {
-        Iterable<BoxItem.Info> files = boxClient.searchByMetadata(token, objectDataType.getDeveloperName(), metadataSearch);
+    public ObjectCollection loadMetadata(String token, ObjectDataRequest objectDataRequest, MetadataSearch metadataSearch) {
+        Iterable<BoxItem.Info> files = boxClient.searchByMetadata(token,
+                objectDataRequest.getObjectDataType().getDeveloperName(), metadataSearch, objectDataRequest.getListFilter());
 
         // Create an object based on the given metadata type for all the result, using the objectDataType passed in
         return StreamUtils.asStream(files.iterator())
-                .filter(i -> i instanceof BoxFile.Info)
-                .map(f -> objectMapperService.convertFileMetadata(((BoxFile.Info) f).getResource(), objectDataType))
+                .filter(i -> i instanceof BoxFile.Info || i instanceof BoxFolder.Info)
+                .map(i ->  {
+                    if (i instanceof BoxFile.Info) {
+                        return objectMapperService.convertFileMetadata(((BoxFile.Info) i).getResource(), objectDataRequest.getObjectDataType());
+                    } else {
+                        return objectMapperService.convertFolderMetadata(((BoxFolder.Info) i).getResource(), objectDataRequest.getObjectDataType());
+                    }
+                })
                 .collect(Collectors.toCollection(ObjectCollection::new));
     }
 

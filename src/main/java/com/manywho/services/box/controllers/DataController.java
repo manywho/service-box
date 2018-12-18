@@ -40,16 +40,9 @@ public class DataController extends AbstractDataController {
     public ObjectDataResponse load(ObjectDataRequest objectDataRequest) throws Exception {
         switch (objectDataRequest.getObjectDataType().getDeveloperName()) {
             case File.NAME:
-                ObjectCollection collection = dataManager.loadFileType(getAuthenticatedWho(), objectDataRequest);
-                boolean hasMore = removeOneElementsAfterIndex(collection, objectDataRequest.getListFilter());
-
-                return new ObjectDataResponse(collection, hasMore);
-
+                return generateResponse(dataManager.loadFileType(getAuthenticatedWho(), objectDataRequest), objectDataRequest);
             case Folder.NAME:
-                ObjectCollection collectionOfFolders = dataManager.loadFolderType(getAuthenticatedWho(), objectDataRequest);
-                boolean hasMoreFolders = removeOneElementsAfterIndex(collectionOfFolders, objectDataRequest.getListFilter());
-
-                return new ObjectDataResponse(collectionOfFolders, hasMoreFolders);
+                return generateResponse(dataManager.loadFolderType(getAuthenticatedWho(), objectDataRequest), objectDataRequest);
             case Task.NAME:
                 return new ObjectDataResponse(dataManager.loadTask(getAuthenticatedWho(), objectDataRequest));
             case TaskAssignment.NAME:
@@ -59,18 +52,29 @@ public class DataController extends AbstractDataController {
             case Comment.NAME:
                 return new ObjectDataResponse(dataManager.loadComments(getAuthenticatedWho(), objectDataRequest));
             default:
-                // Assume the type represents Metadata
-                return new ObjectDataResponse(dataManager.loadMetadataType(getAuthenticatedWho(), objectDataRequest));
+                return generateResponse(dataManager.loadMetadataType(getAuthenticatedWho(), objectDataRequest), objectDataRequest);
         }
     }
 
-    private boolean removeOneElementsAfterIndex(ObjectCollection objectCollection, ListFilter filter) {
-        if (filter != null && filter.getLimit() > 0 && objectCollection.size() > filter.getLimit()) {
-            objectCollection.remove(filter.getLimit());
-            return true;
-        } else{
-            return false;
+    private ObjectDataResponse generateResponse(ObjectCollection objects, ObjectDataRequest objectDataRequest) {
+        boolean havMoreElements =  haveMoreElements(objects, objectDataRequest.getListFilter());
+
+        if (havMoreElements) {
+            objects = removeElementsAfterLimit(objects, objectDataRequest.getListFilter());
         }
+
+        return new ObjectDataResponse(objects, havMoreElements);
+    }
+
+    private boolean haveMoreElements(ObjectCollection collection, ListFilter filter) {
+        return filter != null && filter.getLimit() > 0 && collection.size() >= filter.getLimit();
+    }
+
+    private ObjectCollection removeElementsAfterLimit(ObjectCollection objectCollection, ListFilter filter) {
+        ObjectCollection collection = new ObjectCollection();
+        collection.addAll(objectCollection.subList(0, filter.getLimit()));
+
+        return  collection;
     }
 
     @Path("/data")
