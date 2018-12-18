@@ -14,7 +14,7 @@
             <entry key="assignment.flowId" value="${assignment.flowId}"/>
             <entry key="assignment.flowVersionId" value="${assignment.flowVersionId}"/>
             <entry key="assignment.tenantId" value="${assignment.tenantId}"/>
-            <entry key="encrypt.init" value="${encrypt.init}"/>
+            <entry key="verification.key" value="${verification.key}"/>
             <entry key="redis.url" value="${redis.url}"/>
         </propertyfile>
     </target>

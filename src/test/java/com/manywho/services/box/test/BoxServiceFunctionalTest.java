@@ -13,6 +13,7 @@ import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
 import com.manywho.sdk.services.providers.ObjectMapperProvider;
 import com.manywho.sdk.test.FunctionalTest;
 import com.manywho.sdk.test.MockFactory;
+import com.manywho.services.box.configuration.EncryptConfiguration;
 import com.manywho.services.box.configuration.SecurityConfiguration;
 import com.manywho.services.box.entities.WebhookReturn;
 import com.manywho.services.box.facades.BoxFacade;
@@ -44,6 +45,7 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
 
     protected MockJedis mockJedis;
     protected SecurityConfiguration mockSecurityConfiguration;
+    protected EncryptConfiguration encryptConfiguration;
     protected RequestIntersectorTestsImpl requestIntersectorTests;
     protected HttpClientUnirestForTest httpClientUnirestForTest;
     protected RawRunClient rawRunClient;
@@ -61,6 +63,8 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
         MockJedisPool mockJedisPool = new MockJedisPool(new GenericObjectPoolConfig(), "localhost");
         mockJedis = (MockJedis) mockJedisPool.getResource();
         mockSecurityConfiguration = mock(SecurityConfiguration.class);
+        encryptConfiguration = mock(EncryptConfiguration.class);
+        when(encryptConfiguration.getVerificationKey()).thenReturn("{\"kty\":\"EC\",\"x\":\"DaSZVYVffc6x-RJiBNKe3m30FlSXR_r0dYcukBiPG6w\",\"y\":\"fkohGhPalQOGk-qf2VpSsiU7NBFAx9-0LduKFKFy9q4\",\"crv\":\"P-256\",\"d\":\"TRr_V0RaRrmJBwlvCSR1UgX2xbkR6AD3IwRmIB_g1K8\"}");
         mockSecurityConfigurationResponses();
 
         boxSignatureVerifier = mock(BoxWebHookSignatureVerifier.class);
@@ -88,6 +92,7 @@ public class BoxServiceFunctionalTest extends FunctionalTest {
                 bindFactory(new MockFactory<MockJedisPool>(mockJedisPool)).to(JedisPool.class).ranked(1);
                 bindFactory(new MockFactory<RequestIntersectorTestsImpl>(requestIntersectorTests)).to(RequestInterceptor.class).ranked(1);
                 bindFactory(new MockFactory<SecurityConfiguration>(mockSecurityConfiguration)).to(SecurityConfiguration.class).in(Singleton.class).ranked(1);
+                bindFactory(new MockFactory<EncryptConfiguration>(encryptConfiguration)).to(EncryptConfiguration.class).in(Singleton.class).ranked(1);
                 bindFactory(new MockFactory<CacheManagerInterface>(cacheManager)).to(CacheManagerInterface.class).ranked(1);
                 bindFactory(new MockFactory<RawRunClient>(rawRunClient)).to(RawRunClient.class).ranked(1);
                 bindFactory(new MockFactory<WebhookSingatureValidator>(validaor)).to(WebhookSingatureValidator.class).ranked(1);

@@ -5,46 +5,44 @@ import org.jose4j.jwa.AlgorithmConstraints;
 import org.jose4j.jwe.ContentEncryptionAlgorithmIdentifiers;
 import org.jose4j.jwe.JsonWebEncryption;
 import org.jose4j.jwe.KeyManagementAlgorithmIdentifiers;
-import org.jose4j.keys.AesKey;
+import org.jose4j.jwk.PublicJsonWebKey;
 import org.jose4j.lang.JoseException;
 
 import javax.inject.Inject;
-import java.security.Key;
 
 public class EncryptService {
-    private Key key;
-    private AlgorithmConstraints algorithmKeyConstraints;
-    private AlgorithmConstraints algorithmContentConstraints;
+    private JsonWebEncryption senderJwe;
+    private JsonWebEncryption receiverJwe;
 
     @Inject
     public EncryptService(EncryptConfiguration encryptConfiguration) {
-        key = new AesKey(encryptConfiguration.getInitializationInteger().getBytes());
+        senderJwe = new JsonWebEncryption();
+        receiverJwe = new JsonWebEncryption();
 
-        algorithmKeyConstraints = new AlgorithmConstraints(AlgorithmConstraints.ConstraintType.WHITELIST,
-                KeyManagementAlgorithmIdentifiers.A128KW);
+        try {
+            PublicJsonWebKey key = PublicJsonWebKey.Factory.newPublicJwk(encryptConfiguration.getVerificationKey());
+            senderJwe.setKey(key.getKey());
+            receiverJwe.setKey(key.getPrivateKey());
 
-        algorithmContentConstraints = new AlgorithmConstraints(AlgorithmConstraints.ConstraintType.WHITELIST,
-                ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
+        } catch (JoseException e) {
+            throw new RuntimeException("Error generating verification.key", e);
+        }
+
+        senderJwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.ECDH_ES_A192KW);
+        senderJwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_192_CBC_HMAC_SHA_384);
+        receiverJwe.setAlgorithmConstraints(new AlgorithmConstraints(AlgorithmConstraints.ConstraintType.WHITELIST, KeyManagementAlgorithmIdentifiers.ECDH_ES_A192KW));
+        receiverJwe.setContentEncryptionAlgorithmConstraints(new AlgorithmConstraints(AlgorithmConstraints.ConstraintType.WHITELIST, ContentEncryptionAlgorithmIdentifiers.AES_192_CBC_HMAC_SHA_384));
     }
 
     public String encryptData(String input) throws JoseException {
-        JsonWebEncryption jwe = new JsonWebEncryption();
-        jwe.setPayload(input);
-        jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A128KW);
-        jwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
-        jwe.setKey(key);
+        senderJwe.setPlaintext(input);
 
-        return jwe.getCompactSerialization();
+        return senderJwe.getCompactSerialization();
     }
 
     public String decryptData(String input) throws JoseException {
-        JsonWebEncryption jwe = new JsonWebEncryption();
+        receiverJwe.setCompactSerialization(input);
 
-        jwe.setAlgorithmConstraints(algorithmKeyConstraints);
-        jwe.setContentEncryptionAlgorithmConstraints(algorithmContentConstraints);
-        jwe.setCompactSerialization(input);
-        jwe.setKey(key);
-
-        return jwe.getPayload();
+        return receiverJwe.getPlaintextString();
     }
 }

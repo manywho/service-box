@@ -30,12 +30,12 @@ $ ant -Dsecure.privateKeyLocation=xxx \
 -Dassignment.flowId=xxx \
 -Dassignment.flowVersionId=xxx \
 -Dassignment.tenantId=xxx \
--Dencrypt.init=xxx \
+-Dveryfication.key=xxx \
 -Dredis.url=xxx \
 
 ```
 
-encrypt.init is a 16 digit integer used to initialize the encryption
+For information of how to create the verification.key please check the test encryptAndDecryptTest
 
 Now you can build the runnable shaded JAR
 
