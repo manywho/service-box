@@ -149,6 +149,27 @@ public class ObjectMapperService {
         return object;
     }
 
+    public Object convertFolderMetadata(BoxFolder folder, ObjectDataType objectDataType) {
+        Metadata metadata = folder.getMetadata(objectDataType.getDeveloperName());
+
+        // Populate all the desired properties from the values in the metadata (except for the virtual ___file field)
+        PropertyCollection properties = objectDataType.getProperties()
+                .stream()
+                .filter(property -> !property.getDeveloperName().equals("___folder"))
+                .map(property -> new Property(property.getDeveloperName(), metadata.get("/" + property.getDeveloperName())))
+                .collect(Collectors.toCollection(PropertyCollection::new));
+
+        // Add the virtual ___file field
+        properties.add(new Property("___folder", new ObjectCollection(convertBoxFolder(folder.getInfo(BoxFolder.ALL_FIELDS)))));
+
+        Object object = new Object();
+        object.setDeveloperName(objectDataType.getDeveloperName());
+        object.setExternalId(metadata.getID());
+        object.setProperties(properties);
+
+        return object;
+    }
+
     public Object convertGroupObjectToManyWhoGroup(BoxGroup.Info group) {
         PropertyCollection properties = new PropertyCollection();
         properties.add(new Property("AuthenticationId", group.getID()));
