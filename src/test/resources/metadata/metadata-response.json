@@ -117,6 +117,24 @@
       "viewMessageAction": false
     },
     {
+      "serviceOutputs": [
+        {
+          "developerName": "Item",
+          "contentValue": null,
+          "contentType": "ContentObject",
+          "typeElementDeveloperName": "Item",
+          "ordinal": 0,
+          "required": false
+        }
+      ],
+      "serviceInputs": [],
+      "uriPart": "integration/source-item",
+      "developerName": "Fetch Integration Item",
+      "developerSummary": "Fetch the item used to execute the flow by the integration tool",
+      "serviceActionOutcomes": null,
+      "viewMessageAction": false
+    },
+    {
       "serviceOutputs": [],
       "serviceInputs": [
         {
@@ -502,6 +520,55 @@
                 "databaseFieldName": "Modified At",
                 "typeElementPropertyId": null,
                 "typeElementPropertyDeveloperName": "Modified At",
+                "databaseContentType": null
+              }
+            ]
+          }
+        ],
+        "updateByName": false
+      },
+      {
+        "elementType": "TYPE",
+        "developerName": "Item",
+        "developerSummary": "The Item object structure",
+        "id": null,
+        "serviceElementId": null,
+        "properties": [
+          {
+            "id": null,
+            "developerName": "ID",
+            "contentFormat": null,
+            "contentType": "ContentString",
+            "typeElementId": null,
+            "typeElementDeveloperName": null
+          },
+          {
+            "id": null,
+            "developerName": "Type",
+            "contentFormat": null,
+            "contentType": "ContentString",
+            "typeElementId": null,
+            "typeElementDeveloperName": null
+          }
+        ],
+        "bindings": [
+          {
+            "id": null,
+            "developerName": "Item",
+            "developerSummary": "Details about an Item",
+            "databaseTableName": "Item",
+            "serviceElementId": null,
+            "propertyBindings": [
+              {
+                "databaseFieldName": "ID",
+                "typeElementPropertyId": null,
+                "typeElementPropertyDeveloperName": "ID",
+                "databaseContentType": null
+              },
+              {
+                "databaseFieldName": "Type",
+                "typeElementPropertyId": null,
+                "typeElementPropertyDeveloperName": "Type",
                 "databaseContentType": null
               }
             ]

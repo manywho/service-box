@@ -48,10 +48,8 @@ public class AuthManager {
             apiConnection = authenticationService.confirmUserAuthenticationWithBox(credentials.getToken());
             userInformation = authenticationService.getCurrentBoxUser(apiConnection.getAccessToken());
         } else {
-            apiConnection = authenticationService.authenticateUserWithBox(
-                    provider.getClientId(),
-                    provider.getClientSecret(),
-                    credentials.getCode());
+            apiConnection = authenticationService.authenticateUserWithBox(credentials.getCode());
+
             userInformation = authenticationService.getCurrentBoxUser(apiConnection.getAccessToken());
             cacheManager.saveCredentials(userInformation.getID(), new Credentials(apiConnection.getAccessToken(), apiConnection.getRefreshToken(), userInformation.getID()));
         }

@@ -5,11 +5,9 @@ import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
+import com.manywho.services.box.entities.webhook.Item;
 import com.manywho.services.box.utilities.ScanIterator;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.ScanParams;
@@ -33,6 +31,8 @@ public class CacheManager implements CacheManagerInterface{
     protected final static String REDIS_BOX_TOKEN_AS_A_KEY = "service:box:user:token:%s";
     protected final static String REDIS_BOX_FLOW_HEADER ="service:box:box-userid:%s:flow-auth-header";
     protected final static Integer REDIS_SCAN_COUNT = 1000;
+
+    protected final static String REDIS_BOX_INTEGRATION_ITEM = "service:box:state:%s";
 
     private JedisPool jedisPool;
     private ObjectMapper objectMapper;
@@ -269,5 +269,25 @@ public class CacheManager implements CacheManagerInterface{
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.del(key);
         }
+    }
+
+    public void saveIntegrationItem(String state, Item item) throws Exception {
+        String key = String.format(REDIS_BOX_INTEGRATION_ITEM, state);
+
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(key, objectMapper.writeValueAsString(item));
+        }
+    }
+
+    public Item getIntegrationItem(String state) throws Exception {
+        try (Jedis jedis = jedisPool.getResource()) {
+            String item = jedis.get(String.format(REDIS_BOX_INTEGRATION_ITEM, state));
+
+            if (StringUtils.isNotEmpty(item)) {
+                return objectMapper.readValue(item, Item.class);
+            }
+        }
+
+        return null;
     }
 }

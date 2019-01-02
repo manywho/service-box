@@ -4,6 +4,8 @@ import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
+import com.manywho.services.box.entities.webhook.Item;
+
 import java.util.List;
 
 public interface CacheManagerInterface {
@@ -47,4 +49,8 @@ public interface CacheManagerInterface {
     void saveAuthenticatedWhoForWebhook(String webhookId, String state, AuthenticatedWho authenticatedWho) throws Exception;
 
     void deleteAuthenticatedWhoForWebhook(String webhookId, String state);
+
+    void saveIntegrationItem(String state, Item item) throws Exception;
+
+    Item getIntegrationItem(String state) throws Exception;
 }

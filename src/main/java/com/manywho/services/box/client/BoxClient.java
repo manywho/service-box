@@ -2,7 +2,6 @@ package com.manywho.services.box.client;
 
 import com.box.sdk.*;
 import com.box.sdk.BoxWebHook.Trigger;
-import com.google.common.collect.Lists;
 import com.manywho.sdk.entities.run.elements.type.ListFilter;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.MetadataSearch;
@@ -34,7 +33,7 @@ public class BoxClient {
         this.boxFacade = boxFacade;
     }
 
-    public BoxAPIConnection authenticateUser(String clientId, String clientSecret, String authorizationCode) {
+    public BoxAPIConnection authenticateUser(String authorizationCode) {
         return createApiConnectionByAuthCode(authorizationCode);
     }
 

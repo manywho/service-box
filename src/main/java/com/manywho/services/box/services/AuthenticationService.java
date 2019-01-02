@@ -24,8 +24,8 @@ public class AuthenticationService {
         return boxClient.confirmUserAuthentication(accessToken);
     }
 
-    public BoxAPIConnection authenticateUserWithBox(String clientId, String clientSecret, String code) {
-        return boxClient.authenticateUser(clientId, clientSecret, code);
+    public BoxAPIConnection authenticateUserWithBox(String code) {
+        return boxClient.authenticateUser(code);
     }
 
     public AuthenticatedWhoResult buildAuthenticatedWhoResult(String providerName, String email, String name, String clientId, String id, String accessToken) {

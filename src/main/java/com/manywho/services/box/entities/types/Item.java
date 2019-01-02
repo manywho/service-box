@@ -1,20 +1,17 @@
-package com.manywho.services.box.entities.webhook;
+package com.manywho.services.box.entities.types;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.manywho.sdk.services.annotations.Id;
+import com.manywho.sdk.services.annotations.Property;
+import com.manywho.sdk.services.annotations.Type;
 
+@Type("Item")
 public class Item {
-    @JsonProperty("id")
+    @Id
+    @Property("ID")
     private String id;
 
-    @JsonProperty("type")
+    @Property("Type")
     private String type;
-
-    public Item() {}
-
-    public Item(String id, String type) {
-        this.id = id;
-        this.type = type;
-    }
 
     public String getId() {
         return id;
