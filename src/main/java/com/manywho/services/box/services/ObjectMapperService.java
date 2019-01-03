@@ -4,6 +4,7 @@ import com.box.sdk.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
 import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.services.box.types.*;
+
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -193,6 +194,20 @@ public class ObjectMapperService {
         Object object = new Object();
         object.setDeveloperName("GroupAuthorizationUser");
         object.setExternalId(user.getID());
+        object.setProperties(properties);
+
+        return object;
+    }
+
+    public MObject convertWebhook(BoxWebHook.Info webhook) {
+        PropertyCollection properties = new PropertyCollection();
+        properties.add(new Property("ID", webhook.getID()));
+        properties.add(new Property("Target Type", webhook.getTarget().getType()));
+        properties.add(new Property("Target ID", webhook.getTarget().getId()));
+
+        Object object = new Object();
+        object.setDeveloperName(Webhook.NAME);
+        object.setExternalId(webhook.getID());
         object.setProperties(properties);
 
         return object;

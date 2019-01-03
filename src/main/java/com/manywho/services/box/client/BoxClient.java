@@ -203,12 +203,20 @@ public class BoxClient {
         return MetadataTemplate.getEnterpriseMetadataTemplates(createApiConnection(accessToken));
     }
 
-    public BoxWebHook.Info getWebhook(String accessToken, String webhookId) throws MalformedURLException {
+    public BoxWebHook.Info getWebhook(String accessToken, String webhookId) {
         BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
         BoxWebHook.Info webhook = new BoxWebHook(boxAPIConnection, webhookId).getInfo();
         updateCredentials(boxAPIConnection, accessToken);
 
         return webhook;
+    }
+
+    public Iterable<BoxWebHook.Info> getWebhooks(String accessToken) {
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        Iterable<BoxWebHook.Info> webhooks = BoxWebHook.all(boxAPIConnection);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return webhooks;
     }
 
     public void deleteWebhook(String accessToken, String id) {

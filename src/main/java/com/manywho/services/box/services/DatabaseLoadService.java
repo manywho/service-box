@@ -1,14 +1,11 @@
 package com.manywho.services.box.services;
 
 import com.box.sdk.*;
-import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.entities.run.elements.type.Object;
-import com.manywho.sdk.entities.run.elements.type.ObjectCollection;
-import com.manywho.sdk.entities.run.elements.type.ObjectDataRequest;
-import com.manywho.sdk.entities.run.elements.type.ObjectDataType;
+import com.manywho.sdk.entities.run.elements.type.*;
 import com.manywho.sdk.utils.StreamUtils;
-import com.manywho.services.box.entities.MetadataSearch;
 import com.manywho.services.box.client.BoxClient;
+import com.manywho.services.box.entities.MetadataSearch;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.inject.Inject;
@@ -202,6 +199,17 @@ public class DatabaseLoadService {
                 }
                 counter++;
             }
+        }
+
+        return objectList;
+    }
+
+    public ObjectCollection loadWebhooks(String token, ListFilter listFilter) {
+        ObjectCollection objectList= new ObjectCollection();
+        Iterable<BoxWebHook.Info> webhooks = boxClient.getWebhooks(token);
+
+        for (BoxWebHook.Info webhook: webhooks) {
+            objectList.add(objectMapperService.convertWebhook(webhook));
         }
 
         return objectList;

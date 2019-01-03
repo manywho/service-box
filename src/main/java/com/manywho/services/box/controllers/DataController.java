@@ -9,6 +9,7 @@ import com.manywho.sdk.services.controllers.AbstractDataController;
 import com.manywho.services.box.managers.DataManager;
 import com.manywho.services.box.managers.FolderManager;
 import com.manywho.services.box.managers.TaskManager;
+import com.manywho.services.box.managers.WebhookManager;
 import com.manywho.services.box.types.*;
 
 import javax.inject.Inject;
@@ -29,9 +30,20 @@ public class DataController extends AbstractDataController {
     @Inject
     private TaskManager taskManager;
 
+    @Inject
+    private WebhookManager webhookManager;
+
     @Override
     public ObjectDataResponse delete(ObjectDataRequest objectDataRequest) throws Exception {
-        throw new Exception("Deleting isn't currently supported in the Box Service");
+        String dataTypeToDelete = objectDataRequest.getObjectDataType().getDeveloperName();
+        if (Webhook.NAME.equals(dataTypeToDelete) && objectDataRequest.getObjectData().size() == 1) {
+            webhookManager.deleteWebhookMetadata(getAuthenticatedWho().getToken(), objectDataRequest.getObjectData().get(0).getExternalId());
+            webhookManager.deleteWebhook(getAuthenticatedWho().getToken(), objectDataRequest.getObjectData().get(0).getExternalId());
+
+            return new ObjectDataResponse();
+        }
+
+        throw new Exception(String.format("Deleting %s isn't currently supported in the Box Service", dataTypeToDelete));
     }
 
     @Path("/data")
@@ -51,6 +63,8 @@ public class DataController extends AbstractDataController {
                 return new ObjectDataResponse(dataManager.loadFileSystem(getAuthenticatedWho(), objectDataRequest));
             case Comment.NAME:
                 return new ObjectDataResponse(dataManager.loadComments(getAuthenticatedWho(), objectDataRequest));
+            case Webhook.NAME:
+                return new ObjectDataResponse(dataManager.loadWebhooks(getAuthenticatedWho(), objectDataRequest));
             default:
                 return generateResponse(dataManager.loadMetadataType(getAuthenticatedWho(), objectDataRequest), objectDataRequest);
         }

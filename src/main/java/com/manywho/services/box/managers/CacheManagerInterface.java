@@ -28,7 +28,7 @@ public interface CacheManagerInterface {
 
     ExecutionFlowMetadata getFlowListener(String targetType, String targetId, String trigger) throws Exception;
 
-    void deleteFlowListener(String targetType, String targetId, String trigger);
+    void deleteFlowListener(String targetType, String targetId);
 
     void saveWebhook(String targetType, String targetId, String webhookId) throws Exception;
 

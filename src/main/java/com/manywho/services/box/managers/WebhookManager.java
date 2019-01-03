@@ -64,6 +64,21 @@ public class WebhookManager {
         boxFacade.deleteWebhook(userToken, id);
     }
 
+    /**
+     * delete the webhook and all the data associated to the webhoook
+     * @param userToken
+     * @param webhookId
+     */
+    public void deleteWebhookMetadata(String userToken, String webhookId) {
+        BoxWebHook.Info webhook = boxFacade.getWebhook(userToken, webhookId);
+
+        //remove from redis
+        String targetType = webhook.getTarget().getType().toUpperCase();
+        cacheManager.deleteWebhook(targetType, webhook.getTarget().getId());
+        // delete all the entries for flows listening to this webhook
+        cacheManager.deleteFlowListener(targetType.toLowerCase(), webhook.getTarget().getId());
+    }
+
     public void updateWebhookInfoTriggers(String token, String webhookId, Set<BoxWebHook.Trigger> triggerSet) {
         boxFacade.updateWebhookTriggers(token, webhookId, triggerSet);
     }

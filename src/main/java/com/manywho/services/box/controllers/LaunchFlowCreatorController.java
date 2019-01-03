@@ -83,7 +83,7 @@ public class LaunchFlowCreatorController {
 
             if (executionFlowMetadata.getTrigger() != null) {
                 if (cacheManager.getFlowListener("file", fileId, executionFlowMetadata.getTrigger()) == null) {
-                    String urlRedirect = getRedirectUri(fileId, executionFlowMetadata);
+                    String urlRedirect = initializeFlow(fileId, executionFlowMetadata);
 
                     return Response.temporaryRedirect(new URI(urlRedirect)).build();
                 } else {
@@ -107,7 +107,7 @@ public class LaunchFlowCreatorController {
         }
     }
 
-    private String getRedirectUri(@QueryParam("file_id") String fileId, ExecutionFlowMetadata executionFlowMetadata) throws Exception {
+    private String initializeFlow(@QueryParam("file_id") String fileId, ExecutionFlowMetadata executionFlowMetadata) throws Exception {
 
         FlowId flowId;
         if (flowConfiguration.getAssignmentFlowVersionId() != null) {
