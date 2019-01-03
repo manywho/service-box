@@ -26,7 +26,7 @@ public class ListenerService {
             info = webhookManager.getWebhookInfo(accessToken, "", webhookId);
             webhookManager.addTriggerToWebhookInfo(accessToken, info, executionFlowMetadata.getTrigger());
         } else {
-            webhookManager.createWebhook(accessToken, "", "FILE", fileId, BoxWebHook.Trigger.valueOf(executionFlowMetadata.getTrigger()));
+            webhookManager.createWebhook(accessToken, "", "FILE", fileId, BoxWebHook.Trigger.fromValue(executionFlowMetadata.getTrigger()));
         }
 
         cacheManager.saveFlowListener("file", fileId, executionFlowMetadata.getTrigger(), executionFlowMetadata);
