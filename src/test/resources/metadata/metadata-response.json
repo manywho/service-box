@@ -743,6 +743,69 @@
           }
         ],
         "updateByName": false
+      },
+      {
+        "elementType": "TYPE",
+        "developerName": "Webhook",
+        "developerSummary": "The Webhook object structure",
+        "id": null,
+        "serviceElementId": null,
+        "properties": [
+          {
+            "id": null,
+            "developerName": "ID",
+            "contentFormat": null,
+            "contentType": "ContentString",
+            "typeElementId": null,
+            "typeElementDeveloperName": null
+          },
+          {
+            "id": null,
+            "developerName": "Target Type",
+            "contentFormat": null,
+            "contentType": "ContentString",
+            "typeElementId": null,
+            "typeElementDeveloperName": null
+          },
+          {
+            "id": null,
+            "developerName": "Target ID",
+            "contentFormat": null,
+            "contentType": "ContentString",
+            "typeElementId": null,
+            "typeElementDeveloperName": null
+          }
+        ],
+        "bindings": [
+          {
+            "id": null,
+            "developerName": "Webhook",
+            "developerSummary": "Details about a Webhook",
+            "databaseTableName": "Webhook",
+            "serviceElementId": null,
+            "propertyBindings": [
+              {
+                "databaseFieldName": "ID",
+                "typeElementPropertyId": null,
+                "typeElementPropertyDeveloperName": "ID",
+                "databaseContentType": null
+              },
+              {
+                "databaseFieldName": "Target Type",
+                "typeElementPropertyId": null,
+                "typeElementPropertyDeveloperName": "Target Type",
+                "databaseContentType": null
+              },
+              {
+                "databaseFieldName": "Target ID",
+                "typeElementPropertyId": null,
+                "typeElementPropertyDeveloperName": "Target ID",
+                "databaseContentType": null
+              }
+            ]
+          }
+        ],
+        "updateByName": false
       }
     ]
   }
