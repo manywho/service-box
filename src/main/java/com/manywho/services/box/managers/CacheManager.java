@@ -5,11 +5,9 @@ import com.manywho.sdk.entities.run.elements.config.ListenerServiceRequest;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
+import com.manywho.services.box.entities.webhook.Item;
 import com.manywho.services.box.utilities.ScanIterator;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.ScanParams;
@@ -28,11 +26,14 @@ public class CacheManager implements CacheManagerInterface{
     protected final static String REDIS_BOX_WEBHOOK = "service:box:webhook:targettype:%s:targetid:%s";
 
     protected final static String REDIS_BOX_FLOW_LISTENING = "service:box:flow-listener-request:targettype:%s:targetid:%s:trigger:%s";
+    protected final static String REDIS_BOX_FLOW_LISTENING_DELETE = "service:box:flow-listener-request:targettype:%s:targetid:%s";
 
     protected final static String REDIS_BOX_CREDENTIALS = "service:box:user:%s:credentials";
     protected final static String REDIS_BOX_TOKEN_AS_A_KEY = "service:box:user:token:%s";
     protected final static String REDIS_BOX_FLOW_HEADER ="service:box:box-userid:%s:flow-auth-header";
     protected final static Integer REDIS_SCAN_COUNT = 1000;
+
+    protected final static String REDIS_BOX_INTEGRATION_ITEM = "service:box:state:%s";
 
     private JedisPool jedisPool;
     private ObjectMapper objectMapper;
@@ -118,7 +119,7 @@ public class CacheManager implements CacheManagerInterface{
 
     public ExecutionFlowMetadata getFlowListener(String targetType, String targetId, String trigger) throws Exception {
         try (Jedis jedis = jedisPool.getResource()) {
-            String executionFlowMetadata = jedis.get(String.format(REDIS_BOX_FLOW_LISTENING, targetType, targetId, trigger));
+            String executionFlowMetadata = jedis.get(String.format(REDIS_BOX_FLOW_LISTENING, targetType.toLowerCase(), targetId, trigger));
 
             if (StringUtils.isNotEmpty(executionFlowMetadata)) {
                 return objectMapper.readValue(executionFlowMetadata, ExecutionFlowMetadata.class);
@@ -134,13 +135,27 @@ public class CacheManager implements CacheManagerInterface{
      *
      * @param targetType
      * @param targetId
-     * @param trigger
      */
-    public void deleteFlowListener(String targetType, String targetId, String trigger) {
-        String key = String.format(REDIS_BOX_FLOW_LISTENING, targetType, targetId, trigger);
-
+    public void deleteFlowListener(String targetType, String targetId) {
         try (Jedis jedis = jedisPool.getResource()) {
-            jedis.del(key);
+            ScanParams params = new ScanParams();
+            params.count(REDIS_SCAN_COUNT);
+            params.match(String.format(REDIS_BOX_FLOW_LISTENING_DELETE+"*", targetType.toLowerCase(), targetId));
+
+            deleteKeys(jedis, params);
+
+        }
+    }
+
+    private void deleteKeys(Jedis jedis, ScanParams params) {
+        ScanIterator iterator = new ScanIterator(jedis, params);
+
+        while (iterator.hasNext()) {
+            List<String> keys = iterator.next();
+
+            for (String key : keys) {
+                jedis.del(key);
+            }
         }
     }
 
@@ -184,15 +199,8 @@ public class CacheManager implements CacheManagerInterface{
             ScanParams params = new ScanParams();
             params.count(REDIS_SCAN_COUNT);
             params.match(String.format(REDIS_BOX_LISTENER_REQUEST_SEARCH_TRIGGERS, webhookId, trigger));
-            ScanIterator iterator = new ScanIterator(jedis, params);
 
-            while (iterator.hasNext()) {
-                List<String> keys = iterator.next();
-
-                for (String key : keys) {
-                    jedis.del(key);
-                }
-            }
+            deleteKeys(jedis, params);
         }
     }
 
@@ -269,5 +277,25 @@ public class CacheManager implements CacheManagerInterface{
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.del(key);
         }
+    }
+
+    public void saveIntegrationItem(String state, Item item) throws Exception {
+        String key = String.format(REDIS_BOX_INTEGRATION_ITEM, state);
+
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(key, objectMapper.writeValueAsString(item));
+        }
+    }
+
+    public Item getIntegrationItem(String state) throws Exception {
+        try (Jedis jedis = jedisPool.getResource()) {
+            String item = jedis.get(String.format(REDIS_BOX_INTEGRATION_ITEM, state));
+
+            if (StringUtils.isNotEmpty(item)) {
+                return objectMapper.readValue(item, Item.class);
+            }
+        }
+
+        return null;
     }
 }

@@ -4,7 +4,6 @@ import com.box.sdk.MetadataTemplate;
 import com.manywho.sdk.entities.draw.elements.type.TypeElement;
 import com.manywho.sdk.entities.draw.elements.type.TypeElementCollection;
 import com.manywho.sdk.enums.ContentType;
-import com.manywho.sdk.services.PropertyCollectionParser;
 import com.manywho.services.box.client.BoxClient;
 import com.manywho.services.box.entities.Configuration;
 import com.manywho.services.box.types.File;
@@ -14,12 +13,10 @@ import org.apache.commons.lang3.StringUtils;
 import javax.inject.Inject;
 
 public class DescribeService {
-    private PropertyCollectionParser propertyParser;
     private BoxClient boxClient;
 
     @Inject
-    public DescribeService(PropertyCollectionParser propertyParser, BoxClient boxClient){
-        this.propertyParser = propertyParser;
+    public DescribeService(BoxClient boxClient){
         this.boxClient = boxClient;
     }
 

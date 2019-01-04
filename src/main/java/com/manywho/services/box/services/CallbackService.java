@@ -29,12 +29,12 @@ public class CallbackService {
             defaultTriggerId = "";
             for (MetadataTemplate.Field field: template.getFields()) {
 
-                if (Objects.equals(field.getDisplayName(), "ManyWho Flow Uri")) {
+                if (Objects.equals(field.getDisplayName(), "ManyWho Flow Uri") && field.getOptions() != null) {
                     defaultUri = field.getOptions().get(0);
                     templateFlowKey = template.getTemplateKey();
                 }
 
-                if (Objects.equals(field.getDisplayName(), "ManyWho Flow Trigger")) {
+                if (Objects.equals(field.getDisplayName(), "ManyWho Flow Trigger") && field.getOptions() != null) {
                     defaultTriggerId = field.getOptions().get(0);
                     templateFlowKey = template.getTemplateKey();
                 }

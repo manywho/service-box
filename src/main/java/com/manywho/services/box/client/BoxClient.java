@@ -2,7 +2,6 @@ package com.manywho.services.box.client;
 
 import com.box.sdk.*;
 import com.box.sdk.BoxWebHook.Trigger;
-import com.google.common.collect.Lists;
 import com.manywho.sdk.entities.run.elements.type.ListFilter;
 import com.manywho.services.box.entities.Credentials;
 import com.manywho.services.box.entities.MetadataSearch;
@@ -34,7 +33,7 @@ public class BoxClient {
         this.boxFacade = boxFacade;
     }
 
-    public BoxAPIConnection authenticateUser(String clientId, String clientSecret, String authorizationCode) {
+    public BoxAPIConnection authenticateUser(String authorizationCode) {
         return createApiConnectionByAuthCode(authorizationCode);
     }
 
@@ -204,12 +203,20 @@ public class BoxClient {
         return MetadataTemplate.getEnterpriseMetadataTemplates(createApiConnection(accessToken));
     }
 
-    public BoxWebHook.Info getWebhook(String accessToken, String webhookId) throws MalformedURLException {
+    public BoxWebHook.Info getWebhook(String accessToken, String webhookId) {
         BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
         BoxWebHook.Info webhook = new BoxWebHook(boxAPIConnection, webhookId).getInfo();
         updateCredentials(boxAPIConnection, accessToken);
 
         return webhook;
+    }
+
+    public Iterable<BoxWebHook.Info> getWebhooks(String accessToken) {
+        BoxAPIConnection boxAPIConnection = createApiConnection(accessToken);
+        Iterable<BoxWebHook.Info> webhooks = BoxWebHook.all(boxAPIConnection);
+        updateCredentials(boxAPIConnection, accessToken);
+
+        return webhooks;
     }
 
     public void deleteWebhook(String accessToken, String id) {

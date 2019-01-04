@@ -238,4 +238,8 @@ public class DataManager {
 
         return databaseLoadService.loadComments(user.getToken(), file);
     }
+
+    public ObjectCollection loadWebhooks(AuthenticatedWho authenticatedWho, ObjectDataRequest objectDataRequest) {
+        return databaseLoadService.loadWebhooks(authenticatedWho.getToken(), objectDataRequest.getListFilter());
+    }
 }

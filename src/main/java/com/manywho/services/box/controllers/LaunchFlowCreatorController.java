@@ -3,9 +3,9 @@ package com.manywho.services.box.controllers;
 import com.box.sdk.BoxAPIConnection;
 import com.manywho.sdk.entities.draw.flow.FlowId;
 import com.manywho.sdk.entities.run.EngineInitializationResponse;
-import com.manywho.sdk.services.oauth.AbstractOauth2Provider;
 import com.manywho.services.box.configuration.FlowConfiguration;
 import com.manywho.services.box.entities.ExecutionFlowMetadata;
+import com.manywho.services.box.entities.webhook.Item;
 import com.manywho.services.box.managers.CacheManagerInterface;
 import com.manywho.services.box.managers.LaunchFlowManager;
 import com.manywho.services.box.services.AuthenticationService;
@@ -28,7 +28,6 @@ public class LaunchFlowCreatorController {
     private CacheManagerInterface cacheManager;
     private AuthenticationService authenticationService;
     private FlowService flowService;
-    private AbstractOauth2Provider oauth2Provider;
     private FlowConfiguration flowConfiguration;
 
     private static final Logger LOGGER = LogManager.getLogger(new ParameterizedMessageFactory());
@@ -36,12 +35,11 @@ public class LaunchFlowCreatorController {
     @Inject
     public LaunchFlowCreatorController(LaunchFlowManager launchFlowManager, CacheManagerInterface cacheManager,
                                        AuthenticationService authenticationService, FlowService flowService,
-                                       AbstractOauth2Provider oauth2Provider, FlowConfiguration flowConfiguration) {
+                                       FlowConfiguration flowConfiguration) {
         this.launchFlowManager = launchFlowManager;
         this.cacheManager = cacheManager;
         this.authenticationService = authenticationService;
         this.flowService = flowService;
-        this.oauth2Provider = oauth2Provider;
         this.flowConfiguration = flowConfiguration;
     }
 
@@ -51,6 +49,7 @@ public class LaunchFlowCreatorController {
     @GET
     /**
      * This call is done when a user click in the link provided by the Box Web App Integrations
+     * we save in cache the item id and type, the item can be fetched afterwards using an action
      *
      * Save information about the file and the metadata for configure a webhook
      * This information will be used when the webhooks calls to initialize and execute the flow described in the metadata.
@@ -67,8 +66,7 @@ public class LaunchFlowCreatorController {
                              @QueryParam("flow_uri") String flowUri, @QueryParam("trigger") String trigger)
             throws Exception {
         try {
-            BoxAPIConnection apiConnection = authenticationService.authenticateUserWithBox(oauth2Provider.getClientId(),
-                    oauth2Provider.getClientSecret(), authCode);
+            BoxAPIConnection apiConnection = authenticationService.authenticateUserWithBox(authCode);
 
             ExecutionFlowMetadata executionFlowMetadata;
 
@@ -85,19 +83,21 @@ public class LaunchFlowCreatorController {
 
             if (executionFlowMetadata.getTrigger() != null) {
                 if (cacheManager.getFlowListener("file", fileId, executionFlowMetadata.getTrigger()) == null) {
-                    String urlRedirect = getRedirectUri(fileId, executionFlowMetadata);
+                    String urlRedirect = initializeFlow(fileId, executionFlowMetadata);
 
                     return Response.temporaryRedirect(new URI(urlRedirect)).build();
                 } else {
                     throw new Exception("This trigger already exist for this file");
                 }
             }
+            EngineInitializationResponse response = flowService.initializeFlowWithoutAuthentication(executionFlowMetadata);
+
+            cacheManager.saveIntegrationItem(response.getStateId(), new Item(fileId, "file"));
 
             String urlRedirection = String.format(
-                    "https://flow.manywho.com/%s/play/default?flow-id=%s&flow-version-id=%s",
+                    "https://flow.manywho.com/%s/play/default?join=%s",
                     executionFlowMetadata.getTenantId(),
-                    executionFlowMetadata.getFlowId(),
-                    executionFlowMetadata.getFlowVersionId());
+                    response.getStateId());
 
             return Response.temporaryRedirect(new URI(urlRedirection)).build();
         }catch (Exception ex) {
@@ -107,7 +107,7 @@ public class LaunchFlowCreatorController {
         }
     }
 
-    private String getRedirectUri(@QueryParam("file_id") String fileId, ExecutionFlowMetadata executionFlowMetadata) throws Exception {
+    private String initializeFlow(@QueryParam("file_id") String fileId, ExecutionFlowMetadata executionFlowMetadata) throws Exception {
 
         FlowId flowId;
         if (flowConfiguration.getAssignmentFlowVersionId() != null) {
