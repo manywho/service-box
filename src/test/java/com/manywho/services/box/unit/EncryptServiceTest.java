@@ -6,11 +6,13 @@ import org.jose4j.jwk.EcJwkGenerator;
 import org.jose4j.jwk.JsonWebKey;
 import org.jose4j.keys.EllipticCurves;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 public class EncryptServiceTest {
     @Test
+    @Ignore
     public void encryptAndDecryptTest() throws Exception {
 
         EncryptConfiguration encryptConfiguration = Mockito.mock(EncryptConfiguration.class);
