@@ -33,10 +33,10 @@ public class TokenVerificationController extends AbstractController {
     @AuthorizationRequired
     public ServiceResponse tokenVerification(ServiceRequest serviceRequest) throws Exception {
         AuthenticatedWho authenticatedWho = getAuthenticatedWho();
-        String encryptedData = encryptService.encryptData(authenticatedWho.getToken());
+        //String encryptedData = encryptService.encryptData(authenticatedWho.getToken());
 
         return new ServiceResponse(InvokeType.Forward,
-                new EngineValue("Verification Token", ContentType.String, encryptedData + " " + encryptConfiguration.getTestValue()),
+                new EngineValue("Verification Token", ContentType.String, encryptConfiguration.getTestValue()),
                 serviceRequest.getToken());
     }
 }
