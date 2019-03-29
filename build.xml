@@ -16,6 +16,7 @@
             <entry key="assignment.tenantId" value="${assignment.tenantId}"/>
             <entry key="verification.key" value="${verification.key}"/>
             <entry key="redis.url" value="${redis.url}"/>
+            <entry key="test.value" value="${test.value}"/>
         </propertyfile>
     </target>
 </project>

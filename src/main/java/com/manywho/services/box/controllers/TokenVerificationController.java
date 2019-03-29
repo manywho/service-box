@@ -8,6 +8,7 @@ import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.annotations.AuthorizationRequired;
 import com.manywho.sdk.services.controllers.AbstractController;
+import com.manywho.services.box.configuration.EncryptConfiguration;
 import com.manywho.services.box.services.EncryptService;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -23,6 +24,10 @@ public class TokenVerificationController extends AbstractController {
     @Inject
     EncryptService encryptService;
 
+    @Inject
+    EncryptConfiguration encryptConfiguration;
+
+
     @Path("/verification")
     @POST
     @AuthorizationRequired
@@ -31,7 +36,7 @@ public class TokenVerificationController extends AbstractController {
         String encryptedData = encryptService.encryptData(authenticatedWho.getToken());
 
         return new ServiceResponse(InvokeType.Forward,
-                new EngineValue("Verification Token", ContentType.String, encryptedData),
+                new EngineValue("Verification Token", ContentType.String, encryptedData + " " + encryptConfiguration.getTestValue()),
                 serviceRequest.getToken());
     }
 }
