@@ -9,22 +9,39 @@ import java.util.List;
 
 public class ParseUrlUtility {
 
-    public static String getTenantId(String s) {
-        String[] parts = s.substring(25).split("/play");
-        return parts[0];
-    }
+    public static String getTenantId(String url) throws URISyntaxException {
+        validateAndGetParameters(url);
+        String[] parts = url.split("/play");
+        String[] beforePlay = parts[0].split("/");
 
-    public static String getFlowId(String s) throws URISyntaxException {
-        List<NameValuePair> params = URLEncodedUtils.parse(new URI(s), "UTF-8");
-        return params.get(0).getValue();
-    }
-
-    public static String getFlowVersionId(String s) throws URISyntaxException {
-        List<NameValuePair> params = URLEncodedUtils.parse(new URI(s), "UTF-8");
-        if(params.size()>1) {
-            return params.get(1).getValue();
-        } else {
-            return null;
+        if (beforePlay.length> 3) {
+            return beforePlay[beforePlay.length -1];
         }
+
+        return null;
+    }
+
+    public static String getFlowId(String url) throws URISyntaxException {
+        return validateAndGetParameters(url)
+                .stream().filter(param -> param.getName().equals("flow-id"))
+                .findFirst()
+                .map(NameValuePair::getValue)
+                .orElse(null);
+    }
+
+    public static String getFlowVersionId(String url) throws URISyntaxException {
+        return validateAndGetParameters(url)
+                .stream().filter(param -> param.getName().equals("flow-version-id"))
+                .findFirst()
+                .map(NameValuePair::getValue)
+                .orElse(null);
+    }
+
+    private static List<NameValuePair> validateAndGetParameters(String url) throws URISyntaxException {
+        if (url == null) {
+            throw new RuntimeException("The URL can not be null");
+        }
+
+        return URLEncodedUtils.parse(new URI(url), "UTF-8");
     }
 }
