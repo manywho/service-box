@@ -2,10 +2,10 @@ package com.manywho.services.box.utilities;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.UUID;
 
 public class ParseUrlUtility {
 
@@ -14,8 +14,16 @@ public class ParseUrlUtility {
         String[] parts = url.split("/play");
         String[] beforePlay = parts[0].split("/");
 
-        if (beforePlay.length> 3) {
-            return beforePlay[beforePlay.length -1];
+        if (beforePlay.length > 0) {
+            String tenantId = beforePlay[beforePlay.length -1];
+
+            try {
+                if (tenantId.equals(UUID.fromString(tenantId).toString())) {
+                    return tenantId;
+                }
+            } catch (Exception ex) {
+                // it is not an uuid so this is not the tenant id
+            }
         }
 
         return null;
