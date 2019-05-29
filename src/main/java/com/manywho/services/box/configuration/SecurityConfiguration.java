@@ -3,8 +3,10 @@ package com.manywho.services.box.configuration;
 import com.manywho.sdk.services.config.ServiceConfigurationDefault;
 import com.manywho.sdk.services.config.ServiceConfigurationEnvironmentVariables;
 import com.manywho.sdk.services.config.ServiceConfigurationProperties;
+import com.manywho.services.box.utilities.Base64Helper;
 
 import javax.inject.Inject;
+import java.util.Base64;
 
 public class SecurityConfiguration extends ServiceConfigurationDefault {
     @Inject
@@ -33,12 +35,7 @@ public class SecurityConfiguration extends ServiceConfigurationDefault {
     }
 
     public String getPrivateKey() {
-        // the new lines are escaped before we received by command line parameter, we need to remove extra slash
-        if (this.get("secure.privateKey") != null) {
-            return this.get("secure.privateKey").replace("\\n", "\n");
-        }
-
-        return this.get("secure.privateKey");
+        return Base64Helper.decode(this.get("secure.privateKey"));
     }
 
     public String getPrivateKeyPassword() {

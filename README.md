@@ -19,7 +19,7 @@ You will need to generate a configuration file for the service by running the pr
 passing in a valid URL to a Redis instance:
 
 ```bash
-$ ant -Dsecure.privateKeyLocation=xxx \
+$ ant -Dsecure.privateKey=xxx \
 -Dsecure.privateKeyPassword=xxx \
 -Doauth2.contentApi.clientId=xxx \
 -Doauth2.contentApi.clientSecret=xxx \
@@ -34,6 +34,8 @@ $ ant -Dsecure.privateKeyLocation=xxx \
 -Dredis.url=xxx \
 
 ```
+
+Note: secure.privateKey and verification.key are Base64 encoded
 
 For information of how to create the verification.key please check the test encryptAndDecryptTest
 
