@@ -35,7 +35,7 @@ $ ant -Dsecure.privateKey=xxx \
 
 ```
 
-Note: secure.privateKey and verification.key are Base64 encoded
+**Note:** `secure.privateKey` and `verification.key` are Base64 encoded
 
 For information of how to create the verification.key please check the test encryptAndDecryptTest
 
