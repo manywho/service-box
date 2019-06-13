@@ -1,12 +1,14 @@
 package com.manywho.services.box;
 
 import com.manywho.sdk.services.BaseApplication;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 
 import javax.ws.rs.ApplicationPath;
 import java.io.IOException;
 import java.net.URI;
+import java.security.Security;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +17,7 @@ public class Application extends BaseApplication {
     private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/api/box/3");
 
     public Application() {
+        Security.addProvider(new BouncyCastleProvider());
         registerSdk()
                 .packages("com.manywho.services.box")
                 .register(new ApplicationBinder());
