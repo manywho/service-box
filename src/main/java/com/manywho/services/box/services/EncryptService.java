@@ -1,14 +1,15 @@
 package com.manywho.services.box.services;
 
 import com.manywho.services.box.configuration.EncryptConfiguration;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.jose4j.jwa.AlgorithmConstraints;
 import org.jose4j.jwe.ContentEncryptionAlgorithmIdentifiers;
 import org.jose4j.jwe.JsonWebEncryption;
 import org.jose4j.jwe.KeyManagementAlgorithmIdentifiers;
 import org.jose4j.jwk.PublicJsonWebKey;
 import org.jose4j.lang.JoseException;
-
 import javax.inject.Inject;
+import java.security.Security;
 
 public class EncryptService {
     private JsonWebEncryption senderJwe;
@@ -16,6 +17,8 @@ public class EncryptService {
 
     @Inject
     public EncryptService(EncryptConfiguration encryptConfiguration) {
+        Security.addProvider(new BouncyCastleProvider());
+
         senderJwe = new JsonWebEncryption();
         receiverJwe = new JsonWebEncryption();
 
