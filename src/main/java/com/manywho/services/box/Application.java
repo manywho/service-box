@@ -1,14 +1,12 @@
 package com.manywho.services.box;
 
 import com.manywho.sdk.services.BaseApplication;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 
 import javax.ws.rs.ApplicationPath;
 import java.io.IOException;
 import java.net.URI;
-import java.security.Security;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
