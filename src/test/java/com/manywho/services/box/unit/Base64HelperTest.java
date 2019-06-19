@@ -9,9 +9,10 @@ public class Base64HelperTest {
 
     @Test
     public void testBase64EncodeDecode() {
+
         String text = "aa@--@@%6&*%$£\n,,.";
         String encoded = Base64Helper.encode(text);
-
         Assert.assertEquals(text, Base64Helper.decode(encoded));
+
     }
 }

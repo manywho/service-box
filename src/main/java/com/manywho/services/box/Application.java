@@ -15,7 +15,6 @@ public class Application extends BaseApplication {
     private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/api/box/3");
 
     public Application() {
-
         registerSdk()
                 .packages("com.manywho.services.box")
                 .register(new ApplicationBinder());

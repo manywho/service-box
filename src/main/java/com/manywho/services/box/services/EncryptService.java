@@ -16,7 +16,6 @@ public class EncryptService {
 
     @Inject
     public EncryptService(EncryptConfiguration encryptConfiguration) {
-
         senderJwe = new JsonWebEncryption();
         receiverJwe = new JsonWebEncryption();
 
