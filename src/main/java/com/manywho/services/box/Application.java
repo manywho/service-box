@@ -3,6 +3,7 @@ package com.manywho.services.box;
 import com.manywho.sdk.services.BaseApplication;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import javax.ws.rs.ApplicationPath;
 import java.io.IOException;
@@ -13,6 +14,11 @@ import java.util.logging.Logger;
 @ApplicationPath("/")
 public class Application extends BaseApplication {
     private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/api/box/3");
+
+    static {
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+        SLF4JBridgeHandler.install();
+    }
 
     public Application() {
         registerSdk()
