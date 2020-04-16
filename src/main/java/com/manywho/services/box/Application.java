@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 @ApplicationPath("/")
 public class Application extends BaseApplication {
-    private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/api/box/3");
+    private static final URI BASE_URI = URI.create("http://0.0.0.0:8080");
 
     static {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
