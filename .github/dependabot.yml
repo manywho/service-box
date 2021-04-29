@@ -1,0 +1,19 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/London
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: org.bitbucket.b_c:jose4j
+    versions:
+    - 0.7.6
+  - dependency-name: com.box:box-java-sdk
+    versions:
+    - 2.53.0
+  - dependency-name: org.apache.logging.log4j:log4j-to-slf4j
+    versions:
+    - 2.14.0
